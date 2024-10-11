@@ -111,6 +111,8 @@ function isOnGround() {
 }
 
 function checkCollision() {
+  character.onGround = false; // Suppose that player already on ground
+
   for (let someRect of terrain) {
     // Check if character collides with the terrain rectangle
     if (// eslint-disable-next-line indent
@@ -125,8 +127,6 @@ function checkCollision() {
       character.onGround = true;
       break; // No need to check other terrain if collision is detected
     }
-    else {
-      character.isOnGround = false;
-    }
   }
 }
+
