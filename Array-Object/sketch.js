@@ -61,15 +61,26 @@ function spawnRetangle(leftSide, rectWidth, rectHeight) {
 function generateTerrain(widthOfRect) {
   let time = 0;
   let deltaTime = 0.15;
+  let previousHeight = height / 2; // Starting height is approximately in the middle of the screen
+  let heightStep = character.height / 2; // Height step - half the character's height
 
   for (let x = 0; x < width; x += widthOfRect) {
-    let theHeight = noise(time) * height;
+    let newHeight = noise(time) * height;
 
-    let someRect = spawnRetangle(x, widthOfRect, theHeight);
+    // Round the height to the nearest multiple of half the character's height
+    newHeight = Math.round(newHeight / heightStep) * heightStep;
+
+    // Limit the height within the screen
+    newHeight = constrain(newHeight, 0, height);
+
+    let someRect = spawnRetangle(x, widthOfRect, newHeight);
     terrain.push(someRect);
+
     time += deltaTime;
   }
 }
+
+
 
 function showCharacter() {
   rect(character.x, character.y, character.width, character.height);
