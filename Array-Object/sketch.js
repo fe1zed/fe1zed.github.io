@@ -15,37 +15,52 @@ let character = {
   jumpHeight: -15,
 };
 
+let cameraOffset = 0; // Camera X offset
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   let widthOfRects = width / numberOfRects;
-  generateTerrain(widthOfRects);
+  generateTerrain(widthOfRects, 0); // Generating the initial terrain
   character.y = 0; // Set character on the ground
 }
 
 function draw() {
   background(220);
-
   noStroke();
 
-  // Draw terrain
-  for (let someRect of terrain) {
-    fill("green");
-    rect(someRect.x, someRect.y, someRect.w, someRect.h);
+  // Camera follows the player
+  let cameraEdgeOffset = 200; // Proximity zone to the edges of the screen
+
+  // Shift the camera left or right when the player approaches the edges of the screen
+  if (character.x - cameraOffset > width - cameraEdgeOffset) {
+    cameraOffset += character.speed;
+  } else if (character.x - cameraOffset < cameraEdgeOffset && cameraOffset > 0) {
+    cameraOffset -= character.speed;
   }
 
-  // Character
+  // Terrain generation as you approach the right edge of the screen
+  let widthOfRects = width / numberOfRects;
+  if (terrain[terrain.length - 1].x < cameraOffset + width) {
+    generateTerrain(widthOfRects, terrain[terrain.length - 1].x + widthOfRects);
+  }
+
+  // Terrain rendering taking into account camera displacement
+  for (let someRect of terrain) {
+    fill("green");
+    rect(someRect.x - cameraOffset, someRect.y, someRect.w, someRect.h);
+  }
+
+  // Character rendering taking into account camera offset
   fill("red");
   showCharacter();
 
-  // Check collisions and apply gravity/movement
+  // Handling motion, gravity and collisions
   isOnGround();
   applyGravity();
   moveCharacter();
 
-  // Check collision with terrain
+  // Terrain Collision Checking
   checkCollision();
-
-  console.log("character.onGround" + character.onGround);
 }
 
 function spawnRetangle(leftSide, rectWidth, rectHeight) {
@@ -58,13 +73,12 @@ function spawnRetangle(leftSide, rectWidth, rectHeight) {
   return theRect;
 }
 
-function generateTerrain(widthOfRect) {
-  let time = 0;
+function generateTerrain(widthOfRect, startX) {
+  let time = startX / width; // For Perlin noise consistency
   let deltaTime = 0.15;
-  let previousHeight = height / 2; // Starting height is approximately in the middle of the screen
   let heightStep = character.height / 2; // Height step - half the character's height
 
-  for (let x = 0; x < width; x += widthOfRect) {
+  for (let x = startX; x < startX + width; x += widthOfRect) {
     let newHeight = noise(time) * height;
 
     // Round the height to the nearest multiple of half the character's height
@@ -80,10 +94,8 @@ function generateTerrain(widthOfRect) {
   }
 }
 
-
-
 function showCharacter() {
-  rect(character.x, character.y, character.width, character.height);
+  rect(character.x - cameraOffset, character.y, character.width, character.height);
 }
 
 function moveCharacter() {
@@ -115,7 +127,6 @@ function applyGravity() {
 
 function isOnGround() {
   //character.onGround = character.y + character.height >= height - 1;
-
   if (character.onGround) {
     character.isJumping = false; // Reset jump when on the ground
   }
@@ -140,4 +151,3 @@ function checkCollision() {
     }
   }
 }
-
