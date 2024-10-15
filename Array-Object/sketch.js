@@ -21,6 +21,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   let widthOfRects = width / numberOfRects;
   generateTerrain(widthOfRects, 0); // Generating the initial terrain
+  character.x = width / 2; // Ste character in the center of screen
   character.y = 0; // Set character on the ground
 }
 
@@ -31,10 +32,10 @@ function draw() {
   // Camera follows the player
   let cameraEdgeOffset = 200; // Proximity zone to the edges of the screen
 
-  // Shift the camera left or right when the player approaches the edges of the screen
+  // Shift the camera with speed of player to left or right when the player approaches the edges of the screen
   if (character.x - cameraOffset > width - cameraEdgeOffset) {
     cameraOffset += character.speed;
-  } else if (character.x - cameraOffset < cameraEdgeOffset && cameraOffset > 0) {
+  } else if (character.x - cameraOffset < cameraEdgeOffset) { 
     cameraOffset -= character.speed;
   }
 
@@ -42,6 +43,11 @@ function draw() {
   let widthOfRects = width / numberOfRects;
   if (terrain[terrain.length - 1].x < cameraOffset + width) {
     generateTerrain(widthOfRects, terrain[terrain.length - 1].x + widthOfRects);
+  }
+
+  // Terrain generation as you approach the left edge of the screen
+  if (terrain[0].x > cameraOffset - width) { // Проверка для левой стороны
+    generateTerrain(widthOfRects, terrain[0].x - widthOfRects, true); // Генерация влево
   }
 
   // Terrain rendering taking into account camera displacement
@@ -73,12 +79,15 @@ function spawnRetangle(leftSide, rectWidth, rectHeight) {
   return theRect;
 }
 
-function generateTerrain(widthOfRect, startX) {
+function generateTerrain(widthOfRect, startX, reverse = false) {
   let time = startX / width; // For Perlin noise consistency
   let deltaTime = 0.15;
   let heightStep = character.height / 2; // Height step - half the character's height
 
-  for (let x = startX; x < startX + width; x += widthOfRect) {
+  // If reverse, generate in negative X direction
+  let direction = reverse ? -1 : 1;
+
+  for (let x = startX; reverse ? x > startX - width : x < startX + width; x += direction * widthOfRect) {
     let newHeight = noise(time) * height;
 
     // Round the height to the nearest multiple of half the character's height
@@ -88,7 +97,13 @@ function generateTerrain(widthOfRect, startX) {
     newHeight = constrain(newHeight, 0, height);
 
     let someRect = spawnRetangle(x, widthOfRect, newHeight);
-    terrain.push(someRect);
+
+    // Insert terrain block either at the end (right) or beginning (left)
+    if (reverse) {
+      terrain.unshift(someRect); // For left-side generation // array.unshift(...); is an array method in JavaScript that adds one or more elements to the beginning of an array and returns the new length of the array.
+    } else {
+      terrain.push(someRect); // For right-side generation
+    }
 
     time += deltaTime;
   }
@@ -109,8 +124,7 @@ function moveCharacter() {
 
   // Jumping
   if (character.onGround && !character.isJumping && keyIsDown(32)) { // Space key
-    //console.log("Jumping!");
-    character.velocityY = character.jumpHeight; // Start jump
+    character.velocityY = character.jumpHeight; 
     character.isJumping = true;
   }
 }
