@@ -1,4 +1,6 @@
 let terrain = [];
+let trees = [];
+
 const numberOfRects = 25;
 
 let character = {
@@ -26,6 +28,7 @@ function setup() {
 }
 
 function draw() {
+  //background(37,225,235); // blue
   background(220);
   noStroke();
 
@@ -35,7 +38,8 @@ function draw() {
   // Shift the camera with speed of player to left or right when the player approaches the edges of the screen
   if (character.x - cameraOffset > width - cameraEdgeOffset) {
     cameraOffset += character.speed;
-  } else if (character.x - cameraOffset < cameraEdgeOffset) { 
+  } 
+  else if (character.x - cameraOffset < cameraEdgeOffset) { 
     cameraOffset -= character.speed;
   }
 
@@ -52,8 +56,21 @@ function draw() {
 
   // Terrain rendering taking into account camera displacement
   for (let someRect of terrain) {
-    fill("green");
+    fill(133,235,37); // green
     rect(someRect.x - cameraOffset, someRect.y, someRect.w, someRect.h);
+  }
+  // Tree rendering taking into account camera displacement
+  for (let tree of trees) {
+    // drawing tree trunck
+    fill("brown");
+    rect(tree.x - cameraOffset, tree.y, tree.width, -tree.height); 
+
+    //draing tree leaves
+    fill("green");
+    rect(tree.x - cameraOffset, tree.y - tree.height, tree.width, -tree.height / 3); // top leave
+    rect(tree.x - cameraOffset, tree.y - tree.height - tree.height / 3, tree.width, -tree.height / 3); // top leave 2
+    rect(tree.x - cameraOffset - tree.width, tree.y - tree.height /*+ tree.height / 3*/, tree.width, -tree.height / 3); // right
+    rect(tree.x - cameraOffset + tree.width, tree.y - tree.height /*+ tree.height / 3*/, tree.width, -tree.height / 3); // left
   }
 
   // Character rendering taking into account camera offset
@@ -96,13 +113,21 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
     // Limit the height within the screen
     newHeight = constrain(newHeight, 0, height);
 
-    let someRect = spawnRetangle(x, widthOfRect, newHeight);
+    let someRect = spawnRetangle(x, widthOfRect , newHeight); // Increment by 1 so there is no white line between rects
 
     // Insert terrain block either at the end (right) or beginning (left)
     if (reverse) {
       terrain.unshift(someRect); // For left-side generation // array.unshift(...); is an array method in JavaScript that adds one or more elements to the beginning of an array and returns the new length of the array.
-    } else {
+    } 
+    else {
       terrain.push(someRect); // For right-side generation
+    }
+
+    let treeSpawnChance = random(0, 100);
+
+    if(treeSpawnChance < 20) {
+      let someTree = spawnTree(someRect);
+      trees.push(someTree);
     }
 
     time += deltaTime;
@@ -164,4 +189,20 @@ function checkCollision() {
       break; // No need to check other terrain if collision is detected
     }
   }
+}
+
+function spawnTree(rectangleOn) {
+  let someTree = {
+    x: rectangleOn.x,
+    y: rectangleOn.y,
+    width: rectangleOn.w,
+    height: rectangleOn.w * 3,
+  };
+
+  console.log(`Spawning some tree on x: ${someTree.x}, y: ${someTree.y}, with w: ${someTree.width}, h: ${someTree.height}`);
+
+  //fill("brown");
+  //rect(someTree.x, someTree.y, someTree.width, rectangleOn.y - someTree.height); // x, y, w, h, tl, tr, br, bl )
+
+  return someTree;
 }
