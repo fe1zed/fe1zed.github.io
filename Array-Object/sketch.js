@@ -4,8 +4,8 @@ let trees = [];
 const numberOfRects = 25;
 
 let character = {
-  height: 100,
   width: 50,
+  height: 100,
   speed: 5,
   jumpSpeed: 15,
   x: 0,
@@ -31,7 +31,7 @@ function setup() {
 }
 
 function draw() {
-  background(37,225,235); // blue
+  background(37, 225, 235); // blue
   noStroke();
 
   // Camera follows the player
@@ -58,7 +58,7 @@ function draw() {
 
   // Terrain rendering taking into account camera displacement
   for (let someRect of terrain) {
-    fill(133,235,37); // green
+    fill(someRect.color.r, someRect.color.g, someRect.color.b); // green
     rect(someRect.x - cameraOffset, someRect.y, someRect.w, someRect.h);
   }
   // Tree rendering taking into account camera displacement
@@ -68,9 +68,9 @@ function draw() {
     rect(tree.x - cameraOffset, tree.y, tree.width, -tree.height);
 
     //drwaing tree leaves
-    fill("green");
-    rect(tree.x - cameraOffset - tree.width, tree.y - tree.height, tree.width * 3, -tree.height / 3); // top leave
-    rect(tree.x - cameraOffset - tree.width, tree.y - tree.height / 3 * 4, tree.width * 3, -tree.height / 3); // top leave 2
+    fill(36, 170, 33);
+    rect(tree.x - cameraOffset - tree.width, tree.y - tree.height, tree.width * 3, -tree.height / 3 - 1); // top leave
+    rect(tree.x - cameraOffset - tree.width, tree.y - tree.height / 3 * 4, tree.width * 3, -tree.height / 3 - 1); // top leave 2
     rect(tree.x - cameraOffset, tree.y - tree.height / 3 * 5, tree.width, -tree.height / 3);
   }
 
@@ -85,6 +85,23 @@ function draw() {
 
   // Terrain Collision Checking
   checkCollision();
+
+  // --------------------------------------- Debug ---------------------------------------  [DELETE ON FINAL BUILD]
+  fill("black");
+
+  textSize(20);
+  text("Coordinates", 10, 25);
+
+  textSize(16);
+  text(`X: ${character.x}`, 10, 50);
+  text(`Y: ${character.y}`, 10, 75);
+
+  textSize(20);
+  text("Physics", 10, 100);
+
+  textSize(16);
+  text(`On ground: ${character.onGround}`, 10, 125);
+  text(`Is iumping: ${character.isJumping}`, 10, 150);
 }
 
 function spawnRetangle(leftSide, rectWidth, rectHeight) {
@@ -114,7 +131,15 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
     // Limit the height within the screen
     newHeight = constrain(newHeight, 0, height);
 
-    let someRect = spawnRetangle(x, widthOfRect , newHeight); // Increment by 1 so there is no white line between rects
+    let someRect = spawnRetangle(x, widthOfRect, newHeight); // Increment by 1 so there is no white line between rects
+    
+    let minSandHeight = 300;
+
+    someRect.color = {
+      r: someRect.h > minSandHeight? 133: 247,
+      g: someRect.h > minSandHeight? 235: 233,
+      b: someRect.h > minSandHeight? 37: 118,
+    };
 
     // Insert terrain block either at the end (right) or beginning (left)
     if (reverse) {
@@ -125,7 +150,7 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
     }
     currentDistanceBetweenTrees -= 1;
 
-    if (currentDistanceBetweenTrees < 0) {
+    if (currentDistanceBetweenTrees < 0 && someRect.h > minSandHeight) { // Reducing spawn of tree on sand
       let treeSpawnChance = random(0, 100);
 
       if(treeSpawnChance < 20) {
@@ -171,7 +196,6 @@ function applyGravity() {
 }
 
 function isOnGround() {
-  //character.onGround = character.y + character.height >= height - 1;
   if (character.onGround) {
     character.isJumping = false; // Reset jump when on the ground
   }
@@ -205,7 +229,7 @@ function spawnTree(rectangleOn) {
     height: rectangleOn.w * 3,
   };
 
-  console.log(`Spawning some tree on x: ${someTree.x}, y: ${someTree.y}, with w: ${someTree.width}, h: ${someTree.height}`);
+  // console.log(`Spawning some tree on x: ${someTree.x}, y: ${someTree.y}, with w: ${someTree.width}, h: ${someTree.height}`);
   
   return someTree;
 }
