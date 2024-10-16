@@ -19,6 +19,9 @@ let character = {
 
 let cameraOffset = 0; // Camera X offset
 
+let distanceBetweenTrees = 1; // Min distance between trees
+let currentDistanceBetweenTrees = 0;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   let widthOfRects = width / numberOfRects;
@@ -28,8 +31,7 @@ function setup() {
 }
 
 function draw() {
-  //background(37,225,235); // blue
-  background(220);
+  background(37,225,235); // blue
   noStroke();
 
   // Camera follows the player
@@ -38,8 +40,8 @@ function draw() {
   // Shift the camera with speed of player to left or right when the player approaches the edges of the screen
   if (character.x - cameraOffset > width - cameraEdgeOffset) {
     cameraOffset += character.speed;
-  } 
-  else if (character.x - cameraOffset < cameraEdgeOffset) { 
+  }
+  else if (character.x - cameraOffset < cameraEdgeOffset) {
     cameraOffset -= character.speed;
   }
 
@@ -63,14 +65,13 @@ function draw() {
   for (let tree of trees) {
     // drawing tree trunck
     fill("brown");
-    rect(tree.x - cameraOffset, tree.y, tree.width, -tree.height); 
+    rect(tree.x - cameraOffset, tree.y, tree.width, -tree.height);
 
-    //draing tree leaves
+    //drwaing tree leaves
     fill("green");
-    rect(tree.x - cameraOffset, tree.y - tree.height, tree.width, -tree.height / 3); // top leave
-    rect(tree.x - cameraOffset, tree.y - tree.height - tree.height / 3, tree.width, -tree.height / 3); // top leave 2
-    rect(tree.x - cameraOffset - tree.width, tree.y - tree.height /*+ tree.height / 3*/, tree.width, -tree.height / 3); // right
-    rect(tree.x - cameraOffset + tree.width, tree.y - tree.height /*+ tree.height / 3*/, tree.width, -tree.height / 3); // left
+    rect(tree.x - cameraOffset - tree.width, tree.y - tree.height, tree.width * 3, -tree.height / 3); // top leave
+    rect(tree.x - cameraOffset - tree.width, tree.y - tree.height / 3 * 4, tree.width * 3, -tree.height / 3); // top leave 2
+    rect(tree.x - cameraOffset, tree.y - tree.height / 3 * 5, tree.width, -tree.height / 3);
   }
 
   // Character rendering taking into account camera offset
@@ -118,16 +119,21 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
     // Insert terrain block either at the end (right) or beginning (left)
     if (reverse) {
       terrain.unshift(someRect); // For left-side generation // array.unshift(...); is an array method in JavaScript that adds one or more elements to the beginning of an array and returns the new length of the array.
-    } 
+    }
     else {
       terrain.push(someRect); // For right-side generation
     }
+    currentDistanceBetweenTrees -= 1;
 
-    let treeSpawnChance = random(0, 100);
+    if (currentDistanceBetweenTrees < 0) {
+      let treeSpawnChance = random(0, 100);
 
-    if(treeSpawnChance < 20) {
-      let someTree = spawnTree(someRect);
-      trees.push(someTree);
+      if(treeSpawnChance < 20) {
+        let someTree = spawnTree(someRect);
+        trees.push(someTree);
+
+        currentDistanceBetweenTrees = distanceBetweenTrees;
+      }
     }
 
     time += deltaTime;
@@ -149,7 +155,7 @@ function moveCharacter() {
 
   // Jumping
   if (character.onGround && !character.isJumping && keyIsDown(32)) { // Space key
-    character.velocityY = character.jumpHeight; 
+    character.velocityY = character.jumpHeight;
     character.isJumping = true;
   }
 }
@@ -200,9 +206,6 @@ function spawnTree(rectangleOn) {
   };
 
   console.log(`Spawning some tree on x: ${someTree.x}, y: ${someTree.y}, with w: ${someTree.width}, h: ${someTree.height}`);
-
-  //fill("brown");
-  //rect(someTree.x, someTree.y, someTree.width, rectangleOn.y - someTree.height); // x, y, w, h, tl, tr, br, bl )
-
+  
   return someTree;
 }
