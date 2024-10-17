@@ -22,6 +22,9 @@ let cameraOffset = 0; // Camera X offset
 let distanceBetweenTrees = 1; // Min distance between trees
 let currentDistanceBetweenTrees = 0;
 
+let previousChunk;
+let currentChunk;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   let widthOfRects = width / numberOfRects;
@@ -116,7 +119,7 @@ function spawnRetangle(leftSide, rectWidth, rectHeight) {
 
 function generateTerrain(widthOfRect, startX, reverse = false) {
   let time = startX / width; // For Perlin noise consistency
-  let deltaTime = 0.15;
+  let deltaTime = 0.12;
   let heightStep = character.height / 2; // Height step - half the character's height
 
   // If reverse, generate in negative X direction
@@ -128,19 +131,19 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
     // Round the height to the nearest multiple of half the character's height
     newHeight = Math.round(newHeight / heightStep) * heightStep;
 
-    // Limit the height within the screen
-    newHeight = constrain(newHeight, 0, height);
+    // Limit the height within the screen, min height is half of character
+    newHeight = constrain(newHeight, heightStep, height);
 
-    let someRect = spawnRetangle(x, widthOfRect, newHeight); // Increment by 1 so there is no white line between rects
+    let someRect = spawnRetangle(x, widthOfRect, newHeight); // Increase widthOfRects by 1 so there is no white line between 
     
     // Assigning color based on position to ground
     let maxSandHeight = 300;
     let maxWaterHeight = 200;
 
     someRect.color = {
-      r: someRect.h > maxSandHeight? 133: 247,
-      g: someRect.h > maxSandHeight? 235: 233,
-      b: someRect.h > maxSandHeight? 37: 118,
+      r: someRect.h > maxSandHeight? 133: someRect.h <= maxWaterHeight? 28: 247,
+      g: someRect.h > maxSandHeight? 235: someRect.h <= maxWaterHeight? 174: 233,
+      b: someRect.h > maxSandHeight? 37: someRect.h <= maxWaterHeight? 182: 118,
     };
 
     // Insert terrain block either at the end (right) or beginning (left)
@@ -152,7 +155,7 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
     }
     currentDistanceBetweenTrees -= 1;
 
-    if (currentDistanceBetweenTrees < 0 && someRect.h > maxSandHeight) { // Reducing spawn of tree on sand
+    if (currentDistanceBetweenTrees < 0 && someRect.h > maxSandHeight) { // Reducing spawn of tree on sand and water
       let treeSpawnChance = random(0, 100);
 
       if(treeSpawnChance < 20) {
