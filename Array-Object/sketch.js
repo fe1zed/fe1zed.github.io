@@ -133,12 +133,14 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
 
     let someRect = spawnRetangle(x, widthOfRect, newHeight); // Increment by 1 so there is no white line between rects
     
-    let minSandHeight = 300;
+    // Assigning color based on position to ground
+    let maxSandHeight = 300;
+    let maxWaterHeight = 200;
 
     someRect.color = {
-      r: someRect.h > minSandHeight? 133: 247,
-      g: someRect.h > minSandHeight? 235: 233,
-      b: someRect.h > minSandHeight? 37: 118,
+      r: someRect.h > maxSandHeight? 133: 247,
+      g: someRect.h > maxSandHeight? 235: 233,
+      b: someRect.h > maxSandHeight? 37: 118,
     };
 
     // Insert terrain block either at the end (right) or beginning (left)
@@ -150,7 +152,7 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
     }
     currentDistanceBetweenTrees -= 1;
 
-    if (currentDistanceBetweenTrees < 0 && someRect.h > minSandHeight) { // Reducing spawn of tree on sand
+    if (currentDistanceBetweenTrees < 0 && someRect.h > maxSandHeight) { // Reducing spawn of tree on sand
       let treeSpawnChance = random(0, 100);
 
       if(treeSpawnChance < 20) {
