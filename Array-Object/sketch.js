@@ -22,8 +22,41 @@ let cameraOffset = 0; // Camera X offset
 let distanceBetweenTrees = 1; // Min distance between trees
 let currentDistanceBetweenTrees = 0;
 
-let previousChunk;
-let currentChunk;
+let cycle = {
+  timeOfDay: 0, // Range: 0 to 24 (0 is midnight, 12 is noon)
+  speed: 0.01, // The speed at which the time of day changes
+  colors: {
+    day: {
+      r: 135,
+      g: 206,
+      b: 235, // Light blue for day
+    },
+    night: {
+      r: 0,
+      g: 0,
+      b: 50, // Dark blue for night
+    },
+  },
+  currentColor: {
+    r: 0,
+    g: 0,
+    b: 0, // Will be updated based on time of day
+  },
+  updateCycle: function () {
+    // Increment the time of day
+    this.timeOfDay += this.speed;
+    if (this.timeOfDay >= 24) {
+      this.timeOfDay = 0; // Reset after a full day
+    }
+
+    // Calculate the current color based on time of day
+    let dayRatio = abs(12 - this.timeOfDay) / 12; // Ratio of how close we are to noon or midnight
+    this.currentColor.r = lerp(this.colors.night.r, this.colors.day.r, dayRatio);
+    this.currentColor.g = lerp(this.colors.night.g, this.colors.day.g, dayRatio);
+    this.currentColor.b = lerp(this.colors.night.b, this.colors.day.b, dayRatio);
+  },
+};
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -34,7 +67,10 @@ function setup() {
 }
 
 function draw() {
-  background(37, 225, 235); // blue
+  // Smooth transition based on time of day
+  cycle.updateCycle();
+  background(cycle.currentColor.r, cycle.currentColor.g, cycle.currentColor.b); 
+  
   noStroke();
 
   // Camera follows the player
