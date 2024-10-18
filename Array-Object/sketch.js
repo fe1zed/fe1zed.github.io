@@ -1,5 +1,6 @@
 let terrain = [];
 let trees = [];
+let stars = [];
 
 const numberOfRects = 25;
 
@@ -58,21 +59,35 @@ let cycle = {
 };
 
 
+
+// --------------------------------------- SETUP ---------------------------------------
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   let widthOfRects = width / numberOfRects;
   generateTerrain(widthOfRects, 0); // Generating the initial terrain
+  generateStars(20); // Generating the X amount of stars across the screen
   character.x = width / 2; // Ste character in the center of screen
   character.y = 0; // Set character on the ground
+  // Adjusting the W and H of player within the screen size;
+  character.width = width / 35;
+  character.height = height / 8;
 }
 
 function draw() {
   // Smooth transition based on time of day
   cycle.updateCycle();
   background(cycle.currentColor.r, cycle.currentColor.g, cycle.currentColor.b); 
-  
   noStroke();
 
+  // Showing stars
+  if (cycle.timeOfDay > 6 && cycle.timeOfDay < 18) {
+    fill("white");
+    for (let theStar of stars) {
+      rect(theStar.x, theStar.y, theStar.size, theStar.size);
+    }
+  }
+  
   // Camera follows the player
   let cameraEdgeOffset = 200; // Proximity zone to the edges of the screen
 
@@ -91,13 +106,13 @@ function draw() {
   }
 
   // Terrain generation as you approach the left edge of the screen
-  if (terrain[0].x > cameraOffset - width) { // Проверка для левой стороны
-    generateTerrain(widthOfRects, terrain[0].x - widthOfRects, true); // Генерация влево
+  if (terrain[0].x > cameraOffset - width) { 
+    generateTerrain(widthOfRects, terrain[0].x - widthOfRects, true); 
   }
 
   // Terrain rendering taking into account camera displacement
   for (let someRect of terrain) {
-    fill(someRect.color.r, someRect.color.g, someRect.color.b); // green
+    fill(someRect.color.r, someRect.color.g, someRect.color.b); 
     rect(someRect.x - cameraOffset, someRect.y, someRect.w, someRect.h);
   }
   // Tree rendering taking into account camera displacement
@@ -141,6 +156,12 @@ function draw() {
   textSize(16);
   text(`On ground: ${character.onGround}`, 10, 125);
   text(`Is iumping: ${character.isJumping}`, 10, 150);
+
+  textSize(20);
+  text("Time", 10, 175);
+
+  textSize(16);
+  text(`Current time: ${cycle.timeOfDay}`, 10, 200);
 }
 
 function spawnRetangle(leftSide, rectWidth, rectHeight) {
@@ -158,6 +179,10 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
   let deltaTime = 0.12;
   let heightStep = character.height / 2; // Height step - half the character's height
 
+  // Assigning color based on position to ground
+  let maxSandHeight = 300;
+  let maxWaterHeight = 200;
+
   // If reverse, generate in negative X direction
   let direction = reverse ? -1 : 1;
 
@@ -167,14 +192,10 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
     // Round the height to the nearest multiple of half the character's height
     newHeight = Math.round(newHeight / heightStep) * heightStep;
 
-    // Limit the height within the screen, min height is half of character
-    newHeight = constrain(newHeight, heightStep, height);
+    // Limit the height within the screen, min height is maxWaterHeight(200)
+    newHeight = constrain(newHeight, maxWaterHeight, height);
 
     let someRect = spawnRetangle(x, widthOfRect, newHeight); // Increase widthOfRects by 1 so there is no white line between 
-    
-    // Assigning color based on position to ground
-    let maxSandHeight = 300;
-    let maxWaterHeight = 200;
 
     someRect.color = {
       r: someRect.h > maxSandHeight? 133: someRect.h <= maxWaterHeight? 28: 247,
@@ -274,3 +295,20 @@ function spawnTree(rectangleOn) {
   
   return someTree;
 }
+
+function spawnStar() {
+  let theStar = {
+    x: random(0, width),
+    y: random(0, height),
+    size: random(1, 5),
+  };
+
+  return theStar;
+}
+
+function generateStars(starsAmount) {
+  for (let i = 0; i < starsAmount; i++) {
+    let newStar = spawnStar();
+    stars.push(newStar);
+  }
+} 
