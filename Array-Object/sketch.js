@@ -18,6 +18,7 @@ let character = {
   jumpHeight: -15,
   defaultSpeed: 5,
   waterSpeed: 2.5,
+  isSwimming: false,
 };
 
 let cameraOffset = 0; // Camera X offset
@@ -158,13 +159,14 @@ function draw() {
 
   textSize(16);
   text(`On ground: ${character.onGround}`, 10, 125);
-  text(`Is iumping: ${character.isJumping}`, 10, 150);
+  text(`Is jumping: ${character.isJumping}`, 10, 150);
+  text(`Is swimming: ${character.isSwimming}`, 10, 175);
 
   textSize(20);
-  text("Time", 10, 175);
+  text("Time", 10, 200);
 
   textSize(16);
-  text(`Current time: ${cycle.timeOfDay}`, 10, 200);
+  text(`Current time: ${cycle.timeOfDay}`, 10, 225);
 }
 
 // --------------------------------------- MAIN ---------------------------------------
@@ -248,22 +250,52 @@ function moveCharacter() {
   if (character.onGround && !character.isJumping && keyIsDown(32)) { // Space key
     character.velocityY = character.jumpHeight;
     character.isJumping = true;
+  } else if (character.y + character.height >= height - maxWaterHeight + character.height / 2) { // If character is in water
+    if (keyIsDown(32)) { // If space is pressed
+      character.isSwimming = true;
+      character.velocityY -= character.waterSpeed; // Apply upward force while holding space
+    } else {
+      character.isSwimming = false; // Stop swimming when space is released
+    }
   }
 }
 
 function applyGravity() {
-  character.y += character.velocityY;
-  character.velocityY += character.gravity; // Gravity pulls down
+  // Check if the character is swimming
+  if (!character.isSwimming) {
+    character.y += character.velocityY;
+    character.velocityY += character.gravity; // Apply normal gravity
 
-  if (character.y + character.height > height) { // Keep on the ground
-    character.y = height - character.height;
-    character.velocityY = 0;
+    if (character.y + character.height > height) { // Keep on the ground
+      character.y = height - character.height;
+      character.velocityY = 0;
+    }
+  } else {
+    // Apply movement when swimming
+    character.y += character.velocityY;
+
+    // If not pressing space, apply a slower fall speed
+    if (!keyIsDown(32)) {
+      character.velocityY -= 1; // Slow downward speed
+    } else {
+      character.velocityY = max(character.velocityY, -character.waterSpeed); // Cap the upward speed
+    }
+
+    // Ensure the character doesn't go below water level
+    if (character.y + character.height > height - maxWaterHeight) {
+      character.y = height - maxWaterHeight - character.height;
+      character.velocityY = 0; // Reset velocity when at water level
+    }
   }
 }
+
 
 function isOnGround() {
   if (character.onGround) {
     character.isJumping = false; // Reset jump when on the ground
+  }
+  if (character.y - character.height < height - maxWaterHeight) {
+    character.isSwimming = false;
   }
 }
 
@@ -308,10 +340,10 @@ function checkCollision() {
       }
       else {
         // If the character is on land
-        character.y = someRect.y - character.height; 
+        character.y = someRect.y - character.height;
         character.velocityY = 0;
         character.onGround = true;
-        character.speed = character.defaultSpeed; 
+        character.speed = character.defaultSpeed;
       }
 
       break; // Stop checking if a collision is detected
