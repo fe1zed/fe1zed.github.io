@@ -16,6 +16,8 @@ let character = {
   isJumping: false,
   onGround: false,
   jumpHeight: -15,
+  defaultSpeed: 5,
+  waterSpeed: 2.5,
 };
 
 let cameraOffset = 0; // Camera X offset
@@ -58,6 +60,7 @@ let cycle = {
   },
 };
 
+let maxWaterHeight = 200;
 
 
 // --------------------------------------- SETUP ---------------------------------------
@@ -75,9 +78,9 @@ function setup() {
 }
 
 function draw() {
-  // Smooth transition based on time of day
+  // Smooth transition based on time of
   cycle.updateCycle();
-  background(cycle.currentColor.r, cycle.currentColor.g, cycle.currentColor.b); 
+  background(cycle.currentColor.r, cycle.currentColor.g, cycle.currentColor.b);
   noStroke();
 
   // Showing stars
@@ -87,7 +90,7 @@ function draw() {
       rect(theStar.x, theStar.y, theStar.size, theStar.size);
     }
   }
-  
+
   // Camera follows the player
   let cameraEdgeOffset = 200; // Proximity zone to the edges of the screen
 
@@ -106,13 +109,13 @@ function draw() {
   }
 
   // Terrain generation as you approach the left edge of the screen
-  if (terrain[0].x > cameraOffset - width) { 
-    generateTerrain(widthOfRects, terrain[0].x - widthOfRects, true); 
+  if (terrain[0].x > cameraOffset - width) {
+    generateTerrain(widthOfRects, terrain[0].x - widthOfRects, true);
   }
 
   // Terrain rendering taking into account camera displacement
   for (let someRect of terrain) {
-    fill(someRect.color.r, someRect.color.g, someRect.color.b); 
+    fill(someRect.color.r, someRect.color.g, someRect.color.b);
     rect(someRect.x - cameraOffset, someRect.y, someRect.w, someRect.h);
   }
   // Tree rendering taking into account camera displacement
@@ -164,6 +167,8 @@ function draw() {
   text(`Current time: ${cycle.timeOfDay}`, 10, 200);
 }
 
+// --------------------------------------- MAIN ---------------------------------------
+
 function spawnRetangle(leftSide, rectWidth, rectHeight) {
   let theRect = {
     x: leftSide,
@@ -181,7 +186,6 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
 
   // Assigning color based on position to ground
   let maxSandHeight = 300;
-  let maxWaterHeight = 200;
 
   // If reverse, generate in negative X direction
   let direction = reverse ? -1 : 1;
@@ -266,19 +270,51 @@ function isOnGround() {
 function checkCollision() {
   character.onGround = false; // Suppose that player already on ground
 
-  for (let someRect of terrain) {
-    // Check if character collides with the terrain rectangle
-    if (// eslint-disable-next-line indent
-        character.x < someRect.x + someRect.w && // Right side of character
-        character.x + character.width > someRect.x && // Left side of character
-        character.y + character.height > someRect.y && // Bottom side of character
+  for (let i = 0; i < terrain.length; i++) {
+    let someRect = terrain[i];
+
+    // Check if the character has collided with terrain
+    if (
+        character.x < someRect.x + someRect.w && // Right side of the character
+        character.x + character.width > someRect.x && // Left side of the character
+        character.y + character.height > someRect.y && // Bottom side of the character
         character.y < someRect.y + someRect.h // Top side of character
     ) {
-      // Collision detected, place character on top of the terrain
-      character.y = someRect.y - character.height;
-      character.velocityY = 0;
-      character.onGround = true;
-      break; // No need to check other terrain if collision is detected
+      // If the character is underwater
+      if (character.y + character.height >= height - maxWaterHeight) {
+        console.log("Персонаж под водой");
+        character.speed = character.waterSpeed; // Reducing speed in water
+
+        // Checking if the terrain is above water level
+        if (someRect.y < height - maxWaterHeight) {
+          console.log("Персонаж касается террейна выше уровня воды, подкидываем наверх");
+          character.y = someRect.y - character.height; // We raise the character to the top of the terrain
+          character.velocityY = 0;
+          character.onGround = true;
+          character.speed = character.defaultSpeed; // Returning to normal speed
+        }
+
+        // Check for the right side of the character if there is a following object
+        if (i < terrain.length - 1) {
+          let nextRect = terrain[i + 1];
+          if (character.x + character.width > nextRect.x && nextRect.y < height - maxWaterHeight) {
+            console.log("Персонаж касается террейна правой стороной, подкидываем наверх");
+            character.y = nextRect.y - character.height; // We move the character to the top of the next terrain
+            character.velocityY = 0;
+            character.onGround = true;
+            character.speed = character.defaultSpeed; // Returning to normal speed
+          }
+        }
+      }
+      else {
+        // If the character is on land
+        character.y = someRect.y - character.height; 
+        character.velocityY = 0;
+        character.onGround = true;
+        character.speed = character.defaultSpeed; 
+      }
+
+      break; // Stop checking if a collision is detected
     }
   }
 }
@@ -292,7 +328,7 @@ function spawnTree(rectangleOn) {
   };
 
   // console.log(`Spawning some tree on x: ${someTree.x}, y: ${someTree.y}, with w: ${someTree.width}, h: ${someTree.height}`);
-  
+
   return someTree;
 }
 
