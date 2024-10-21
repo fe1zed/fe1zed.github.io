@@ -63,11 +63,25 @@ let cycle = {
 
 let maxWaterHeight = 200;
 
+let jumpSound;
+let backgroundMusic;
+
+// --------------------------------------- Preload ---------------------------------------
+
+function preload() {
+  // Load sounds
+  jumpSound = loadSound('jumpSound.mp3'); // jumping sound
+  backgroundMusic = loadSound('background.mp3'); // Background music
+}
 
 // --------------------------------------- SETUP ---------------------------------------
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+
+  // Playing background music in a music loop
+  backgroundMusic.loop();
+
   let widthOfRects = width / numberOfRects;
   generateTerrain(widthOfRects, 0); // Generating the initial terrain
   generateStars(20); // Generating the X amount of stars across the screen
@@ -119,6 +133,7 @@ function draw() {
     fill(someRect.color.r, someRect.color.g, someRect.color.b);
     rect(someRect.x - cameraOffset, someRect.y, someRect.w, someRect.h);
   }
+  
   // Tree rendering taking into account camera displacement
   for (let tree of trees) {
     // drawing tree trunck
@@ -250,8 +265,13 @@ function moveCharacter() {
   if (character.onGround && !character.isJumping && keyIsDown(32)) { // Space key
     character.velocityY = character.jumpHeight;
     character.isJumping = true;
-  } else if (character.y + character.height >= height - maxWaterHeight + character.height / 2) { // If character is in water
-    if (keyIsDown(32)) { // If space is pressed
+
+    // Play jump sound
+    jumpSound.play();
+  }
+  // Swimming 
+  else if (character.y + character.height >= height - maxWaterHeight + character.height / 2) {
+    if (keyIsDown(32)) {
       character.isSwimming = true;
       character.velocityY -= character.waterSpeed; // Apply upward force while holding space
     } else {
@@ -289,7 +309,6 @@ function applyGravity() {
   }
 }
 
-
 function isOnGround() {
   if (character.onGround) {
     character.isJumping = false; // Reset jump when on the ground
@@ -319,7 +338,7 @@ function checkCollision() {
 
         // Checking if the terrain is above water level
         if (someRect.y < height - maxWaterHeight) {
-          console.log("Персонаж касается террейна выше уровня воды, подкидываем наверх");
+          console.log("The character touches the terrain above the water level, throw it up");
           character.y = someRect.y - character.height; // We raise the character to the top of the terrain
           character.velocityY = 0;
           character.onGround = true;
@@ -330,7 +349,7 @@ function checkCollision() {
         if (i < terrain.length - 1) {
           let nextRect = terrain[i + 1];
           if (character.x + character.width > nextRect.x && nextRect.y < height - maxWaterHeight) {
-            console.log("Персонаж касается террейна правой стороной, подкидываем наверх");
+            console.log("The character touches the terrain with the right side, throw it up");
             character.y = nextRect.y - character.height; // We move the character to the top of the next terrain
             character.velocityY = 0;
             character.onGround = true;
