@@ -66,6 +66,9 @@ let maxWaterHeight = 200;
 let jumpSound;
 let backgroundMusic;
 
+let ableToMoveRight = false;
+let ableToMoveLeft = false;
+
 // --------------------------------------- Preload ---------------------------------------
 
 function preload() {
@@ -254,10 +257,64 @@ function showCharacter() {
 
 function moveCharacter() {
   // Moving left and right
-  if (keyIsDown(RIGHT_ARROW)) {
+  for (let i = 0; i < terrain.length; i++) {
+    let someRect = terrain[i];
+
+    // getting the rect on which player stands
+    if (// eslint-disable-next-line indent
+        character.x < someRect.x + someRect.w && // Right side of the character
+        character.x + character.width > someRect.x && // Left side of the character
+        character.y + character.height > someRect.y && // Bottom side of the character
+        character.y < someRect.y + someRect.h // Top side of character
+    ) {
+      let leftRect = terrain[i - 1];
+      let rightRect = terrain[i + 1];
+      
+
+      if (character.y <= leftRect.y) {
+        console.log("Left rect is lower then player");
+        ableToMoveLeft = true;
+      }
+      else {
+        console.log("Left rect is higher then player");
+        if (character.x - character.speed >= leftRect.x + leftRect.w) {
+          ableToMoveLeft = true;
+        }
+        else {
+          ableToMoveLeft = false;
+        }
+      }
+
+      if (character.y <= rightRect.y) {
+        console.log("Right rect is lower then player");
+        ableToMoveRight = true;
+      }
+      else {
+        console.log("Right rect is higher then player");
+        if (character.x + character.speed + character.width <= rightRect.x) {
+          ableToMoveRight = true;
+        }
+        else {
+          ableToMoveRight = false;
+        }
+      }
+      //ableToMoveRight = character.x + character.speed <= rightRect.x;// && character.y <= rightRect.y;
+      //ableToMoveLeft = character.y <= leftRect.y? true: character.x - character.speed >= leftRect.x + leftRect.w;
+      break;
+    }
+    else{
+      ableToMoveLeft = !character.onGround;
+      ableToMoveRight = !character.onGround;
+    }
+  }
+
+  console.log(`AbleToMoveLeft: ${ableToMoveLeft}`);
+  //console.log(`AbleToMoveRight: ${ableToMoveRight}`);
+
+  if (keyIsDown(RIGHT_ARROW) && ableToMoveRight) {
     character.x += character.speed;
   }
-  if (keyIsDown(LEFT_ARROW)) {
+  if (keyIsDown(LEFT_ARROW) && ableToMoveLeft) {
     character.x -= character.speed;
   }
 
@@ -274,7 +331,8 @@ function moveCharacter() {
     if (keyIsDown(32)) {
       character.isSwimming = true;
       character.velocityY -= character.waterSpeed; // Apply upward force while holding space
-    } else {
+    } 
+    else {
       character.isSwimming = false; // Stop swimming when space is released
     }
   }
@@ -290,21 +348,17 @@ function applyGravity() {
       character.y = height - character.height;
       character.velocityY = 0;
     }
-  } else {
+  } 
+  else {
     // Apply movement when swimming
     character.y += character.velocityY;
 
     // If not pressing space, apply a slower fall speed
     if (!keyIsDown(32)) {
       character.velocityY -= 1; // Slow downward speed
-    } else {
+    } 
+    else {
       character.velocityY = max(character.velocityY, -character.waterSpeed); // Cap the upward speed
-    }
-
-    // Ensure the character doesn't go below water level
-    if (character.y + character.height > height - maxWaterHeight) {
-      character.y = height - maxWaterHeight - character.height;
-      character.velocityY = 0; // Reset velocity when at water level
     }
   }
 }
@@ -325,7 +379,7 @@ function checkCollision() {
     let someRect = terrain[i];
 
     // Check if the character has collided with terrain
-    if (
+    if (// eslint-disable-next-line indent
         character.x < someRect.x + someRect.w && // Right side of the character
         character.x + character.width > someRect.x && // Left side of the character
         character.y + character.height > someRect.y && // Bottom side of the character
@@ -333,7 +387,7 @@ function checkCollision() {
     ) {
       // If the character is underwater
       if (character.y + character.height >= height - maxWaterHeight) {
-        console.log("Персонаж под водой");
+        console.log("Character is under water");
         character.speed = character.waterSpeed; // Reducing speed in water
 
         // Checking if the terrain is above water level
