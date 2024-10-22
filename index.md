@@ -11,6 +11,7 @@
 - [Perlin Noise Terrain](Perlin-Noise-Terrain)
 - [Bubble Object Array](Bubble)
 - [Translate Rotate](Translate-Rotate)
+- [Grid Demo](Grid)
 
 # Projects
 - [Interactive Scene](InteractiveScene)

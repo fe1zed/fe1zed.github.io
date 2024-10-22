@@ -187,7 +187,7 @@ function draw() {
   checkCollision();
 
   // --------------------------------------- Debug ---------------------------------------  [DELETE ON FINAL BUILD]
-  /* fill("black");
+  fill("black");
 
   textSize(20);
   text("Coordinates", 10, 25);
@@ -208,7 +208,7 @@ function draw() {
   text("Time", 10, 200);
 
   textSize(16);
-  text(`Current time: ${cycle.timeOfDay}`, 10, 225); */ 
+  text(`Current time: ${cycle.timeOfDay}`, 10, 225);
 }
 
 // --------------------------------------- MAIN ---------------------------------------
@@ -308,17 +308,22 @@ function moveCharacter() {
         ableToMoveRight = true;
       }
       else {
-        sconsole.log("Right rect is higher then player");
+        console.log("Right rect is higher then player");
         ableToMoveRight = character.x + character.speed + character.width <= rightRect.x;
       }
       //ableToMoveRight = character.x + character.speed <= rightRect.x;// && character.y <= rightRect.y;
       //ableToMoveLeft = character.y <= leftRect.y? true: character.x - character.speed >= leftRect.x + leftRect.w;
       break;
     }
-    else{
+    else {
       ableToMoveLeft = !character.onGround;
       ableToMoveRight = !character.onGround;
     }
+  }
+
+  if (character.y >= height - 200) {
+    ableToMoveLeft = true;
+    ableToMoveRight = true;
   }
 
   if (keyIsDown(RIGHT_ARROW) && ableToMoveRight) {
