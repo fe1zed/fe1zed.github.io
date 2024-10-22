@@ -1,3 +1,27 @@
+/*
+Array and object notation
+Dmitrii Pletmintsev
+10/8/2024 - 10/22/2024
+
+About:
+-> In this project, I tried to implement the basic features of a 2D platformer, such as terrain generation, character movement,
+day and night cycles, and the ability for the player to swim.
+The most difficult thing was to remove the “auto-jump” due to the logic of the player’s collision with the terrain, 
+but in the end this was achieved, sacrificing the optimization of the game (this is still the initial version, but I’m sure
+that if I had more time, I could make an optimized version).
+
+
+Extra for Experts:
+  -> Used nested object notation (this was not mentioned in the lessons, but it's possible to do this).
+  -> Defined a function inside object notation (this also wasn't mentioned in the lessons, but it can be done).
+  (However, it's better to use classes since nobody really does it this way anymore, but because the assignment was about object notation, I decided to use it).
+  -> Implemented sound usage.
+  -> Calculated physics for the player.
+  -> Calculated player movement, preventing them from climbing terrain higher than their own height.
+  -> Calculated terrain generation based on the player's movement.
+  -> Made the "camera" follow the player’s movement.
+*/
+
 let terrain = [];
 let trees = [];
 let stars = [];
@@ -69,7 +93,7 @@ let backgroundMusic;
 let ableToMoveRight = false;
 let ableToMoveLeft = false;
 
-// --------------------------------------- Preload ---------------------------------------
+// --------------------------------------- PRELOAD ---------------------------------------
 
 function preload() {
   // Load sounds
@@ -163,7 +187,7 @@ function draw() {
   checkCollision();
 
   // --------------------------------------- Debug ---------------------------------------  [DELETE ON FINAL BUILD]
-  fill("black");
+  /* fill("black");
 
   textSize(20);
   text("Coordinates", 10, 25);
@@ -184,19 +208,18 @@ function draw() {
   text("Time", 10, 200);
 
   textSize(16);
-  text(`Current time: ${cycle.timeOfDay}`, 10, 225);
+  text(`Current time: ${cycle.timeOfDay}`, 10, 225); */ 
 }
 
 // --------------------------------------- MAIN ---------------------------------------
 
-function spawnRetangle(leftSide, rectWidth, rectHeight) {
-  let theRect = {
+function spawnRectangle(leftSide, rectWidth, rectHeight) {
+  return {
     x: leftSide,
     y: height - rectHeight,
     w: rectWidth,
     h: rectHeight,
   };
-  return theRect;
 }
 
 function generateTerrain(widthOfRect, startX, reverse = false) {
@@ -219,7 +242,7 @@ function generateTerrain(widthOfRect, startX, reverse = false) {
     // Limit the height within the screen, min height is maxWaterHeight(200)
     newHeight = constrain(newHeight, maxWaterHeight, height);
 
-    let someRect = spawnRetangle(x, widthOfRect, newHeight); // Increase widthOfRects by 1 so there is no white line between 
+    let someRect = spawnRectangle(x, widthOfRect, newHeight); // Increase widthOfRects by 1 so there is no white line between 
 
     someRect.color = {
       r: someRect.h > maxSandHeight? 133: someRect.h <= maxWaterHeight? 28: 247,
@@ -277,12 +300,7 @@ function moveCharacter() {
       }
       else {
         console.log("Left rect is higher then player");
-        if (character.x - character.speed >= leftRect.x + leftRect.w) {
-          ableToMoveLeft = true;
-        }
-        else {
-          ableToMoveLeft = false;
-        }
+        ableToMoveLeft = character.x - character.speed >= leftRect.x + leftRect.w;
       }
 
       if (character.y <= rightRect.y) {
@@ -290,13 +308,8 @@ function moveCharacter() {
         ableToMoveRight = true;
       }
       else {
-        console.log("Right rect is higher then player");
-        if (character.x + character.speed + character.width <= rightRect.x) {
-          ableToMoveRight = true;
-        }
-        else {
-          ableToMoveRight = false;
-        }
+        sconsole.log("Right rect is higher then player");
+        ableToMoveRight = character.x + character.speed + character.width <= rightRect.x;
       }
       //ableToMoveRight = character.x + character.speed <= rightRect.x;// && character.y <= rightRect.y;
       //ableToMoveLeft = character.y <= leftRect.y? true: character.x - character.speed >= leftRect.x + leftRect.w;
@@ -307,9 +320,6 @@ function moveCharacter() {
       ableToMoveRight = !character.onGround;
     }
   }
-
-  console.log(`AbleToMoveLeft: ${ableToMoveLeft}`);
-  //console.log(`AbleToMoveRight: ${ableToMoveRight}`);
 
   if (keyIsDown(RIGHT_ARROW) && ableToMoveRight) {
     character.x += character.speed;
@@ -425,26 +435,20 @@ function checkCollision() {
 }
 
 function spawnTree(rectangleOn) {
-  let someTree = {
+  return {
     x: rectangleOn.x,
     y: rectangleOn.y,
     width: rectangleOn.w,
     height: rectangleOn.w * 3,
   };
-
-  // console.log(`Spawning some tree on x: ${someTree.x}, y: ${someTree.y}, with w: ${someTree.width}, h: ${someTree.height}`);
-
-  return someTree;
 }
 
 function spawnStar() {
-  let theStar = {
+  return {
     x: random(0, width),
     y: random(0, height),
     size: random(1, 5),
   };
-
-  return theStar;
 }
 
 function generateStars(starsAmount) {
