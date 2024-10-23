@@ -21,8 +21,10 @@ function setup() {
   else {
     createCanvas(windowHeight, windowHeight);
   }
-  cellSize = height/GRID_SIZE;
+  cellSize = height / GRID_SIZE;
   grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
+
+  noStroke();
 }
 
 function draw() {
@@ -43,12 +45,7 @@ function keyPressed() {
 function displayGrid() {
   for (let y = 0; y < GRID_SIZE; y++) {
     for (let x = 0; x < GRID_SIZE; x++) {
-      if (grid[y][x] === 1) {
-        fill("black");
-      }
-      else if (grid[y][x] === 0) {
-        fill("white");
-      }
+      fill(grid[y][x] === 1? "black": "white");
       square(x * cellSize, y * cellSize, cellSize);
     }
   }
@@ -81,4 +78,31 @@ function generateEmptyGrid(cols, rows) {
     }
   }
   return newGrid;
+}
+
+function mousePressed() {
+  let x = Math.floor(mouseX / cellSize);
+  let y = Math.floor(mouseY / cellSize);
+
+  toggleCell(x, y);
+  toggleCell(x - 1, y);
+  toggleCell(x, y + 1);
+  toggleCell(x + 1, y);
+  toggleCell(x, y - 1);
+}
+
+function toggleCell(_x, _y) {
+  if (_x >= 0 && _x <= GRID_SIZE && _y >= 0 && _y < GRID_SIZE) {
+    grid[_y][_x] = grid[_y][_x] === 1? 0: 1;
+  }
+}
+
+function windowResized() {
+  if (windowWidth < windowHeight) {
+    resizeCanvas(windowWidth, windowWidth);
+  }
+  else {
+    resizeCanvas(windowHeight, windowHeight);
+  }
+  cellSize = height / GRID_SIZE;
 }
