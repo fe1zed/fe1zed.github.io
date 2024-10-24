@@ -12,6 +12,7 @@
 - [Bubble Object Array](Bubble)
 - [Translate Rotate](Translate-Rotate)
 - [Grid Demo](Grid)
+- [GameOfLife](GameOfLife)
 
 # Projects
 - [Interactive Scene](InteractiveScene)
