@@ -88,80 +88,108 @@ a:hover { color: #ffffff; }
 }
 
 /* ==============================
-   Navigation Active Indicator
+   Universal Link Indicator (Nav + Footer)
+   Two lines start on left/right and join into one line in the center
+   - Hover: animated underline
+   - .is-active (nav): stays highlighted
 ============================== */
 .nav {
   display: flex;
   gap: 20px;
 }
 
-.nav-link {
+/* Targets both nav & footer links */
+.nav-link,
+.footer-link {
   position: relative;
-  padding: 6px 2px 10px;
-  font-size: 14px;
-  color: var(--text-muted);
+  display: inline-block;
+  padding-bottom: 8px;
   transition: color .2s ease;
 }
 
-.nav-link:hover { color: var(--text-main); }
+/* Base colors */
+.nav-link {
+  font-size: 14px;
+  color: var(--text-muted);
+}
 
-/* Two dots */
+.footer-link {
+  color: rgba(230,230,240,0.70);
+  font-size: 14px;
+  padding: 6px 0 8px;
+  word-break: break-word;
+}
+
+/* Hover / focus / active */
+.nav-link:hover,
+.footer-link:hover,
+.nav-link:focus-visible,
+.footer-link:focus-visible,
+.nav-link.is-active {
+  color: #fff;
+}
+
+/* Two lines */
 .nav-link::before,
-.nav-link::after {
+.nav-link::after,
+.footer-link::before,
+.footer-link::after {
   content: "";
   position: absolute;
   bottom: 0;
+  height: 2px;
   width: 6px;
-  height: 6px;
-  border-radius: 50%;
   background: var(--accent);
-
   opacity: 0;
-  transform: scale(0.6);
+
   transition:
-          opacity .2s ease,
-          transform .2s ease,
           left .25s ease,
           right .25s ease,
           width .25s ease,
-          height .25s ease,
-          border-radius .25s ease;
+          opacity .2s ease,
+          transform .25s ease;
 }
 
-.nav-link::before { left: 0; }
-.nav-link::after  { right: 0; }
+.nav-link::before,
+.footer-link::before { left: 0; }
 
-/* Hover OR active */
+.nav-link::after,
+.footer-link::after { right: 0; }
+
+/* Show on hover/focus/active */
 .nav-link:hover::before,
 .nav-link:hover::after,
+.footer-link:hover::before,
+.footer-link:hover::after,
+.nav-link:focus-visible::before,
+.nav-link:focus-visible::after,
+.footer-link:focus-visible::before,
+.footer-link:focus-visible::after,
 .nav-link.is-active::before,
 .nav-link.is-active::after {
   opacity: 1;
 }
 
-/* Dots move to center */
+/* Move left line to center and expand into one line */
 .nav-link:hover::before,
+.footer-link:hover::before,
+.nav-link:focus-visible::before,
+.footer-link:focus-visible::before,
 .nav-link.is-active::before {
   left: 50%;
   transform: translateX(-50%);
+  width: 100%;
+  border-radius: 2px;
 }
 
+/* Hide right line */
 .nav-link:hover::after,
+.footer-link:hover::after,
+.nav-link:focus-visible::after,
+.footer-link:focus-visible::after,
 .nav-link.is-active::after {
   right: 50%;
   transform: translateX(50%);
-}
-
-/* Merge into line */
-.nav-link:hover::before,
-.nav-link.is-active::before {
-  width: 22px;
-  height: 3px;
-  border-radius: 3px;
-}
-
-.nav-link:hover::after,
-.nav-link.is-active::after {
   opacity: 0;
 }
 
@@ -426,68 +454,6 @@ body.sticky-footer main {
 }
 
 /* ==============================
-   Footer Link Animation
-   Two lines start on left/right and join into one line in the center
-============================== */
-.footer-link {
-  position: relative;
-  display: inline-block;
-  color: rgba(230,230,240,0.70);
-  font-size: 14px;
-  padding: 6px 0 8px;
-  word-break: break-word;
-  transition: color .2s ease;
-}
-
-.footer-link:hover,
-.footer-link:focus-visible {
-  color: #fff;
-}
-
-.footer-link::before,
-.footer-link::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  height: 2px;
-  width: 6px;
-  background: var(--accent);
-  opacity: 0;
-
-  transition:
-          left .25s ease,
-          right .25s ease,
-          width .25s ease,
-          opacity .2s ease,
-          transform .25s ease;
-}
-
-.footer-link::before { left: 0; }
-.footer-link::after  { right: 0; }
-
-.footer-link:hover::before,
-.footer-link:hover::after,
-.footer-link:focus-visible::before,
-.footer-link:focus-visible::after {
-  opacity: 1;
-}
-
-.footer-link:hover::before,
-.footer-link:focus-visible::before {
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  border-radius: 2px;
-}
-
-.footer-link:hover::after,
-.footer-link:focus-visible::after {
-  right: 50%;
-  transform: translateX(50%);
-  opacity: 0;
-}
-
-/* ==============================
    Contact Card (Email)
 ============================== */
 .contact-card{
@@ -602,3 +568,4 @@ body.sticky-footer main {
 
   .copy-btn{ width:100%; }
 }
+
