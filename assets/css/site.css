@@ -1,17 +1,3 @@
-html, body {
-  height: 100%;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-main {
-  flex: 1;
-}
-
 /* ==============================
    Root / Theme
 ============================== */
@@ -44,6 +30,7 @@ html, body {
   margin: 0;
   padding: 0;
   background: radial-gradient(1200px 600px at top, #121226 0%, var(--bg-main) 60%);
+  background-repeat: no-repeat;
   color: var(--text-main);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
@@ -273,6 +260,20 @@ a:hover { color: #ffffff; }
 .product-tile:focus-visible .tile-overlay {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ==============================
+   Sticky Footer (opt-in)
+   Add class="sticky-footer" on <body> for short pages (support/privacy)
+============================== */
+body.sticky-footer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+body.sticky-footer main {
+  flex: 1;
 }
 
 /* ==============================
