@@ -403,3 +403,90 @@ body.sticky-footer main {
     width:100%;
   }
 }
+
+/* ==============================
+   Navigation Active Indicator
+============================== */
+
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  position: relative;
+  padding: 6px 2px 10px;
+  font-size: 14px;
+  color: var(--text-muted);
+  transition: color .2s ease;
+}
+
+.nav-link:hover {
+  color: var(--text-main);
+}
+
+/* two dots */
+.nav-link::before,
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+          opacity .2s ease,
+          transform .2s ease,
+          left .25s ease,
+          right .25s ease,
+          width .25s ease,
+          border-radius .25s ease;
+}
+
+/* left dot */
+.nav-link::before {
+  left: 0;
+}
+
+/* right dot */
+.nav-link::after {
+  right: 0;
+}
+
+/* hover OR active */
+.nav-link:hover::before,
+.nav-link:hover::after,
+.nav-link.is-active::before,
+.nav-link.is-active::after {
+  opacity: 1;
+}
+
+/* dots move to center */
+.nav-link:hover::before,
+.nav-link.is-active::before {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  right: 50%;
+  transform: translateX(50%);
+}
+
+/* merge into line */
+.nav-link:hover::before,
+.nav-link.is-active::before {
+  width: 22px;
+  height: 3px;
+  border-radius: 3px;
+}
+
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  opacity: 0;
+}
