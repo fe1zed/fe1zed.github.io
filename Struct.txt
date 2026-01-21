@@ -1,0 +1,46 @@
+fe1zed.github.io/
+├─ index.html                     # Главная: список ассетов + быстрые ссылки
+├─ assets/                         # Общие статические файлы
+│  ├─ css/
+│  │  └─ site.css                  # Общие стили для всего сайта
+│  ├─ img/
+│  │  ├─ logo.svg                  # Лого/аватар бренда
+│  │  ├─ og-cover.png              # OpenGraph превью (когда кидают ссылку)
+│  │  └─ favicon.png
+│  └─ js/
+│     └─ site.js                   # (опционально) общий JS
+├─ _redirects                      # (опционально) для редиректов (если надо)
+├─ sitemap.xml                     # (опционально) SEO
+├─ robots.txt                      # (опционально)
+├─ pages/
+│  ├─ support.html                 # Поддержка (email, issues, FAQ)
+│  ├─ privacy.html                 # Политика приватности
+│  └─ terms.html                   # (опционально) условия
+├─ products/                       # Каждый ассет = отдельная папка (чисто и масштабируемо)
+│  ├─ instant-localization/
+│  │  ├─ index.html                # ЛЕНДИНГ ассета (описание, фичи, цены/ссылки)
+│  │  ├─ changelog.html            # Публичный changelog (кратко)
+│  │  ├─ docs/                     # Документация ассета
+│  │  │  ├─ index.html             # Getting Started
+│  │  │  ├─ install.html           # Installation / Requirements
+│  │  │  ├─ quickstart.html        # Быстрый старт
+│  │  │  ├─ api.html               # API (если есть)
+│  │  │  ├─ troubleshooting.html   # Ошибки/фикс
+│  │  │  └─ faq.html
+│  │  └─ media/
+│  │     ├─ cover.png              # Обложка ассета
+│  │     ├─ screenshots/
+│  │     ├─ gifs/
+│  │     └─ videos/                # (обычно ссылки на YouTube, но можно хранить постеры)
+│  └─ worldedit/
+│     ├─ index.html
+│     ├─ changelog.html
+│     ├─ docs/
+│     │  └─ index.html
+│     └─ media/
+├─ downloads/                      # (опционально) публичные файлы (pdf, samples)
+│  ├─ InstantLocalization_Manual.pdf
+│  └─ presskit.zip
+└─ .github/
+   └─ workflows/
+      └─ pages.yml                 # (опционально) CI деплой (если будешь усложнять)

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>fe1zed — Unity Asset Store Publisher</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Professional Unity tools and editor extensions by fe1zed. Documentation, support, and updates for Asset Store products." />
+    <meta name="keywords" content="Unity, Asset Store, Unity Tools, Editor Extensions, Localization, fe1zed" />
+    <meta name="author" content="fe1zed" />
+
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="fe1zed — Unity Tools" />
+    <meta property="og:description" content="High-quality Unity editor tools and systems for production use." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://fe1zed.github.io/" />
+    <meta property="og:image" content="/assets/img/og-cover.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/img/favicon.png" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+
+<body>
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="brand">
+            <img src="/assets/img/logo.svg" alt="fe1zed logo" class="logo" />
+            <span class="brand-name">fe1zed</span>
+        </div>
+
+        <nav class="nav">
+            <a href="/">Home</a>
+            <a href="/pages/support.html">Support</a>
+            <a href="/pages/privacy.html">Privacy</a>
+            <a href="https://assetstore.unity.com/" target="_blank" rel="noopener">Asset Store</a>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <h1>Unity Tools for Production</h1>
+        <p class="hero-subtitle">
+            Professional editor extensions and systems designed for real-world Unity projects.
+        </p>
+    </div>
+</section>
+
+<!-- Products -->
+<main class="container">
+    <section class="products">
+        <div class="products-head">
+            <h2>Products</h2>
+
+            <!-- size controls (optional) -->
+            <div class="size-controls" aria-label="Grid size controls">
+                <button class="chip" data-grid="sm" type="button">Small</button>
+                <button class="chip is-active" data-grid="md" type="button">Medium</button>
+                <button class="chip" data-grid="lg" type="button">Large</button>
+            </div>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+            <!-- Tile: Instant Localization -->
+            <a class="product-tile" href="/products/instant-localization/">
+                <img class="tile-img" src="/products/instant-localization/media/cover.png" alt="Instant Localization cover" />
+                <div class="tile-overlay">
+                    <div class="tile-title">Instant Localization</div>
+                    <div class="tile-sub">Files • Auto-Translate</div>
+                </div>
+            </a>
+
+            <!-- Tile: WorldEdit -->
+            <a class="product-tile" href="/products/worldedit/">
+                <img class="tile-img" src="/products/worldedit/media/cover.png" alt="WorldEdit cover" />
+                <div class="tile-overlay">
+                    <div class="tile-title">WorldEdit</div>
+                    <div class="tile-sub">Prefabs • Tools</div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Optional: change grid size by buttons (Small/Medium/Large)
+        (function () {
+            const grid = document.getElementById("productGrid");
+            const buttons = document.querySelectorAll(".chip[data-grid]");
+            if (!grid || buttons.length === 0) return;
+
+            const setSize = (size) => {
+                grid.dataset.size = size;
+                buttons.forEach(b => b.classList.toggle("is-active", b.dataset.grid === size));
+            };
+
+            buttons.forEach(b => b.addEventListener("click", () => setSize(b.dataset.grid)));
+            setSize("md");
+        })();
+    </script>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container footer-grid">
+        <div>
+            <strong>fe1zed</strong>
+            <p>Unity Asset Store Publisher</p>
+        </div>
+
+        <div>
+            <a href="/pages/support.html">Support</a><br/>
+            <a href="/pages/privacy.html">Privacy Policy</a>
+        </div>
+
+        <div>
+            <p>© 2026 fe1zed</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
