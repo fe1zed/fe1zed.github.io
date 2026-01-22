@@ -16,6 +16,12 @@
   --radius: 10px;
 
   --shadow: 0 10px 40px rgba(0,0,0,0.6);
+  
+  --tile-pad: 14px;
+  
+  --sub-lines: 3.5;
+  --sub-line: 18px;
+  --sub-gap: 6px;
 }
 
 /* ==============================
@@ -142,7 +148,6 @@ a:hover { color: #ffffff; }
 
 .nav-link::before,
 .footer-link::before { left: 0; }
-
 .nav-link::after,
 .footer-link::after { right: 0; }
 
@@ -257,13 +262,14 @@ a:hover { color: #ffffff; }
 .product-grid {
   --tile-min: 260px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--tile-min), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, max-content));
   gap: 18px;
+  justify-content: start; /* важно */
 }
 
-.product-grid[data-size="sm"] { --tile-min: 220px; }
-.product-grid[data-size="md"] { --tile-min: 260px; }
-.product-grid[data-size="lg"] { --tile-min: 320px; }
+.product-grid[data-size="sm"] { --tile-min: 250px; }
+.product-grid[data-size="md"] { --tile-min: 340px; }
+.product-grid[data-size="lg"] { --tile-min: 520px; }
 
 .product-tile {
   position: relative;
@@ -279,6 +285,7 @@ a:hover { color: #ffffff; }
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
 
+/* OPTIONAL: tile lift on hover (keep or remove) */
 .product-tile:hover {
   transform: translateY(-4px);
   border-color: rgba(124, 77, 255, 0.55);
@@ -295,87 +302,117 @@ a:hover { color: #ffffff; }
   filter: saturate(1.05) contrast(1.05);
 }
 
-.product-grid[data-size="sm"] .tile-img { height: 190px; }
-.product-grid[data-size="md"] .tile-img { height: 220px; }
-.product-grid[data-size="lg"] .tile-img { height: 260px; }
+.product-grid[data-size="sm"] .tile-img { height: 150px; }
+.product-grid[data-size="md"] .tile-img { height: 225px; }
+.product-grid[data-size="lg"] .tile-img { height: 300px; }
+
+.product-grid[data-size="sm"]{
+  --sub-lines: 3.5;
+  grid-template-columns: repeat(4, 250px);
+}
+
+.product-grid[data-size="md"]{
+  --sub-lines: 2.5;
+  grid-template-columns: repeat(3, 340px);
+}
+
+.product-grid[data-size="lg"]{
+  --sub-lines: 1.5;
+  grid-template-columns: repeat(2, 520px);
+}
 
 .product-tile:hover .tile-img { transform: scale(1.03); }
 
-:root{
-  --tile-pad: 14px;
-  --tile-title-lift: 45px;
-}
-
-/* Overlay container */
+/* ==============================
+   Tile overlay (FINAL)
+   - Title always visible bottom-left
+   - Fade + subtitles only on hover
+   - No layout shift
+============================== */
 .tile-overlay{
-  position:absolute;
-  inset:0;
-  padding:var(--tile-pad);
-  pointer-events:none;
+  position: absolute;
+  inset: 0;
+  padding: var(--tile-pad);
+  pointer-events: none;
 }
 
-/* Fade */
+/* fade only on hover */
 .tile-overlay::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
           180deg,
-          rgba(0,0,0,0) 0%,
-          rgba(0,0,0,.78) 65%,
-          rgba(0,0,0,.92) 100%
+          rgba(0,0,0,0.0) 0%,
+          rgba(0,0,0,0.78) 65%,
+          rgba(0,0,0,0.92) 100%
   );
-  opacity:0;
-  transition:opacity .2s ease;
+  opacity: 0;
+  transition: opacity .2s ease;
 }
 
-.product-tile:hover .tile-overlay::before{
-  opacity:1;
+.product-tile:hover .tile-overlay::before,
+.product-tile:focus-visible .tile-overlay::before{
+  opacity: 1;
 }
 
-/* Title (always visible) */
+/* Title: always visible */
 .tile-title-static{
-  position:absolute;
-  left:var(--tile-pad);
-  bottom:var(--tile-pad);
-  z-index:1;
+  position: absolute;
+  left: var(--tile-pad);
+  bottom: var(--tile-pad);
+  z-index: 1;
 
-  font-size:18px;
-  font-weight:650;
-  color:var(--text-main);
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: 0.2px;
+  color: var(--text-main);
 
-  transform:translateY(0);
-  transition:transform .2s ease;
+  transform: translateY(0);
+  transition: transform .2s ease;
 }
 
-/* Sub text */
+/* Subtitles container */
 .tile-subs{
-  position:absolute;
-  left:var(--tile-pad);
-  bottom:var(--tile-pad);
-  z-index:1;
+  position: absolute;
+  left: var(--tile-pad);
+  bottom: var(--tile-pad);
+  z-index: 1;
 
-  opacity:0;
-  transform:translateY(10px);
-  transition:opacity .2s ease, transform .2s ease;
+  max-width: calc(100% - (var(--tile-pad) * 2));
+
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .2s ease, transform .2s ease;
 }
 
+/* Subtitle lines (clamped) */
 .tile-sub{
-  font-size:13px;
-  color:rgba(230,230,240,.78);
-  margin-top:6px;
+  font-size: 13px;
+  line-height: var(--sub-line);
+  color: rgba(230,230,240,0.78);
+  margin-top: var(--sub-gap);
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--sub-lines);
+  overflow: hidden;
 }
 
-/* Hover */
-.product-tile:hover .tile-title-static{
-  transform:translateY(calc(-1 * var(--tile-title-lift)));
+/* Hover behavior:
+   lift title by exactly the reserved subtitle space */
+.product-tile:hover .tile-title-static,
+.product-tile:focus-visible .tile-title-static{
+  transform: translateY(
+          calc(-1 * (var(--sub-lines) * var(--sub-line) + (var(--sub-gap) * 2) + 10px))
+  );
 }
 
-.product-tile:hover .tile-subs{
-  opacity:1;
-  transform:translateY(0);
+.product-tile:hover .tile-subs,
+.product-tile:focus-visible .tile-subs{
+  opacity: 1;
+  transform: translateY(0);
 }
-
 
 /* ==============================
    Sticky Footer (opt-in)
@@ -583,78 +620,4 @@ body.sticky-footer main {
   }
 
   .copy-btn{ width:100%; }
-}
-
-
-.tile-overlay{
-  position:absolute;
-  inset:0;
-  padding:14px;
-  pointer-events:none;
-}
-
-/* fade only on hover */
-.tile-overlay::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: linear-gradient(
-          180deg,
-          rgba(0,0,0,0.0) 0%,
-          rgba(0,0,0,0.78) 65%,
-          rgba(0,0,0,0.92) 100%
-  );
-  opacity:0;
-  transition: opacity .2s ease;
-}
-
-.product-tile:hover .tile-overlay::before,
-.product-tile:focus-visible .tile-overlay::before{
-  opacity:1;
-}
-
-/* TITLE: always visible, bottom-left, no layout shifts */
-.tile-title-static{
-  position:absolute;
-  left:14px;
-  bottom:14px;
-  z-index:1;
-
-  font-size:18px;
-  font-weight:650;
-  letter-spacing:0.2px;
-  color: var(--text-main);
-
-  transform: translateY(0);
-  transition: transform .2s ease;
-}
-
-/* SUBS: absolute too (so they don't push title) */
-.tile-subs{
-  position:absolute;
-  left:14px;
-  bottom:14px; /* sits at bottom; title moves up on hover -> subs become readable */
-  z-index:1;
-
-  opacity:0;
-  transform: translateY(10px);
-  transition: opacity .2s ease, transform .2s ease;
-}
-
-.tile-sub{
-  font-size:13px;
-  color: rgba(230,230,240,0.78);
-  margin-top:6px;
-}
-
-/* hover behavior */
-.product-tile:hover .tile-title-static,
-.product-tile:focus-visible .tile-title-static{
-  transform: translateY(-45px);
-}
-
-.product-tile:hover .tile-subs,
-.product-tile:focus-visible .tile-subs{
-  opacity:1;
-  transform: translateY(0);
 }
