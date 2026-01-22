@@ -12,10 +12,7 @@
   --accent: #7c4dff;
   --accent-soft: #9b7bff;
   --accent-glow: rgba(124, 77, 255, 0.35);
-
   --border: #232338;
-
-  /* Roundness (manage here) */
   --radius: 10px;
 
   --shadow: 0 10px 40px rgba(0,0,0,0.6);
@@ -89,16 +86,12 @@ a:hover { color: #ffffff; }
 
 /* ==============================
    Universal Link Indicator (Nav + Footer)
-   Two lines start on left/right and join into one line in the center
-   - Hover: animated underline
-   - .is-active (nav): stays highlighted
 ============================== */
 .nav {
   display: flex;
   gap: 20px;
 }
 
-/* Targets both nav & footer links */
 .nav-link,
 .footer-link {
   position: relative;
@@ -107,7 +100,6 @@ a:hover { color: #ffffff; }
   transition: color .2s ease;
 }
 
-/* Base colors */
 .nav-link {
   font-size: 14px;
   color: var(--text-muted);
@@ -120,7 +112,6 @@ a:hover { color: #ffffff; }
   word-break: break-word;
 }
 
-/* Hover / focus / active */
 .nav-link:hover,
 .footer-link:hover,
 .nav-link:focus-visible,
@@ -129,7 +120,6 @@ a:hover { color: #ffffff; }
   color: #fff;
 }
 
-/* Two lines */
 .nav-link::before,
 .nav-link::after,
 .footer-link::before,
@@ -156,7 +146,6 @@ a:hover { color: #ffffff; }
 .nav-link::after,
 .footer-link::after { right: 0; }
 
-/* Show on hover/focus/active */
 .nav-link:hover::before,
 .nav-link:hover::after,
 .footer-link:hover::before,
@@ -170,7 +159,6 @@ a:hover { color: #ffffff; }
   opacity: 1;
 }
 
-/* Move left line to center and expand into one line */
 .nav-link:hover::before,
 .footer-link:hover::before,
 .nav-link:focus-visible::before,
@@ -182,7 +170,6 @@ a:hover { color: #ffffff; }
   border-radius: 2px;
 }
 
-/* Hide right line */
 .nav-link:hover::after,
 .footer-link:hover::after,
 .nav-link:focus-visible::after,
@@ -274,7 +261,6 @@ a:hover { color: #ffffff; }
   gap: 18px;
 }
 
-/* sizes (via data-size from JS) */
 .product-grid[data-size="sm"] { --tile-min: 220px; }
 .product-grid[data-size="md"] { --tile-min: 260px; }
 .product-grid[data-size="lg"] { --tile-min: 320px; }
@@ -315,54 +301,84 @@ a:hover { color: #ffffff; }
 
 .product-tile:hover .tile-img { transform: scale(1.03); }
 
-/* Hover overlay: hidden by default */
-.tile-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 8px;
+:root{
+  --tile-pad: 14px;
+  --tile-title-lift: 45px;
+}
 
-  padding: 18px;
-  background: linear-gradient(
+/* Overlay container */
+.tile-overlay{
+  position:absolute;
+  inset:0;
+  padding:var(--tile-pad);
+  pointer-events:none;
+}
+
+/* Fade */
+.tile-overlay::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
           180deg,
-          rgba(0,0,0,0.0) 0%,
-          rgba(0,0,0,0.80) 65%,
-          rgba(0,0,0,0.92) 100%
+          rgba(0,0,0,0) 0%,
+          rgba(0,0,0,.78) 65%,
+          rgba(0,0,0,.92) 100%
   );
-
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity .2s ease, transform .2s ease;
+  opacity:0;
+  transition:opacity .2s ease;
 }
 
-.product-tile:hover .tile-overlay {
-  opacity: 1;
-  transform: translateY(0);
+.product-tile:hover .tile-overlay::before{
+  opacity:1;
 }
 
-.tile-title {
-  font-size: 18px;
-  font-weight: 650;
-  letter-spacing: 0.2px;
-  color: var(--text-main);
+/* Title (always visible) */
+.tile-title-static{
+  position:absolute;
+  left:var(--tile-pad);
+  bottom:var(--tile-pad);
+  z-index:1;
+
+  font-size:18px;
+  font-weight:650;
+  color:var(--text-main);
+
+  transform:translateY(0);
+  transition:transform .2s ease;
 }
 
-.tile-sub {
-  font-size: 13px;
-  color: rgba(230,230,240,0.78);
+/* Sub text */
+.tile-subs{
+  position:absolute;
+  left:var(--tile-pad);
+  bottom:var(--tile-pad);
+  z-index:1;
+
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity .2s ease, transform .2s ease;
 }
 
-/* Accessibility: show overlay on keyboard focus too */
-.product-tile:focus-visible .tile-overlay {
-  opacity: 1;
-  transform: translateY(0);
+.tile-sub{
+  font-size:13px;
+  color:rgba(230,230,240,.78);
+  margin-top:6px;
 }
+
+/* Hover */
+.product-tile:hover .tile-title-static{
+  transform:translateY(calc(-1 * var(--tile-title-lift)));
+}
+
+.product-tile:hover .tile-subs{
+  opacity:1;
+  transform:translateY(0);
+}
+
 
 /* ==============================
    Sticky Footer (opt-in)
-   Add class="sticky-footer" on <body> for short pages (support/privacy)
 ============================== */
 body.sticky-footer {
   display: flex;
@@ -569,3 +585,76 @@ body.sticky-footer main {
   .copy-btn{ width:100%; }
 }
 
+
+.tile-overlay{
+  position:absolute;
+  inset:0;
+  padding:14px;
+  pointer-events:none;
+}
+
+/* fade only on hover */
+.tile-overlay::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(
+          180deg,
+          rgba(0,0,0,0.0) 0%,
+          rgba(0,0,0,0.78) 65%,
+          rgba(0,0,0,0.92) 100%
+  );
+  opacity:0;
+  transition: opacity .2s ease;
+}
+
+.product-tile:hover .tile-overlay::before,
+.product-tile:focus-visible .tile-overlay::before{
+  opacity:1;
+}
+
+/* TITLE: always visible, bottom-left, no layout shifts */
+.tile-title-static{
+  position:absolute;
+  left:14px;
+  bottom:14px;
+  z-index:1;
+
+  font-size:18px;
+  font-weight:650;
+  letter-spacing:0.2px;
+  color: var(--text-main);
+
+  transform: translateY(0);
+  transition: transform .2s ease;
+}
+
+/* SUBS: absolute too (so they don't push title) */
+.tile-subs{
+  position:absolute;
+  left:14px;
+  bottom:14px; /* sits at bottom; title moves up on hover -> subs become readable */
+  z-index:1;
+
+  opacity:0;
+  transform: translateY(10px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.tile-sub{
+  font-size:13px;
+  color: rgba(230,230,240,0.78);
+  margin-top:6px;
+}
+
+/* hover behavior */
+.product-tile:hover .tile-title-static,
+.product-tile:focus-visible .tile-title-static{
+  transform: translateY(-45px);
+}
+
+.product-tile:hover .tile-subs,
+.product-tile:focus-visible .tile-subs{
+  opacity:1;
+  transform: translateY(0);
+}
