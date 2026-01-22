@@ -239,7 +239,7 @@ a:hover { color: #ffffff; }
   border: 1px solid var(--border);
   color: var(--text-muted);
   padding: 8px 12px;
-  border-radius: 999px;
+  border-radius: 12px;
   font-size: 13px;
   cursor: pointer;
   transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease, color .2s ease;
@@ -495,7 +495,7 @@ body.sticky-footer main {
   color: rgba(230,230,240,0.70);
   font-size: 12px;
   padding: 8px 12px;
-  border-radius: 999px;
+  border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.10);
   background: rgba(255,255,255,0.03);
 }
