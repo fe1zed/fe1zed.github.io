@@ -24,34 +24,29 @@
     </div>
 </header>
 
-<main class="container" style="padding:60px 0; max-width:980px;">
+<main class="container contact-page">
     <a class="back-btn" href="/pages/support.html">← Back</a>
 
-    <div style="display:grid; grid-template-columns: 1.1fr 0.9fr; gap:24px; align-items:start;">
-        <!-- Left: text -->
+    <div class="contact-grid">
+        <!-- Left -->
         <div>
-            <h1 style="margin:0 0 12px;">Contact Support</h1>
-            <p class="hero-subtitle" style="margin:0 0 18px;">
+            <h1 class="contact-title">Contact Support</h1>
+
+            <p class="hero-subtitle contact-subtitle">
                 Send a message and I’ll get back to you as soon as possible.
             </p>
 
-            <p style="color: var(--text-muted); margin:0;">
+            <p class="contact-muted">
                 Prefer email? Write directly:
                 <a class="footer-link" href="mailto:contact.fe1zed@gmail.com"><b>contact.fe1zed@gmail.com</b></a>
             </p>
         </div>
 
-        <!-- Right: form -->
-        <div style="
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.03);
-            border-radius: 14px;
-            padding: 18px;
-        ">
-            <!-- Success / Error -->
-            <div id="formNotice" style="display:none; margin-bottom:12px; padding:10px 12px; border-radius:12px;">
-                <div id="formNoticeText" style="font-weight:600;"></div>
-                <div id="formNoticeSub" style="margin-top:4px; color: var(--text-muted);"></div>
+        <!-- Right -->
+        <div class="contact-panel">
+            <div id="formNotice" class="contact-notice" aria-live="polite">
+                <div id="formNoticeText" class="contact-notice-title"></div>
+                <div id="formNoticeSub" class="contact-notice-sub"></div>
             </div>
 
             <form id="contactForm"
@@ -59,53 +54,31 @@
                   method="POST"
                   novalidate>
 
-                <label style="display:block; margin-bottom:10px;">
-                    <div style="font-size:13px; color: var(--text-muted); margin-bottom:6px;">Name</div>
-                    <input name="name" type="text" required
-                           style="width:100%; padding:12px 12px; border-radius:12px;
-                                  background: rgba(0,0,0,0.25);
-                                  border: 1px solid rgba(255,255,255,0.10);
-                                  color: var(--text); outline:none;" />
+                <label class="contact-field">
+                    <div class="contact-label">Name</div>
+                    <input class="contact-input" name="name" type="text" required />
                 </label>
 
-                <label style="display:block; margin-bottom:10px;">
-                    <div style="font-size:13px; color: var(--text-muted); margin-bottom:6px;">Email</div>
-                    <input name="email" type="email" required
-                           style="width:100%; padding:12px 12px; border-radius:12px;
-                                  background: rgba(0,0,0,0.25);
-                                  border: 1px solid rgba(255,255,255,0.10);
-                                  color: var(--text); outline:none;" />
+                <label class="contact-field">
+                    <div class="contact-label">Email</div>
+                    <input class="contact-input" name="email" type="email" required />
                 </label>
 
-                <label style="display:block; margin-bottom:10px;">
-                    <div style="font-size:13px; color: var(--text-muted); margin-bottom:6px;">Subject</div>
-                    <input name="subject" type="text" required
-                           style="width:100%; padding:12px 12px; border-radius:12px;
-                                  background: rgba(0,0,0,0.25);
-                                  border: 1px solid rgba(255,255,255,0.10);
-                                  color: var(--text); outline:none;" />
+                <label class="contact-field">
+                    <div class="contact-label">Subject</div>
+                    <input class="contact-input" name="subject" type="text" required />
                 </label>
 
-                <label style="display:block; margin-bottom:12px;">
-                    <div style="font-size:13px; color: var(--text-muted); margin-bottom:6px;">Message</div>
-                    <textarea name="message" rows="6" required
-                              style="width:100%; padding:12px 12px; border-radius:12px;
-                                     background: rgba(0,0,0,0.25);
-                                     border: 1px solid rgba(255,255,255,0.10);
-                                     color: var(--text); outline:none; resize:vertical;"></textarea>
+                <label class="contact-field is-last">
+                    <div class="contact-label">Message</div>
+                    <textarea class="contact-textarea" name="message" rows="6" required></textarea>
                 </label>
 
                 <!-- honeypot anti-spam -->
-                <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+                <input type="text" name="_gotcha" class="contact-honeypot" tabindex="-1" autocomplete="off" />
 
-                <div style="display:flex; gap:10px; align-items:center; justify-content:space-between;">
-                    <span id="sendHint" style="font-size:13px; color: var(--text-muted);">
-                        You’ll receive a reply to your email.
-                    </span>
-
-                    <button id="sendBtn" type="submit"
-                            class="chip"
-                            style="font-size:14px; padding:10px 14px;">
+                <div class="contact-actions">
+                    <button id="sendBtn" type="submit" class="chip contact-send-btn">
                         Send →
                     </button>
                 </div>
@@ -152,35 +125,29 @@
     (() => {
         const form = document.getElementById('contactForm');
         const btn = document.getElementById('sendBtn');
+
         const notice = document.getElementById('formNotice');
         const noticeText = document.getElementById('formNoticeText');
         const noticeSub = document.getElementById('formNoticeSub');
 
         function showNotice(ok, title, sub) {
             notice.style.display = 'block';
+            notice.classList.remove('is-ok', 'is-error');
+            notice.classList.add(ok ? 'is-ok' : 'is-error');
+
             noticeText.textContent = title;
             noticeSub.textContent = sub || '';
-
-            // "ok" style
-            if (ok) {
-                notice.style.border = '1px solid rgba(70, 220, 140, 0.35)';
-                notice.style.background = 'rgba(70, 220, 140, 0.10)';
-            } else {
-                notice.style.border = '1px solid rgba(255, 120, 120, 0.35)';
-                notice.style.background = 'rgba(255, 120, 120, 0.10)';
-            }
         }
 
         function setSending(sending) {
             btn.disabled = sending;
-            btn.style.opacity = sending ? '0.7' : '1';
+            btn.classList.toggle('is-sending', sending);
             btn.textContent = sending ? 'Sending…' : 'Send →';
         }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Simple required check
             if (!form.checkValidity()) {
                 showNotice(false, 'Please fill all fields.', 'Name, Email, Subject, and Message are required.');
                 return;
@@ -198,7 +165,7 @@
 
                 if (res.ok) {
                     form.reset();
-                    showNotice(true, 'Message sent!', 'Thanks — I’ll reply to your email.');
+                    showNotice(true, 'Message sent!', 'Thanks — I’ll reply to your email within 24-48 hours.');
                 } else {
                     showNotice(false, 'Could not send.', 'Try again in a moment or email contact.fe1zed@gmail.com.');
                 }
@@ -210,5 +177,6 @@
         });
     })();
 </script>
+
 </body>
 </html>
