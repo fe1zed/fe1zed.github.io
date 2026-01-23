@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Contact — fe1zed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Contact support — fe1zed" />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+</head>
+
+<body class="sticky-footer">
+<header class="header">
+    <div class="container">
+        <div class="brand">
+            <span class="brand-name">fe1zed</span>
+        </div>
+
+        <nav class="nav">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/pages/support.html" class="nav-link">Support</a>
+            <a href="/pages/privacy.html" class="nav-link">Privacy</a>
+            <a href="https://assetstore.unity.com/publishers/128954" class="nav-link" target="_blank" rel="noopener">Asset Store</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container" style="padding:60px 0; max-width:980px;">
+    <a class="back-btn" href="/pages/support.html">← Back</a>
+
+    <div style="display:grid; grid-template-columns: 1.1fr 0.9fr; gap:24px; align-items:start;">
+        <!-- Left: text -->
+        <div>
+            <h1 style="margin:0 0 12px;">Contact Support</h1>
+            <p class="hero-subtitle" style="margin:0 0 18px;">
+                Send a message and I’ll get back to you as soon as possible.
+            </p>
+
+            <p style="color: var(--text-muted); margin:0;">
+                Prefer email? Write directly:
+                <a class="footer-link" href="mailto:contact.fe1zed@gmail.com"><b>contact.fe1zed@gmail.com</b></a>
+            </p>
+        </div>
+
+        <!-- Right: form -->
+        <div style="
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+            border-radius: 14px;
+            padding: 18px;
+        ">
+            <!-- Success / Error -->
+            <div id="formNotice" style="display:none; margin-bottom:12px; padding:10px 12px; border-radius:12px;">
+                <div id="formNoticeText" style="font-weight:600;"></div>
+                <div id="formNoticeSub" style="margin-top:4px; color: var(--text-muted);"></div>
+            </div>
+
+            <form id="contactForm"
+                  action="https://formspree.io/f/xnjppjak"
+                  method="POST"
+                  novalidate>
+
+                <label style="display:block; margin-bottom:10px;">
+                    <div style="font-size:13px; color: var(--text-muted); margin-bottom:6px;">Name</div>
+                    <input name="name" type="text" required
+                           style="width:100%; padding:12px 12px; border-radius:12px;
+                                  background: rgba(0,0,0,0.25);
+                                  border: 1px solid rgba(255,255,255,0.10);
+                                  color: var(--text); outline:none;" />
+                </label>
+
+                <label style="display:block; margin-bottom:10px;">
+                    <div style="font-size:13px; color: var(--text-muted); margin-bottom:6px;">Email</div>
+                    <input name="email" type="email" required
+                           style="width:100%; padding:12px 12px; border-radius:12px;
+                                  background: rgba(0,0,0,0.25);
+                                  border: 1px solid rgba(255,255,255,0.10);
+                                  color: var(--text); outline:none;" />
+                </label>
+
+                <label style="display:block; margin-bottom:10px;">
+                    <div style="font-size:13px; color: var(--text-muted); margin-bottom:6px;">Subject</div>
+                    <input name="subject" type="text" required
+                           style="width:100%; padding:12px 12px; border-radius:12px;
+                                  background: rgba(0,0,0,0.25);
+                                  border: 1px solid rgba(255,255,255,0.10);
+                                  color: var(--text); outline:none;" />
+                </label>
+
+                <label style="display:block; margin-bottom:12px;">
+                    <div style="font-size:13px; color: var(--text-muted); margin-bottom:6px;">Message</div>
+                    <textarea name="message" rows="6" required
+                              style="width:100%; padding:12px 12px; border-radius:12px;
+                                     background: rgba(0,0,0,0.25);
+                                     border: 1px solid rgba(255,255,255,0.10);
+                                     color: var(--text); outline:none; resize:vertical;"></textarea>
+                </label>
+
+                <!-- honeypot anti-spam -->
+                <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+
+                <div style="display:flex; gap:10px; align-items:center; justify-content:space-between;">
+                    <span id="sendHint" style="font-size:13px; color: var(--text-muted);">
+                        You’ll receive a reply to your email.
+                    </span>
+
+                    <button id="sendBtn" type="submit"
+                            class="chip"
+                            style="font-size:14px; padding:10px 14px;">
+                        Send →
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container footer-grid">
+        <div class="footer-col">
+            <div class="footer-brand">fe1zed</div>
+            <div class="footer-desc">Professional Unity Editor tools.</div>
+            <div class="footer-small">© 2026 fe1zed</div>
+        </div>
+
+        <div class="footer-col">
+            <div class="footer-title">Links</div>
+            <a class="footer-link" href="/">Home</a><br>
+            <a class="footer-link" href="/pages/support.html">Support</a><br>
+            <a class="footer-link" href="/pages/privacy.html">Privacy</a>
+        </div>
+
+        <div class="footer-col">
+            <div class="footer-title">Contact</div>
+            <a class="footer-link" href="mailto:contact.fe1zed@gmail.com">contact.fe1zed@gmail.com</a>
+        </div>
+
+        <div class="footer-col">
+            <div class="footer-title">External Links</div>
+            <a class="footer-link" href="https://assetstore.unity.com/publishers/128954">Unity Assets Store</a>
+        </div>
+    </div>
+
+    <div class="container footer-bottom">
+        <span class="footer-note">
+            Unity is a trademark of Unity Technologies. This site is not affiliated with Unity.
+        </span>
+        <a class="footer-top" href="#">Back to top ↑</a>
+    </div>
+</footer>
+
+<script>
+    (() => {
+        const form = document.getElementById('contactForm');
+        const btn = document.getElementById('sendBtn');
+        const notice = document.getElementById('formNotice');
+        const noticeText = document.getElementById('formNoticeText');
+        const noticeSub = document.getElementById('formNoticeSub');
+
+        function showNotice(ok, title, sub) {
+            notice.style.display = 'block';
+            noticeText.textContent = title;
+            noticeSub.textContent = sub || '';
+
+            // "ok" style
+            if (ok) {
+                notice.style.border = '1px solid rgba(70, 220, 140, 0.35)';
+                notice.style.background = 'rgba(70, 220, 140, 0.10)';
+            } else {
+                notice.style.border = '1px solid rgba(255, 120, 120, 0.35)';
+                notice.style.background = 'rgba(255, 120, 120, 0.10)';
+            }
+        }
+
+        function setSending(sending) {
+            btn.disabled = sending;
+            btn.style.opacity = sending ? '0.7' : '1';
+            btn.textContent = sending ? 'Sending…' : 'Send →';
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Simple required check
+            if (!form.checkValidity()) {
+                showNotice(false, 'Please fill all fields.', 'Name, Email, Subject, and Message are required.');
+                return;
+            }
+
+            setSending(true);
+            notice.style.display = 'none';
+
+            try {
+                const res = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json' },
+                    body: new FormData(form)
+                });
+
+                if (res.ok) {
+                    form.reset();
+                    showNotice(true, 'Message sent!', 'Thanks — I’ll reply to your email.');
+                } else {
+                    showNotice(false, 'Could not send.', 'Try again in a moment or email contact.fe1zed@gmail.com.');
+                }
+            } catch (err) {
+                showNotice(false, 'Network error.', 'Check your connection and try again.');
+            } finally {
+                setSending(false);
+            }
+        });
+    })();
+</script>
+</body>
+</html>
