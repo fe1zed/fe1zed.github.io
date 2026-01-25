@@ -13,18 +13,29 @@ function applyActiveNav() {
     const activeKey = host.dataset.active;
     if (!activeKey) return;
 
-    document
-        .querySelectorAll(".nav-link[data-key]")
-        .forEach(link => {
-            link.classList.toggle(
-                "is-active",
-                link.dataset.key === activeKey
-            );
-        });
+    document.querySelectorAll(".nav-link[data-key]").forEach(link => {
+        link.classList.toggle("is-active", link.dataset.key === activeKey);
+    });
+}
+
+function nextPaint() {
+    return new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 }
 
 (async function initLayout() {
-    await loadPartial("site-header", "/partials/header.html");
-    await loadPartial("site-footer", "/partials/footer.html");
-    applyActiveNav();
+    try {
+        // Load layout parts first
+        await Promise.all([
+            loadPartial("site-header", "/partials/header.html"),
+            loadPartial("site-footer", "/partials/footer.html"),
+        ]);
+
+        applyActiveNav();
+
+        // Wait for the DOM changes to be painted
+        await nextPaint();
+    } finally {
+        // Show instantly (no fade)
+        document.documentElement.classList.remove("boot");
+    }
 })();

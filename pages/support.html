@@ -5,7 +5,30 @@
     <title>Support — fe1zed</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Support and contact information for fe1zed Unity Asset Store products." />
-    <link rel="stylesheet" href="/assets/css/site.css">
+    <!-- Styles -->
+    <script>
+        (function () {
+            const isLocalhost =
+                location.hostname === "localhost" ||
+                location.hostname === "127.0.0.1";
+
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+
+            link.href = isLocalhost
+                ? "assets/css/site.css"
+                : "/assets/css/site.css";
+
+            document.head.appendChild(link);
+        })();
+    </script>
+
+    <style>
+        html.boot body { visibility: hidden; }
+    </style>
+    <script>
+        document.documentElement.classList.add("boot");
+    </script>
 </head>
 
 <body class="sticky-footer">

@@ -23,7 +23,29 @@
     <link rel="icon" href="/assets/img/favicon.png" />
 
     <!-- Styles -->
-    <link rel="stylesheet" href="/assets/css/site.css">
+    <script>
+        (function () {
+            const isLocalhost =
+                location.hostname === "localhost" ||
+                location.hostname === "127.0.0.1";
+
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            
+            link.href = isLocalhost
+                ? "assets/css/site.css"
+                : "/assets/css/site.css";
+
+            document.head.appendChild(link);
+        })();
+    </script>
+    
+    <style>
+        html.boot body { visibility: hidden; }
+    </style>
+    <script>
+        document.documentElement.classList.add("boot");
+    </script>
 </head>
 
 <body>
