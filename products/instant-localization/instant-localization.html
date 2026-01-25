@@ -7,22 +7,7 @@
     <meta name="description" content="Instant Localization — CSV-based localization system with editor tools and QA." />
 
     <!-- Styles -->
-    <script>
-        (function () {
-            const isLocalhost =
-                location.hostname === "localhost" ||
-                location.hostname === "127.0.0.1";
-
-            const link = document.createElement("link");
-            link.rel = "stylesheet";
-
-            link.href = isLocalhost
-                ? "assets/css/site.css"
-                : "/assets/css/site.css";
-
-            document.head.appendChild(link);
-        })();
-    </script>
+    <script src="/fe1zed.github.io/assets/js/bootstrap.js"></script>
 
     <style>
         html.boot body { visibility: hidden; }
@@ -56,7 +41,168 @@
                 <a class="chip" href="https://assetstore.unity.com/" target="_blank" rel="noopener" style="font-size:14px;">Asset Store →</a>
             </div>
         </div>
+
+        <!-- MEDIA (middle-right) -->
+        <div class="product-media">
+            <div class="media-card" id="il-media">
+                <div class="media-viewport">
+                    <div class="media-track" data-track></div>
+                </div>
+                <div class="media-indicators" data-dots></div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        (function () {
+            const PREFIX = window.__SITE_PREFIX__ || "";
+            const root = document.getElementById("il-media");
+            if (!root) return;
+
+            const track = root.querySelector("[data-track]");
+            const dots = root.querySelector("[data-dots]");
+
+            const MANIFEST_URL = PREFIX + "/products/instant-localization/media/media.json";
+            const MEDIA_BASE = PREFIX + "/products/instant-localization/media/";
+
+            const DURATION_MS = 4200; // time to fill one bar
+            const SLIDE_MS = 520;     // should match CSS transition
+
+            let items = [];
+            let index = 0;
+
+            let running = true;
+            let hovering = false;
+
+            let lastT = 0;
+            let progress = 0; // 0..1
+            let rafId = 0;
+
+            function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+
+            function setIndex(i) {
+                index = (i + items.length) % items.length;
+                track.style.transform = "translateX(" + (-index * 100) + "%)";
+                progress = 0;
+                updateBars();
+            }
+
+            function updateBars() {
+                const bars = dots.querySelectorAll(".media-bar > span");
+                for (let i = 0; i < bars.length; i++) {
+                    if (i < index) bars[i].style.transform = "scaleX(1)";
+                    else if (i > index) bars[i].style.transform = "scaleX(0)";
+                    else bars[i].style.transform = "scaleX(" + clamp01(progress) + ")";
+                }
+            }
+
+            function next() {
+                setIndex(index + 1);
+            }
+
+            function tick(t) {
+                rafId = requestAnimationFrame(tick);
+
+                if (!running || hovering || items.length <= 1) {
+                    lastT = t;
+                    return;
+                }
+
+                if (!lastT) lastT = t;
+                const dt = Math.min(64, t - lastT);
+                lastT = t;
+
+                progress = clamp01(progress + dt / DURATION_MS);
+                updateBars();
+
+                if (progress >= 1) {
+                    // advance after fill
+                    // reset progress immediately to avoid flashing full bar during transition
+                    progress = 0;
+                    next();
+                }
+            }
+
+            function makeSlide(url) {
+                const slide = document.createElement("div");
+                slide.className = "media-slide";
+
+                // Simple: treat everything as image for now.
+                // If you want video support too, we can detect by extension and create <video>.
+                const img = document.createElement("img");
+                img.alt = "";
+                img.loading = "eager";
+                img.decoding = "async";
+                img.src = url;
+
+                slide.appendChild(img);
+                return slide;
+            }
+
+            function buildUI() {
+                track.innerHTML = "";
+                dots.innerHTML = "";
+
+                for (let i = 0; i < items.length; i++) {
+                    track.appendChild(makeSlide(MEDIA_BASE + items[i]));
+
+                    const bar = document.createElement("div");
+                    bar.className = "media-bar";
+
+                    const fill = document.createElement("span");
+                    bar.appendChild(fill);
+
+                    bar.addEventListener("click", function () {
+                        setIndex(i);
+                    });
+
+                    dots.appendChild(bar);
+                }
+
+                setIndex(0);
+            }
+
+            async function loadManifest() {
+                try {
+                    const res = await fetch(MANIFEST_URL, { cache: "no-cache" });
+                    if (!res.ok) throw new Error("Manifest fetch failed: " + res.status);
+                    const json = await res.json();
+                    const list = Array.isArray(json.items) ? json.items : [];
+                    items = list.filter(Boolean);
+                } catch (e) {
+                    // fallback: show nothing (or you can hardcode items here)
+                    console.warn("[Media] No manifest / empty:", e);
+                    items = [];
+                }
+            }
+
+            function setupPauseOnHover() {
+                root.addEventListener("mouseenter", function () { hovering = true; });
+                root.addEventListener("mouseleave", function () { hovering = false; });
+
+                document.addEventListener("visibilitychange", function () {
+                    running = (document.visibilityState === "visible");
+                    lastT = 0;
+                });
+            }
+
+            (async function init() {
+                await loadManifest();
+
+                if (!items.length) {
+                    // Hide the whole card if no media
+                    root.style.display = "none";
+                    return;
+                }
+
+                buildUI();
+                setupPauseOnHover();
+
+                rafId = requestAnimationFrame(tick);
+            })();
+        })();
+    </script>
+
 
     <div style="margin-top:40px;">
         <h2>Key Features</h2>
