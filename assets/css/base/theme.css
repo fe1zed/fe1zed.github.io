@@ -1,0 +1,25 @@
+/* ==============================
+   Root / Theme
+============================== */
+:root {
+  --bg-main: #0b0b12;
+  --bg-secondary: #12121c;
+  --bg-card: #161622;
+
+  --text-main: #e6e6f0;
+  --text-muted: #a0a0b8;
+
+  --accent: #7c4dff;
+  --accent-soft: #9b7bff;
+  --accent-glow: rgba(124, 77, 255, 0.35);
+  --border: #232338;
+  --radius: 10px;
+
+  --shadow: 0 10px 40px rgba(0,0,0,0.6);
+  
+  --tile-pad: 14px;
+  
+  --sub-lines: 3.5;
+  --sub-line: 18px;
+  --sub-gap: 6px;
+}

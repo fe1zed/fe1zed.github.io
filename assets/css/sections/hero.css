@@ -1,0 +1,22 @@
+/* ==============================
+   Hero
+============================== */
+.hero {
+  padding: 90px 0 70px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 16px;
+  background: linear-gradient(90deg, #ffffff, var(--accent-soft));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  color: var(--text-muted);
+  max-width: 640px;
+  margin: 0 auto;
+}

@@ -1,0 +1,94 @@
+/* ==============================
+   Universal Link Indicator (Nav + Footer)
+============================== */
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link,
+.footer-link {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+  transition: color .2s ease;
+}
+
+.nav-link {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.footer-link {
+  color: rgba(230,230,240,0.70);
+  font-size: 14px;
+  padding: 6px 0 8px;
+  word-break: break-word;
+}
+
+.nav-link:hover,
+.footer-link:hover,
+.nav-link:focus-visible,
+.footer-link:focus-visible,
+.nav-link.is-active {
+  color: #fff;
+}
+
+.nav-link::before,
+.nav-link::after,
+.footer-link::before,
+.footer-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  width: 6px;
+  background: var(--accent);
+  opacity: 0;
+
+  transition:
+          left .25s ease,
+          right .25s ease,
+          width .25s ease,
+          opacity .2s ease,
+          transform .25s ease;
+}
+
+.nav-link::before,
+.footer-link::before { left: 0; }
+.nav-link::after,
+.footer-link::after { right: 0; }
+
+.nav-link:hover::before,
+.nav-link:hover::after,
+.footer-link:hover::before,
+.footer-link:hover::after,
+.nav-link:focus-visible::before,
+.nav-link:focus-visible::after,
+.footer-link:focus-visible::before,
+.footer-link:focus-visible::after,
+.nav-link.is-active::before,
+.nav-link.is-active::after {
+  opacity: 1;
+}
+
+.nav-link:hover::before,
+.footer-link:hover::before,
+.nav-link:focus-visible::before,
+.footer-link:focus-visible::before,
+.nav-link.is-active::before {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  border-radius: 2px;
+}
+
+.nav-link:hover::after,
+.footer-link:hover::after,
+.nav-link:focus-visible::after,
+.footer-link:focus-visible::after,
+.nav-link.is-active::after {
+  right: 50%;
+  transform: translateX(50%);
+  opacity: 0;
+}

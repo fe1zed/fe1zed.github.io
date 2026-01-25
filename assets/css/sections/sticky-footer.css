@@ -1,0 +1,12 @@
+/* ==============================
+   Sticky Footer (opt-in)
+============================== */
+body.sticky-footer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+body.sticky-footer main {
+  flex: 1;
+}

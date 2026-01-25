@@ -1,0 +1,114 @@
+/* ==============================
+   Products (Grid)
+============================== */
+.products {
+  padding: 60px 0;
+}
+
+.products-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.products h2 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.size-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease, color .2s ease;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.chip.is-active {
+  border-color: var(--accent);
+  color: var(--text-main);
+  box-shadow: 0 0 18px var(--accent-glow);
+}
+
+/* One variable to control tile size */
+.product-grid {
+  --tile-min: 260px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, max-content));
+  gap: 18px;
+  justify-content: start; /* важно */
+}
+
+.product-grid[data-size="sm"] { --tile-min: 250px; }
+.product-grid[data-size="md"] { --tile-min: 340px; }
+.product-grid[data-size="lg"] { --tile-min: 520px; }
+
+.product-tile {
+  position: relative;
+  display: block;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-secondary));
+  box-shadow: var(--shadow);
+
+  transform: translateY(0);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+/* OPTIONAL: tile lift on hover (keep or remove) */
+.product-tile:hover {
+  transform: translateY(-4px);
+  border-color: rgba(124, 77, 255, 0.55);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+.tile-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transform: scale(1);
+  transition: transform .25s ease;
+  filter: saturate(1.05) contrast(1.05);
+}
+
+.product-grid[data-size="sm"] .tile-img { height: 150px; }
+.product-grid[data-size="md"] .tile-img { height: 225px; }
+.product-grid[data-size="lg"] .tile-img { height: 300px; }
+
+.product-grid[data-size="sm"]{
+  --sub-lines: 3.5;
+  grid-template-columns: repeat(4, 250px);
+}
+
+.product-grid[data-size="md"]{
+  --sub-lines: 2.5;
+  grid-template-columns: repeat(3, 340px);
+}
+
+.product-grid[data-size="lg"]{
+  --sub-lines: 1.5;
+  grid-template-columns: repeat(2, 520px);
+}
+
+.product-tile:hover .tile-img { transform: scale(1.03); }

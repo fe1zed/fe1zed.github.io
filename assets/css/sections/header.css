@@ -1,0 +1,35 @@
+/* ==============================
+   Header
+============================== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(11, 11, 18, 0.75);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+}
+
+.brand-name {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}

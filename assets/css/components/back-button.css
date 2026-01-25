@@ -1,0 +1,32 @@
+/* ==============================
+   Back button
+============================== */
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  margin-bottom:20px;
+
+  font-size:14px;
+  font-weight:500;
+  color: var(--text-muted);
+
+  padding:6px 10px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+
+  transition:
+          color .2s ease,
+          border-color .2s ease,
+          box-shadow .2s ease,
+          transform .15s ease;
+}
+
+.back-btn:hover{
+  color:#fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow);
+  transform: translateX(-2px);
+}

@@ -1,0 +1,131 @@
+/* ==============================
+   Contact Page (Form)
+============================== */
+
+.contact-page {
+  padding: 60px 0;
+  max-width: 980px;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-title {
+  margin: 0 0 12px;
+}
+
+.contact-subtitle {
+  margin: 0 0 18px;
+}
+
+.contact-muted {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* Panel */
+.contact-panel {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+/* Notice */
+.contact-notice {
+  display: none;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+}
+
+.contact-notice-title {
+  font-weight: 600;
+}
+
+.contact-notice-sub {
+  margin-top: 4px;
+  color: var(--text-muted);
+}
+
+.contact-notice.is-ok {
+  border-color: rgba(70, 220, 140, 0.35);
+  background: rgba(70, 220, 140, 0.10);
+}
+
+.contact-notice.is-error {
+  border-color: rgba(255, 120, 120, 0.35);
+  background: rgba(255, 120, 120, 0.10);
+}
+
+/* Fields */
+.contact-field {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.contact-field.is-last {
+  margin-bottom: 12px;
+}
+
+.contact-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.contact-input,
+.contact-textarea {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: var(--text-main);
+  outline: none;
+}
+
+.contact-textarea {
+  resize: vertical;
+}
+
+.contact-input:focus,
+.contact-textarea:focus {
+  border-color: rgba(255,255,255,0.22);
+}
+
+/* actions */
+.contact-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* send button (keeps your chip look) */
+.contact-send-btn {
+  font-size: 14px;
+  padding: 10px 14px;
+}
+
+.contact-send-btn.is-sending {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* honeypot */
+.contact-honeypot {
+  display: none;
+}

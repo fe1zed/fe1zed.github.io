@@ -1,0 +1,27 @@
+/* ==============================
+   Responsive
+============================== */
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 800px) {
+  .hero h1 { font-size: 36px; }
+  .products-head { align-items: flex-start; }
+}
+
+@media (max-width: 520px) {
+  .footer-grid { grid-template-columns: 1fr; }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .contact-card{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .copy-btn{ width:100%; }
+}
