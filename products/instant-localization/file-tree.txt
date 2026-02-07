@@ -1,0 +1,108 @@
+Assets/
+├── Editor/
+│   └── Instant Localization/
+│       ├── AutoTranslate/
+│       │   ├── Core/
+│       │   │   ├── Batching/
+│       │   │   │   ├── BatchLimits.cs (16 lines, 426 chars, 441.0B)
+│       │   │   │   └── BatchPlanner.cs (56 lines, 1746 chars, 1.8KB)
+│       │   │   ├── Cache/
+│       │   │   │   ├── ITranslationCache.cs (11 lines, 313 chars, 323.0B)
+│       │   │   │   ├── TranslationCache.asset (2641 lines, 139872 chars, 136.6KB)
+│       │   │   │   ├── TranslationCacheAsset.cs (106 lines, 2860 chars, 2.9KB)
+│       │   │   │   ├── TranslationCacheAssetAdapter.cs (63 lines, 1700 chars, 1.7KB)
+│       │   │   │   ├── TranslationCacheKey.cs (77 lines, 3120 chars, 3.1KB)
+│       │   │   │   ├── TranslationCacheKeyExtensions.cs (16 lines, 485 chars, 500.0B)
+│       │   │   │   └── TranslationCacheService.cs (62 lines, 2114 chars, 2.1KB)
+│       │   │   ├── Languages/
+│       │   │   │   ├── LanguageCatalog.cs (113 lines, 5414 chars, 5.4KB)
+│       │   │   │   ├── LanguageCatalogExtension.txt (139 lines, 7496 chars, 7.5KB)
+│       │   │   │   └── LanguageCodeResolver.cs (34 lines, 1019 chars, 1.0KB)
+│       │   │   ├── Net/
+│       │   │   │   ├── RetryExecutor.cs (45 lines, 1500 chars, 1.5KB)
+│       │   │   │   └── RetryPolicy.cs (19 lines, 560 chars, 578.0B)
+│       │   │   ├── Preview/
+│       │   │   │   ├── ApplyPolicies.cs (135 lines, 5224 chars, 5.2KB)
+│       │   │   │   ├── AutoTranslatePreviewBuilder.cs (126 lines, 4861 chars, 4.9KB)
+│       │   │   │   └── AutoTranslatePreviewModel.cs (65 lines, 1753 chars, 1.8KB)
+│       │   │   ├── Quality/
+│       │   │   │   └── PlaceholderRules.cs (230 lines, 7742 chars, 7.8KB)
+│       │   │   ├── AutoTranslateBatchRunner.cs (221 lines, 9528 chars, 9.5KB)
+│       │   │   ├── AutoTranslateJob.cs (225 lines, 9088 chars, 9.1KB)
+│       │   │   ├── AutoTranslateJobResult.cs (19 lines, 517 chars, 535.0B)
+│       │   │   └── AutoTranslateProgress.cs (44 lines, 1240 chars, 1.3KB)
+│       │   ├── Providers/
+│       │   │   ├── Azure/
+│       │   │   │   ├── AzureJson.cs (51 lines, 1304 chars, 1.3KB)
+│       │   │   │   ├── AzureTranslatorProvider.cs (298 lines, 12874 chars, 12.9KB)
+│       │   │   │   ├── AzureTranslatorProviderBootstrap.cs (15 lines, 348 chars, 362.0B)
+│       │   │   │   └── AzureTranslatorSecretsKeys.cs (14 lines, 535 chars, 548.0B)
+│       │   │   ├── DeepL/
+│       │   │   │   ├── DeepLJson.cs (28 lines, 745 chars, 772.0B)
+│       │   │   │   ├── DeepLProvider.cs (231 lines, 9819 chars, 9.8KB)
+│       │   │   │   ├── DeepLProviderBootstrap.cs (13 lines, 361 chars, 373.0B)
+│       │   │   │   └── DeepLSecretsKeys.cs (10 lines, 302 chars, 311.0B)
+│       │   │   ├── IAutoTranslateProvider.cs (89 lines, 3050 chars, 3.1KB)
+│       │   │   ├── ProviderErrors.cs (45 lines, 1812 chars, 1.8KB)
+│       │   │   ├── ProviderRegistry.cs (85 lines, 3004 chars, 3.0KB)
+│       │   │   ├── TranslateModels.cs (93 lines, 3023 chars, 3.0KB)
+│       │   │   └── UnityWebRequestAsync.cs (102 lines, 3244 chars, 3.3KB)
+│       │   ├── SecretsStorage/
+│       │   │   ├── EditorPrefsSecretsStorage.cs (25 lines, 770 chars, 794.0B)
+│       │   │   └── ISecretsStorage.cs (22 lines, 667 chars, 688.0B)
+│       │   └── Window/
+│       │       ├── Drawers/
+│       │       │   ├── GUI/
+│       │       │   │   └── LanguagePopupGUI.cs (33 lines, 910 chars, 942.0B)
+│       │       │   ├── FooterDrawer.cs (61 lines, 2173 chars, 2.2KB)
+│       │       │   ├── HeaderDrawer.cs (78 lines, 3168 chars, 3.2KB)
+│       │       │   ├── PreviewListDrawer.cs (144 lines, 5453 chars, 5.5KB)
+│       │       │   └── SettingsDrawer.cs (202 lines, 8817 chars, 8.8KB)
+│       │       ├── AutoTranslateWindow.cs (236 lines, 7666 chars, 7.7KB)
+│       │       └── AutoTranslateWindowState.cs (58 lines, 1861 chars, 1.9KB)
+│       ├── Localization Window/
+│       │   ├── Drawers/
+│       │   │   ├── FooterDrawer.cs (224 lines, 8323 chars, 8.3KB)
+│       │   │   ├── HeaderDrawer.cs (43 lines, 1789 chars, 1.8KB)
+│       │   │   ├── KeyFilterService.cs (44 lines, 1671 chars, 1.7KB)
+│       │   │   ├── ListDrawer.cs (194 lines, 7463 chars, 7.5KB)
+│       │   │   └── LocalizationKeySelectorContext.cs (57 lines, 1756 chars, 1.8KB)
+│       │   ├── LocalizationCsvManager.cs (141 lines, 5060 chars, 5.1KB)
+│       │   ├── LocalizationKeySelectorWindow.cs (164 lines, 5679 chars, 5.7KB)
+│       │   └── LocalizeTextEditor.cs (28 lines, 808 chars, 835.0B)
+│       └── EditorGUIExtensions.cs (90 lines, 4093 chars, 4.1KB)
+├── Instant Localization/
+│   ├── Data/
+│   │   └── InstantLocalizationFavorites.asset (16 lines, 433 chars, 433.0B)
+│   ├── Example/
+│   │   └── Example.cs (83 lines, 3563 chars, 3.6KB)
+│   ├── Icons/
+│   │   ├── Starred@16px.png (6 lines, 229 chars, 381.0B)
+│   │   └── Unstarred@16px.png (6 lines, 263 chars, 415.0B)
+│   ├── Scenes/
+│   │   └── SampleScene.unity (1285 lines, 35685 chars, 34.8KB)
+│   ├── Scripts/
+│   │   ├── CSV/
+│   │   │   ├── CsvLocalizationIO.cs (244 lines, 8029 chars, 8.1KB)
+│   │   │   ├── CsvTable.cs (41 lines, 1186 chars, 1.2KB)
+│   │   │   └── CsvValueCodec.cs (35 lines, 963 chars, 997.0B)
+│   │   └── Localization/
+│   │       ├── CSVLoader.cs (75 lines, 2802 chars, 2.8KB)
+│   │       ├── FavoritesAssetManager.cs (81 lines, 2534 chars, 2.6KB)
+│   │       ├── LocalizationFavoritesAsset.cs (12 lines, 253 chars, 264.0B)
+│   │       ├── LocalizationSystem.cs (97 lines, 2983 chars, 3.0KB)
+│   │       └── LocalizeText.cs (29 lines, 915 chars, 943.0B)
+│   ├── CHANGELOG.md (99 lines, 3569 chars, 3.6KB)
+│   └── README.md (375 lines, 20312 chars, 20.2KB)
+├── Resources/
+│   └── Instant Localization/
+│       ├── English.csv (256 lines, 4694 chars, 4.8KB)
+│       ├── French.csv (256 lines, 5142 chars, 5.4KB)
+│       ├── German.csv (256 lines, 5170 chars, 5.3KB)
+│       ├── Russian.csv (256 lines, 5171 chars, 7.7KB)
+│       ├── Spanish.csv (256 lines, 5145 chars, 5.3KB)
+│       ├── en.csv (256 lines, 2559 chars, 2.8KB)
+│       ├── ru.csv (256 lines, 2559 chars, 2.8KB)
+│       ├── sv.csv (256 lines, 2559 chars, 2.8KB)
+│       └── uk.csv (256 lines, 2559 chars, 2.8KB)
+└── Empty.unity (714 lines, 19275 chars, 18.8KB)
