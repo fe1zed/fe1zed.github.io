@@ -123,28 +123,49 @@
                 }
             }
 
-            function makeSlide(url) {
+            function makeSlide(item) {
                 const slide = document.createElement("div");
                 slide.className = "media-slide";
 
-                // Simple: treat everything as image for now.
-                // If you want video support too, we can detect by extension and create <video>.
-                const img = document.createElement("img");
-                img.alt = "";
-                img.loading = "eager";
-                img.decoding = "async";
-                img.src = url;
+                // IMAGE
+                if (item.type === "image") {
+                    const img = document.createElement("img");
+                    img.alt = "";
+                    img.loading = "eager";
+                    img.decoding = "async";
+                    img.src = MEDIA_BASE + item.src;
+                    slide.appendChild(img);
+                }
 
-                slide.appendChild(img);
+                // YOUTUBE
+                else if (item.type === "youtube") {
+                    const iframe = document.createElement("iframe");
+                    iframe.src =
+                        "https://www.youtube.com/embed/" +
+                        item.id +
+                        "?rel=0&modestbranding=1&playsinline=1";
+
+                    iframe.allow =
+                        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                    iframe.allowFullscreen = true;
+
+                    iframe.style.width = "100%";
+                    iframe.style.height = "100%";
+                    iframe.style.border = "0";
+
+                    slide.appendChild(iframe);
+                }
+
                 return slide;
             }
+
 
             function buildUI() {
                 track.innerHTML = "";
                 dots.innerHTML = "";
 
                 for (let i = 0; i < items.length; i++) {
-                    track.appendChild(makeSlide(MEDIA_BASE + items[i]));
+                    track.appendChild(makeSlide(items[i]));
 
                     const bar = document.createElement("div");
                     bar.className = "media-bar";

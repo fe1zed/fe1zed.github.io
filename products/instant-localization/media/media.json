@@ -1,7 +1,8 @@
 {
   "items": [
-    "01.png",
-    "02.png",
-    "03.png"
+    { "type": "image", "src": "01.png" },
+    { "type": "image", "src": "02.png" },
+    { "type": "image", "src": "03.png" },
+    { "type": "youtube", "id": "sOU9y1pgckE" }
   ]
 }
