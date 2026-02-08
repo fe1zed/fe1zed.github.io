@@ -105,4 +105,52 @@ Assets/
 │       ├── ru.csv (256 lines, 2559 chars, 2.8KB)
 │       ├── sv.csv (256 lines, 2559 chars, 2.8KB)
 │       └── uk.csv (256 lines, 2559 chars, 2.8KB)
-└── Empty.unity (714 lines, 19275 chars, 18.8KB)
+├── TextMesh Pro/
+│   ├── Documentation/
+│   │   └── TextMesh Pro User Guide 2016.pdf (6734 lines, 421205 chars, 678.1KB)
+│   ├── Fonts/
+│   │   ├── LiberationSans - OFL.txt (46 lines, 4469 chars, 4.4KB)
+│   │   └── LiberationSans.ttf (3929 lines, 291807 chars, 342.0KB)
+│   ├── Resources/
+│   │   ├── Fonts & Materials/
+│   │   │   ├── LiberationSans SDF - Drop Shadow.mat (107 lines, 2975 chars, 2.9KB)
+│   │   │   ├── LiberationSans SDF - Fallback.asset (2707 lines, 591780 chars, 580.6KB)
+│   │   │   ├── LiberationSans SDF - Outline.mat (105 lines, 2889 chars, 2.8KB)
+│   │   │   └── LiberationSans SDF.asset (7822 lines, 2256862 chars, 2.2MB)
+│   │   ├── Sprite Assets/
+│   │   │   └── EmojiOne.asset (660 lines, 13441 chars, 13.1KB)
+│   │   ├── Style Sheets/
+│   │   │   └── Default Style Sheet.asset (69 lines, 4953 chars, 4.8KB)
+│   │   ├── LineBreaking Following Characters.txt (1 lines, 98 chars, 269.0B)
+│   │   ├── LineBreaking Leading Characters.txt (1 lines, 38 chars, 95.0B)
+│   │   └── TMP Settings.asset (47 lines, 1683 chars, 1.6KB)
+│   ├── Shaders/
+│   │   ├── TMP_Bitmap-Custom-Atlas.shader (144 lines, 3497 chars, 3.4KB)
+│   │   ├── TMP_Bitmap-Mobile.shader (146 lines, 3549 chars, 3.5KB)
+│   │   ├── TMP_Bitmap.shader (144 lines, 3499 chars, 3.4KB)
+│   │   ├── TMP_SDF Overlay.shader (318 lines, 10585 chars, 10.3KB)
+│   │   ├── TMP_SDF SSD.shader (311 lines, 11998 chars, 11.7KB)
+│   │   ├── TMP_SDF-Mobile Masking.shader (248 lines, 7820 chars, 7.6KB)
+│   │   ├── TMP_SDF-Mobile Overlay.shader (241 lines, 7643 chars, 7.5KB)
+│   │   ├── TMP_SDF-Mobile SSD.shader (107 lines, 3069 chars, 3.0KB)
+│   │   ├── TMP_SDF-Mobile.shader (241 lines, 7672 chars, 7.5KB)
+│   │   ├── TMP_SDF-Surface-Mobile.shader (139 lines, 3524 chars, 3.4KB)
+│   │   ├── TMP_SDF-Surface.shader (159 lines, 4355 chars, 4.3KB)
+│   │   ├── TMP_SDF.shader (318 lines, 10600 chars, 10.4KB)
+│   │   ├── TMP_Sprite.shader (117 lines, 2673 chars, 2.6KB)
+│   │   ├── TMPro.cginc (85 lines, 2277 chars, 2.2KB)
+│   │   ├── TMPro_Mobile.cginc (158 lines, 5309 chars, 5.2KB)
+│   │   ├── TMPro_Properties.cginc (86 lines, 2843 chars, 2.8KB)
+│   │   └── TMPro_Surface.cginc (102 lines, 3563 chars, 3.5KB)
+│   └── Sprites/
+│       ├── EmojiOne Attribution.txt (3 lines, 185 chars, 187.0B)
+│       ├── EmojiOne.json (157 lines, 3966 chars, 4.0KB)
+│       └── EmojiOne.png (775 lines, 58349 chars, 109.7KB)
+├── Empty.unity (714 lines, 19275 chars, 18.8KB)
+└── Tasks.txt (18 lines, 795 chars, 814.0B)
+
+Summary:
+Total files: 111
+Total lines: 39128
+Total characters: 4205649
+Largest file: Assets\TextMesh Pro\Resources\Fonts & Materials\LiberationSans SDF.asset (2.2MB)
