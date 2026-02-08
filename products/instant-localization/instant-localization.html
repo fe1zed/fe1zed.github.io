@@ -24,10 +24,11 @@
 <main class="container" style="padding:60px 0; max-width:1250px;">
     <a class="back-btn" href="javascript:history.back()">← Back</a>
     <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:24px; align-items:start;">
+    <div class="product-hero">
         <div>
-            <h1 style="margin:0 0 12px;">Instant Localization</h1>
-            <p class="hero-subtitle" style="margin:0 0 18px;">
-                CSV-based localization workflow with editor tooling, QA, and auto-translate pipeline.
+            <h1 style="margin:0 0 12px; font-size: 42px;">Instant Localization</h1>
+            <p class="hero-subtitle" style="margin:0 0 24px; font-size: 18px; color: var(--text-muted);">
+                A professional CSV-based localization workflow with editor tooling, QA dashboards, and auto-translate pipelines.
             </p>
 
             <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;">
@@ -38,7 +39,7 @@
             </div>
 
             <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                <a class="chip" href="https://assetstore.unity.com/packages/slug/345178" target="_blank" rel="noopener" style="font-size:14px;">Asset Store →</a>
+                <a class="chip-solid" href="https://assetstore.unity.com/packages/slug/345178" target="_blank" rel="noopener" style="font-size:17px;">Asset Store →</a>
             </div>
         </div>
 
@@ -53,207 +54,202 @@
         </div>
     </div>
 
-    <script>
-        (function () {
-            const PREFIX = window.__SITE_PREFIX__ || "";
-            const root = document.getElementById("il-media");
-            if (!root) return;
-
-            const track = root.querySelector("[data-track]");
-            const dots = root.querySelector("[data-dots]");
-
-            const MANIFEST_URL = PREFIX + "/products/instant-localization/media/media.json";
-            const MEDIA_BASE = PREFIX + "/products/instant-localization/media/";
-
-            const DURATION_MS = 4200; // time to fill one bar
-            const SLIDE_MS = 520;     // should match CSS transition
-
-            let items = [];
-            let index = 0;
-
-            let running = true;
-            let hovering = false;
-
-            let lastT = 0;
-            let progress = 0; // 0..1
-            let rafId = 0;
-
-            function clamp01(v) { return Math.max(0, Math.min(1, v)); }
-
-            function setIndex(i) {
-                index = (i + items.length) % items.length;
-                track.style.transform = "translateX(" + (-index * 100) + "%)";
-                progress = 0;
-                updateBars();
-            }
-
-            function updateBars() {
-                const bars = dots.querySelectorAll(".media-bar > span");
-                for (let i = 0; i < bars.length; i++) {
-                    if (i < index) bars[i].style.transform = "scaleX(1)";
-                    else if (i > index) bars[i].style.transform = "scaleX(0)";
-                    else bars[i].style.transform = "scaleX(" + clamp01(progress) + ")";
-                }
-            }
-
-            function next() {
-                setIndex(index + 1);
-            }
-
-            function tick(t) {
-                rafId = requestAnimationFrame(tick);
-
-                if (!running || hovering || items.length <= 1) {
-                    lastT = t;
-                    return;
-                }
-
-                if (!lastT) lastT = t;
-                const dt = Math.min(64, t - lastT);
-                lastT = t;
-
-                progress = clamp01(progress + dt / DURATION_MS);
-                updateBars();
-
-                if (progress >= 1) {
-                    // advance after fill
-                    // reset progress immediately to avoid flashing full bar during transition
-                    progress = 0;
-                    next();
-                }
-            }
-
-            function makeSlide(item) {
-                const slide = document.createElement("div");
-                slide.className = "media-slide";
-
-                // IMAGE
-                if (item.type === "image") {
-                    const img = document.createElement("img");
-                    img.alt = "";
-                    img.loading = "eager";
-                    img.decoding = "async";
-                    img.src = MEDIA_BASE + item.src;
-                    slide.appendChild(img);
-                }
-
-                // YOUTUBE
-                else if (item.type === "youtube") {
-                    const iframe = document.createElement("iframe");
-                    iframe.src =
-                        "https://www.youtube.com/embed/" +
-                        item.id +
-                        "?rel=0&modestbranding=1&playsinline=1";
-
-                    iframe.allow =
-                        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-                    iframe.allowFullscreen = true;
-
-                    iframe.style.width = "100%";
-                    iframe.style.height = "100%";
-                    iframe.style.border = "0";
-
-                    slide.appendChild(iframe);
-                }
-
-                return slide;
-            }
-
-
-            function buildUI() {
-                track.innerHTML = "";
-                dots.innerHTML = "";
-
-                for (let i = 0; i < items.length; i++) {
-                    track.appendChild(makeSlide(items[i]));
-
-                    const bar = document.createElement("div");
-                    bar.className = "media-bar";
-
-                    const fill = document.createElement("span");
-                    bar.appendChild(fill);
-
-                    bar.addEventListener("click", function () {
-                        setIndex(i);
-                    });
-
-                    dots.appendChild(bar);
-                }
-
-                setIndex(0);
-            }
-
-            async function loadManifest() {
-                try {
-                    const res = await fetch(MANIFEST_URL, { cache: "no-cache" });
-                    if (!res.ok) throw new Error("Manifest fetch failed: " + res.status);
-                    const json = await res.json();
-                    const list = Array.isArray(json.items) ? json.items : [];
-                    items = list.filter(Boolean);
-                } catch (e) {
-                    // fallback: show nothing (or you can hardcode items here)
-                    console.warn("[Media] No manifest / empty:", e);
-                    items = [];
-                }
-            }
-
-            function setupPauseOnHover() {
-                root.addEventListener("mouseenter", function () { hovering = true; });
-                root.addEventListener("mouseleave", function () { hovering = false; });
-
-                document.addEventListener("visibilitychange", function () {
-                    running = (document.visibilityState === "visible");
-                    lastT = 0;
-                });
-            }
-
-            (async function init() {
-                await loadManifest();
-
-                if (!items.length) {
-                    // Hide the whole card if no media
-                    root.style.display = "none";
-                    return;
-                }
-
-                buildUI();
-                setupPauseOnHover();
-
-                rafId = requestAnimationFrame(tick);
-            })();
-        })();
-    </script>
-    
-    <div style="margin-top:40px;">
-        <h2>Key Features</h2>
-        <ul style="color: var(--text-muted); line-height:1.7;">
-            <li>Fast CSV import/export workflow</li>
-            <li>Editor windows for managing languages and keys</li>
-            <li>QA dashboard: missing/empty/duplicate keys</li>
-            <li>Auto-translate providers (DeepL, Azure)</li>
-            <li>Safe apply policies and preview before writing</li>
-        </ul>
+    <div style="margin-top:80px;">
+        <h2 style="font-size: 28px; margin-bottom: 30px;">Why Instant Localization?</h2>
+        <div class="feature-grid">
+            <div class="feature-item">
+                <h3>🚀 Editor Integrated</h3>
+                <p>
+                    Unity Editor windows for localization key management and AI-powered auto-translation.
+                </p>
+            </div>
+            <div class="feature-item">
+                <h3>🔍 QA Dashboard</h3>
+                <p>Automatically find missing translations, empty keys, or duplicate entries before you build your game.</p>
+            </div>
+            <div class="feature-item">
+                <h3>🤖 Auto-Translate</h3>
+                <p>Built-in integration for DeepL and Azure. Localize your entire game into 20+ languages in minutes.</p>
+            </div>
+            <div class="feature-item">
+                <h3>⚡ Zero Overhead</h3>
+                <p>
+                    Optimized editor windows and translation workflow for a smooth user experience.
+                </p>
+            </div>
+        </div>
     </div>
 
-    <div style="margin-top:28px;">
-        <h2>Requirements</h2>
-        <ul style="color: var(--text-muted); line-height:1.7;">
-            <li>Unity 2021+</li>
-            <li>TextMeshPro</li>
-        </ul>
-    </div>
+    <div style="margin-top:60px;">
+        <h2>Code examples</h2>
+        <p style="color: var(--text-muted);">Integrating localization into your scripts is as simple as one line of code.</p>
+        <div class="code-block">
+            <div class="api-section">
+                <div class="code-comment">
+                    // Language is loaded automatically on startup. <br>
+                    // Calling SetLanguage(*) changes the language file used for localization.
+                </div>
+                
+                <br>
+                
+                <div class="code-comment">// Change active language</div>
+                <div><span class="code-keyword">LocalizationSystem</span>.SetLanguage(<span class="code-string">"English"</span>);</div>
 
-    <div style="margin-top:28px;">
-        <h2>Support</h2>
-        <p style="color: var(--text-muted);">
-            Use the support page for help and bug reports:
-            <a class="footer-link" href="/pages/support.html"><b>Support</b></a>
-        </p>
+                <br>
+
+                <div class="code-comment">// Simple localized value</div>
+                <div>textMeshProUGUI.text = <span class="code-keyword">LocalizationSystem</span>.GetLocalisedValue(<span class="code-string">"ui_start_game"</span>);</div>
+
+                <br>
+
+                <div class="code-comment">// Localized value with arguments</div>
+                
+                <div>textMeshProUGUI.text = <span class="code-keyword"> LocalizationSystem</span>.GetLocalisedValue(</div>
+
+                <div style="padding-left: 24px;">
+                    <span class="code-string">"example_complex"</span>,<br>
+                    player, <span class="code-comment">// {0}</span><br>
+                    level, <span class="code-comment">// {1}</span><br>
+                    skillPoints, <span class="code-comment">// {2}</span><br>
+                    quest <span class="code-comment">// {3}</span>
+                </div>
+
+                <div>);</div>
+
+                <br>
+
+                <div class="code-comment">
+                    // If arguments are missing, the original localized value is returned unchanged.
+                </div>
+
+            </div>
+        </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border);">
+        <div>
+            <h3>Requirements</h3>
+            <ul style="color: var(--text-muted); line-height:2; padding-left: 18px;">
+                <li>Unity 2021.3 LTS or higher</li>
+                <li>TextMeshPro (Standard)</li>
+                <li>Works with URP, HDRP, and Built-in</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Support</h3>
+            <p style="color: var(--text-muted); margin-bottom: 15px;">
+                Need help? Get help at my support page!
+            </p>
+            <a class="chip-solid" href="/pages/support.html">Support</a>
+
+        </div>
     </div>
 </main>
 
-<!-- Footer -->
 <div id="site-footer"></div>
+
+<script>
+    (function () {
+        const PREFIX = window.__SITE_PREFIX__ || "";
+        const root = document.getElementById("il-media");
+        if (!root) return;
+
+        const track = root.querySelector("[data-track]");
+        const dots = root.querySelector("[data-dots]");
+
+        const MANIFEST_URL = PREFIX + "/products/instant-localization/media/media.json";
+        const MEDIA_BASE = PREFIX + "/products/instant-localization/media/";
+
+        const DURATION_MS = 4200;
+        let items = [];
+        let index = 0;
+        let running = true;
+        let hovering = false;
+        let lastT = 0;
+        let progress = 0;
+        let rafId = 0;
+
+        function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+
+        function setIndex(i) {
+            index = (i + items.length) % items.length;
+            track.style.transform = "translateX(" + (-index * 100) + "%)";
+            progress = 0;
+            updateBars();
+        }
+
+        function updateBars() {
+            const bars = dots.querySelectorAll(".media-bar > span");
+            for (let i = 0; i < bars.length; i++) {
+                if (i < index) bars[i].style.transform = "scaleX(1)";
+                else if (i > index) bars[i].style.transform = "scaleX(0)";
+                else bars[i].style.transform = "scaleX(" + clamp01(progress) + ")";
+            }
+        }
+
+        function tick(t) {
+            rafId = requestAnimationFrame(tick);
+            if (!running || hovering || items.length <= 1) {
+                lastT = t;
+                return;
+            }
+            if (!lastT) lastT = t;
+            const dt = Math.min(64, t - lastT);
+            lastT = t;
+            progress = clamp01(progress + dt / DURATION_MS);
+            updateBars();
+            if (progress >= 1) {
+                progress = 0;
+                setIndex(index + 1);
+            }
+        }
+
+        function makeSlide(item) {
+            const slide = document.createElement("div");
+            slide.className = "media-slide";
+            if (item.type === "image") {
+                const img = document.createElement("img");
+                img.src = MEDIA_BASE + item.src;
+                slide.appendChild(img);
+            } else if (item.type === "youtube") {
+                const iframe = document.createElement("iframe");
+                iframe.src = "https://www.youtube.com/embed/" + item.id + "?rel=0&modestbranding=1";
+                iframe.style.width = "100%"; iframe.style.height = "100%"; iframe.style.border = "0";
+                slide.appendChild(iframe);
+            }
+            return slide;
+        }
+
+        async function init() {
+            try {
+                const res = await fetch(MANIFEST_URL);
+                const json = await res.json();
+                items = json.items || [];
+                if (items.length) {
+                    items.forEach((item, i) => {
+                        track.appendChild(makeSlide(item));
+                        const bar = document.createElement("div");
+                        bar.className = "media-bar";
+                        bar.innerHTML = "<span></span>";
+                        bar.onclick = () => setIndex(i);
+                        dots.appendChild(bar);
+                    });
+                    setIndex(0);
+                    rafId = requestAnimationFrame(tick);
+                }
+            } catch (e) { root.style.display = "none"; }
+        }
+
+        root.addEventListener("mouseenter", () => hovering = true);
+        root.addEventListener("mouseleave", () => hovering = false);
+        init();
+    })();
+
+    // Reveal page after boot
+    window.addEventListener('load', () => {
+        document.documentElement.classList.remove("boot");
+    });
+</script>
+
 <script src="/assets/js/layout.js"></script>
 
 </body>
