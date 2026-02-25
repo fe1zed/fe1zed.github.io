@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Instant Localization — Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Instant Localization: Setup Guide and Script Reference" />
+
+    <!-- Loads your site CSS / theme -->
+    <script src="/assets/js/bootstrap.js"></script>
+
+    <style>
+        html.boot body { visibility: hidden; }
+
+        /* ===== Layout (keeps your style, only structural CSS) ===== */
+        .docs-wrap { padding: 60px 0; }
+        .docs-hero { margin-bottom: 22px; }
+        .docs-hero h1 { margin: 0 0 10px; font-size: 42px; }
+        .docs-hero p { margin: 0; color: var(  --text-secondary); font-size: 18px; max-width: 80ch; }
+
+        .docs-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 20px;
+            align-items: start;
+            margin-top: 26px;
+        }
+        @media (max-width: 980px){
+            .docs-layout { grid-template-columns: 1fr; }
+            .docs-toc { position: static !important; }
+        }
+
+        .docs-toc { position: sticky; top: 92px; }
+        .docs-toc h3 { margin: 0 0 12px; font-size: 16px; }
+        .toc-links { display: flex; flex-direction: column; gap: 10px; }
+
+        /* chips as full-width links */
+        a.toc-link.chip {
+            display: block;
+            text-decoration: none;
+            width: 100%;
+            text-align: left;
+            user-select: none;
+        }
+
+        .toc-sub { margin-left: 12px; display: flex; flex-direction: column; gap: 8px; }
+        a.toc-sublink {
+            display: block;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            color: var(  --text-secondary);
+            background: rgba(255,255,255,0.03);
+            transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease, color .2s ease;
+            font-size: 13px;
+        }
+        a.toc-sublink:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 16px var(--accent-glow);
+            color: var(  --text-secondary);
+            transform: translateY(-1px);
+        }
+        a.toc-sublink.is-active {
+            border-color: var(--accent);
+            color: var(  --text-secondary);
+            box-shadow: 0 0 18px var(--accent-glow);
+        }
+
+        .docs-content section { scroll-margin-top: 98px; }
+        .docs-content h2 { margin: 0 0 10px; font-size: 28px; }
+        .docs-content h3 { margin: 26px 0 10px; font-size: 18px; }
+        .docs-content p { margin: 0 0 12px; color: var(  --text-secondary); line-height: 1.7; }
+        .docs-content ul, .docs-content ol { color: var(  --text-secondary); line-height: 1.9; padding-left: 18px; margin: 0 0 12px; }
+
+        .docs-sep { margin: 32px 0; border: 0; border-top: 1px solid var(--border); opacity: 1; }
+
+        /* Code blocks: add copy button */
+        .code-block { position: relative; }
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            color: var(  --text-secondary);
+            border-radius: 12px;
+            padding: 7px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease, color .2s ease;
+        }
+        .copy-btn:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 16px var(--accent-glow);
+            color: var(  --text-secondary);
+            transform: translateY(-1px);
+        }
+
+        /* Tables */
+        .docs-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.02);
+            margin: 12px 0 18px;
+            font-size: 14px;
+        }
+        .docs-table th, .docs-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+            color: var(  --text-secondary);
+            line-height: 1.6;
+        }
+        .docs-table th {
+            color: var(  --text-secondary);
+            background: rgba(255,255,255,0.03);
+            font-weight: 600;
+        }
+        .docs-table tr:last-child td { border-bottom: 0; }
+
+        /* ===== Disable ALL highlighting for the TOC card ===== */
+
+        .docs-toc.feature-item,
+        .docs-toc.feature-item:hover,
+        .docs-toc.feature-item:focus,
+        .docs-toc.feature-item:focus-within,
+        .docs-toc.feature-item:active {
+            transform: none !important;
+            box-shadow: none !important;
+            border-color: var(--border) !important;
+            outline: none !important;
+        }
+        
+        .chip {
+            color: var(  --text-secondary);
+        }
+    </style>
+
+    <script>
+        document.documentElement.classList.add("boot");
+    </script>
+</head>
+
+<body>
+<div id="site-header" ></div>
+
+<main class="container docs-wrap" style="max-width:1250px;">
+    <!-- Adjust this to your real product page path -->
+    <a class="back-btn" href="/products/instant-localization/instant-localization.html">← Back</a>
+
+    <header class="docs-hero">
+        <h1>Instant Localization: Documentation</h1>
+        <p>
+            Setup, Script Reference, Editor Tools Menu, Best Practices, Troubleshooting, and Technical Notes.
+        </p>
+    </header>
+
+    <div class="docs-layout">
+        <!-- TOC -->
+        <aside class="feature-item docs-toc" id="toc">
+            <h3>On this page</h3>
+            <div class="toc-links">
+                <a class="chip toc-link" href="#table-of-contents">Table of Contents</a>
+
+                <a class="chip toc-link" href="#1-introduction">1. Introduction</a>
+
+                <a class="chip toc-link" href="#2-setup-guide-step-by-step-tutorial">2. Setup Guide</a>
+                <div class="toc-sub">
+                    <a class="toc-sublink" href="#21-project-structure-setup">2.1 Project Structure Setup</a>
+                    <a class="toc-sublink" href="#22-localizing-ui-text-components">2.2 Localizing UI Text Components</a>
+                    <a class="toc-sublink" href="#23-using-the-localization-key-selector-window">2.3 Key Selector Window</a>
+                    <a class="toc-sublink" href="#24-managing-localization-keys">2.4 Managing Keys</a>
+                    <a class="toc-sublink" href="#25-switching-languages-at-runtime">2.5 Switching Languages</a>
+                    <a class="toc-sublink" href="#26-localize-via-code-recommended-for-dynamic--formatted-text">2.6 Localize via Code</a>
+                    <a class="toc-sublink" href="#27-auto-translate-window">2.7 Auto-Translate Window</a>
+                </div>
+
+                <a class="chip toc-link" href="#3-script-reference">3. Script Reference</a>
+                <div class="toc-sub">
+                    <a class="toc-sublink" href="#31-localizationsystem-static-class">3.1 LocalizationSystem</a>
+                    <a class="toc-sublink" href="#32-localizetext-component">3.2 LocalizeText</a>
+                </div>
+
+                <a class="chip toc-link" href="#4-editor-tools-menu-reference">4. Editor Tools Menu Reference</a>
+                <a class="chip toc-link" href="#5-best-practices">5. Best Practices</a>
+                <a class="chip toc-link" href="#6-troubleshooting">6. Troubleshooting</a>
+                <a class="chip toc-link" href="#7-technical-notes">7. Technical Notes</a>
+            </div>
+        </aside>
+
+        <!-- CONTENT -->
+        <article class="docs-content">
+
+            <!-- Table of Contents -->
+            <section id="table-of-contents" class="feature-item">
+                <h2>Table of Contents</h2>
+                <ol>
+                    <li><a href="#1-introduction">Introduction</a></li>
+                    <li><a href="#2-setup-guide-step-by-step-tutorial">Setup Guide (Step-by-Step Tutorial)</a></li>
+                    <li><a href="#3-script-reference">Script Reference</a></li>
+                    <li><a href="#4-editor-tools-menu-reference">Editor Tools Menu Reference</a></li>
+                    <li><a href="#5-best-practices">Best Practices</a></li>
+                    <li><a href="#6-troubleshooting">Troubleshooting</a></li>
+                    <li><a href="#7-technical-notes">Technical Notes</a></li>
+                </ol>
+            </section>
+
+            <!-- 1. Introduction -->
+            <section id="1-introduction" class="feature-item" style="margin-top:20px;">
+                <h2>1. Introduction</h2>
+
+                <p>
+                    The Instant Localization asset provides a quick and efficient way to add multilingual support to your Unity project,
+                    primarily targeting <b>TextMeshProUGUI</b> components. The system uses static calls to manage language switching and loads
+                    localization data from simple <b>CSV files</b> stored in the project's <b>Resources</b> folder.
+                </p>
+
+                <h3>Key Features:</h3>
+                <ul>
+                    <li>CSV-based localization system supporting any number of languages</li>
+                    <li>Runtime language switching with automatic UI refresh</li>
+                    <li>TextMeshPro integration via ready-to-use LocalizeText component</li>
+                    <li>Powerful Localization Key Selector Window with search, filtering, and bulk editing</li>
+                    <li>Built-in Favorites system for quick access to commonly used keys</li>
+                    <li>Real-time key management across all language files simultaneously</li>
+                    <li>Custom Inspector tools for fast key selection directly from components</li>
+                    <li>Search highlighting and alphabetical sorting for large projects</li>
+                    <li>AI-powered Auto-Translate Window for batch translation using external providers</li>
+                    <li>Translation preview, caching, and selective overwrite controls</li>
+                </ul>
+
+                <a class="chip" href="#table-of-contents">↑ Back to top</a>
+            </section>
+
+            <!-- 2. Setup Guide -->
+            <section id="2-setup-guide-step-by-step-tutorial" class="feature-item" style="margin-top:20px;">
+                <h2>2. Setup Guide (Step-by-Step Tutorial)</h2>
+                <p>This guide will walk you through the necessary steps to integrate and use the localization system in your project.</p>
+
+                <a class="chip" href="#table-of-contents">↑ Back to top</a>
+
+                <hr class="docs-sep" />
+
+                <!-- 2.1 -->
+                <section id="21-project-structure-setup">
+                    <h3>2.1. Project Structure Setup</h3>
+                    <p>
+                        The localization system requires a specific folder structure to load language files at runtime using Unity's
+                        <code>Resources.Load</code>.
+                    </p>
+
+                    <ol>
+                        <li><b>Import TextMeshPro:</b> Ensure you have the <b>TextMeshPro</b> package imported into your project, as the primary component relies on <code>TextMeshProUGUI</code>.</li>
+                        <li><b>Open Resources Folder:</b> Go to <code>Assets/Instant Localization</code> folder and find folder named <b>Resources</b>. If you do not have one, create a new folder named <code>Resources</code>.</li>
+                        <li><b>Place CSV Files:</b> Place all your localization data files (e.g., <code>English.csv</code>, <code>Spanish.csv</code>, <code>German.csv</code>) directly into the <code>Assets/Instant Localization/Resources</code> folder.
+                            <ul>
+                                <li><b>Crucial Naming:</b> The filename (without the <code>.csv</code> extension) is used as the <b>Language Code</b> for switching languages (e.g., <code>English</code> or <code>German</code>).</li>
+                                <li><b>CSV Format:</b> Each CSV file must have a header row: <code>key,text</code>. Each subsequent line should follow the format: <code>localization_key,Translation text</code> / <code>localizationKey,Translation text</code>. Keys must be single identifiers without spaces.</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>Example CSV Content (<code>English.csv</code>):</h3>
+                    <div class="code-block" data-copy>
+                        <button class="copy-btn" type="button">Copy</button>
+                        <div class="api-section">
+                            <div class="code-comment">/* Example CSV (English.csv) */</div>
+                            <div><span class="code-string">key,text</span></div>
+                            <div><span class="code-string">examine,Examine</span></div>
+                            <div><span class="code-string">save_game,Save Game</span></div>
+                            <div><span class="code-string">gamepadSensitivity,Gamepad Sensitivity</span></div>
+                        </div>
+                    </div>
+                    
+                    <br>
+
+                    <a class="chip" href="#table-of-contents">↑ Back to top</a>
+                </section>
+
+                <hr class="docs-sep" />
+
+                <!-- 2.2 -->
+                <section id="22-localizing-ui-text-components">
+                    <h3>2.2. Localizing UI Text Components</h3>
+                    <p>To make a piece of UI text localizable, you must attach the <code>LocalizeText</code> component.</p>
+
+                    <ol>
+                        <li><b>Add TextMeshPro:</b> Create a UI Text object in your scene (e.g., a <b>TextMeshPro - Text</b> component).</li>
+                        <li><b>Add LocalizeText Component:</b> Add the <b>LocalizeText.cs</b> script to the same GameObject.</li>
+                        <li><b>Set the Key:</b> In the Inspector for the <code>LocalizeText</code> component, you will see a field named <b>Localized Text ID</b> with a <b>Search</b> button next to it.
+                            <ul>
+                                <li><b>Quick Selection (Recommended):</b> Click the <b>Search</b> button to open the <b>Localization Key Selector Window</b> where you can:
+                                    <ul>
+                                        <li>Browse all available keys</li>
+                                        <li>Search and filter keys</li>
+                                        <li>View translations in all languages</li>
+                                        <li>Add, edit, or delete keys</li>
+                                        <li>Mark frequently used keys as favorites</li>
+                                    </ul>
+                                </li>
+                                <li><b>Manual Entry:</b> Type the localization key directly (e.g., <code>start_button</code>) that exists in your CSV files.</li>
+                            </ul>
+                        </li>
+                        <li>The component will automatically look up the key for the currently active language and display the corresponding text.</li>
+                        <li>If no translation exists for a key, the system returns the key as the fallback value.</li>
+                    </ol>
+
+                    <a class="chip" href="#table-of-contents">↑ Back to top</a>
+                </section>
+
+                <hr class="docs-sep" />
+
+                <!-- 2.3 -->
+                <section id="23-using-the-localization-key-selector-window">
+                    <h3>2.3. Using the Localization Key Selector Window</h3>
+
+                    <p>The <b>Localization Key Selector Window</b> is a powerful editor tool for managing your localization keys. Access it via:</p>
+                    <ul>
+                        <li><b>Inspector:</b> Click the <b>Search</b> button next to any <code>LocalizeText</code> component's key field</li>
+                        <li><b>Menu:</b> Navigate to <b>Tools &gt; Localization &gt; Open Localization Window</b> (shortcut: <code>Ctrl+Shift+T</code>)</li>
+                    </ul>
+
+                    <h3>Window Features:</h3>
+                    <h5><b>1. Language Selection</b></h5>
+                    <ul>
+                        <li>Switch between languages using the dropdown at the top</li>
+                        <li>Preview translations in different languages</li>
+                    </ul>
+
+                    <h5><b>2. Search and Filter</b></h5>
+                    <ul>
+                        <li>Use the search bar to filter keys by name or value</li>
+                        <li>Use CSV button to open current CSV file in default preview app</li>
+                        <li>Toggle <b>Sort A-Z</b> to alphabetically sort keys</li>
+                        <li>Search highlights matching text in white</li>
+                    </ul>
+
+                    <h5><b>3. Favorites System</b></h5>
+                    <ul>
+                        <li>Click the star icon next to any key to mark it as a favorite</li>
+                        <li>Favorites always appear at the top of the list</li>
+                    </ul>
+
+                    <h5><b>4. Key Management</b></h5>
+                    <ul>
+                        <li><b>Add New:</b> Create new keys across all language files simultaneously</li>
+                        <li><b>Edit:</b> Modify existing key translations for all languages at once</li>
+                        <li><b>Delete:</b> Remove keys from all language files</li>
+                        <li><b>View All Translations:</b> Select a key to see its translation in every language</li>
+                    </ul>
+
+                    <h5><b>5. Quick Selection</b></h5>
+                    <ul>
+                        <li>Single-click to select a key</li>
+                        <li>Double-click to apply the key and close the window</li>
+                        <li>Click <b>Select</b> button to apply the selected key</li>
+                    </ul>
+
+                    <a class="chip" href="#table-of-contents">↑ Back to top</a>
+                </section>
+
+                <hr class="docs-sep" />
+
+                <!-- 2.4 -->
+                <section id="24-managing-localization-keys">
+                    <h3>2.4. Managing Localization Keys</h3>
+
+                    <p><b>Manual key/values management guide</b></p>
+
+                    <h3>Adding New Keys</h3>
+                    <ol>
+                        <li>Click the <b>Add New</b> button at the bottom</li>
+                        <li>Enter the key and translations for each language</li>
+                        <li>Click <b>Create</b> - the key will be added to all CSV files</li>
+                    </ol>
+
+                    <h3>Editing Existing Keys</h3>
+                    <ol>
+                        <li>Select a key from the list</li>
+                        <li>Click the <b>Edit</b> button</li>
+                        <li>Modify translations for any language</li>
+                        <li>Click <b>Save</b> to update all CSV files</li>
+                    </ol>
+
+                    <h3>Deleting Keys</h3>
+                    <ol>
+                        <li>Select a key from the list</li>
+                        <li>Click the <b>Delete</b> button</li>
+                        <li>Confirm the deletion - the key will be removed from all CSV files</li>
+                    </ol>
+
+                    <a class="chip" href="#table-of-contents">↑ Back to top</a>
+                </section>
+
+                <hr class="docs-sep" />
+
+                <!-- 2.5 -->
+                <section id="25-switching-languages-at-runtime">
+                    <h3>2.5. Switching Languages at Runtime</h3>
+
+                    <p>The active language for the entire application is controlled by the static <code>LocalizationSystem</code> class.</p>
+
+                    <ol>
+                        <li>
+                            To change the language, call the static <code>SetLanguage</code> method from any of your game scripts.
+                            The parameter must match the name of one of your CSV files (the language code).
+                        </li>
+                    </ol>
+
+                    <h3>Example Language Switch Script (C#):</h3>
+                    <div class="code-block" data-copy>
+                        <button class="copy-btn" type="button">Copy</button>
+                        <div class="api-section">
+                            <div class="code-comment">// Switches the game language to Spanish.</div>
+                            <div class="code-comment">// This will automatically load the 'Spanish.csv' file and update all UI texts.</div>
+                            <div><span class="code-keyword">fe1zed</span>.<span class="code-keyword">InstantLocalization</span>.<span class="code-keyword">LocalizationSystem</span>.SetLanguage(<span class="code-string">"Spanish"</span>);</div>
+                        </div>
+                    </div>
+                    
+                    <br>
+
+                    <a class="chip" href="#table-of-contents">↑ Back to top</a>
+                </section>
+
+                <hr class="docs-sep" />
+
+                <!-- 2.6 -->
+                <section id="26-localize-via-code-recommended-for-dynamic--formatted-text">
+                    <h3>2.6. Localize via code (recommended for dynamic / formatted text)</h3>
+
+                    <p>
+                        The package includes a simple example script (<code>Assets/Instant Localization/Example/Example.cs</code>) that demonstrates how to:
+                    </p>
+                    <ul>
+                        <li>Subscribe to <code>LocalizationSystem.OnLanguageChanged</code>,</li>
+                        <li>Update a <code>TextMeshProUGUI</code> when the language changes,</li>
+                        <li>Pass multiple arguments into a formatted localized string.</li>
+                    </ul>
+
+                    <p><b>Example CSV (<code>English.csv</code>):</b></p>
+
+                    <div class="code-block" data-copy>
+                        <button class="copy-btn" type="button">Copy</button>
+                        <div class="api-section">
+                            <div class="code-comment">/* Example CSV (English.csv) */</div>
+                            <div><span class="code-string">key,text</span></div>
+                            <div><span class="code-string">example_complex,{0}, your character is level {1}. You have {2} skill points and your current quest is: {3}.</span></div>
+                        </div>
+                    </div>
+                    
+                    <br>
+
+                    <a class="chip" href="#table-of-contents">↑ Back to top</a>
+                </section>
+
+                <hr class="docs-sep" />
+
+                <!-- 2.7 -->
+                <section id="27-auto-translate-window">
+                    <h3>2.7. Auto-Translate window</h3>
+
+                    <p>
+                        The <b>Auto-Translate Window</b> is an editor tool that allows you to automatically generate translations for your localization files
+                        using external AI-powered translation providers. Access it via:
+                    </p>
+                    <ul>
+                        <li><b>Menu:</b> Navigate to <b>Tools &gt; Localization &gt; Auto Translate</b> (shortcut: <code>Ctrl+Alt+A</code>).</li>
+                    </ul>
+
+                    <h3>Basic Usage</h3>
+                    <ul>
+                        <li>Select the <code>source</code> language file.</li>
+                        <li>Select the <code>target</code> language file.</li>
+                        <li>Choose a <code>translation provider</code>.</li>
+                        <li>Configure <code>provider settings</code> (API key, if required).</li>
+                        <li><code>Generate</code> translations.</li>
+                        <li><code>Apply</code> the results to update the target CSV file.</li>
+                    </ul>
+
+                    <h3>Behavior</h3>
+                    <ul>
+                        <li>Only localization values are translated — keys remain unchanged.</li>
+                        <li>Existing translations can be preserved or overwritten depending on the selected options.</li>
+                        <li>Changes are written directly to the CSV file.</li>
+                        <li>Large datasets are processed in batches. Different translation providers impose limits on request size and rate. To ensure reliable operation, the system splits translation work into smaller batches.</li>
+                        <li>Multiple keys are grouped into a single request when available</li>
+                        <li>Helps avoid request size limits and rate limiting</li>
+                        <li>Improves performance compared to translating each entry individually</li>
+                    </ul>
+
+                    <h3>Notes</h3>
+                    <ul>
+                        <li>Requires a valid API key for the selected provider.</li>
+                        <li>Internet connection is required.</li>
+                        <li>Generated translations may require manual review.</li>
+                    </ul>
+
+                    <a class="chip" href="#table-of-contents">↑ Back to top</a>
+                </section>
+            </section>
+
+            <!-- 3. Script Reference -->
+            <section id="3-script-reference" class="feature-item" style="margin-top:20px;">
+                <h2>3. Script Reference</h2>
+                <p>This section outlines the public methods and properties available for developers to interact with the localization system via code.</p>
+
+                <a class="chip" href="#table-of-contents">↑ Back to top</a>
+
+                <hr class="docs-sep" />
+
+                <section id="31-localizationsystem-static-class">
+                    <h3>3.1. <code>LocalizationSystem</code> (Static Class)</h3>
+                    <p>The <code>fe1zed.InstantLocalization.LocalizationSystem</code> is the central API for managing the application's language state.</p>
+
+                    <table class="docs-table">
+                        <thead>
+                        <tr>
+                            <th>Member</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><b><code>public static string Language { get; private set; }</code></b></td>
+                            <td>Property</td>
+                            <td>Gets the language code of the currently loaded language (e.g., <code>"English"</code>).</td>
+                        </tr>
+                        <tr>
+                            <td><b><code>public static event Action OnLanguageChanged;</code></b></td>
+                            <td>Event</td>
+                            <td>An event fired whenever a new language is loaded. <code>LocalizeText</code> components subscribe to this event to update their text.</td>
+                        </tr>
+                        <tr>
+                            <td><b><code>public static void SetLanguage(string languageCode)</code></b></td>
+                            <td>Method</td>
+                            <td>Loads the localization data for the specified <code>languageCode</code> (must match a CSV file name in <code>Assets/Instant Localization/Resources/</code>). Triggers <code>OnLanguageChanged</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><b><code>public static string GetLocalisedValue(string key)</code></b></td>
+                            <td>Method</td>
+                            <td>Manually retrieves the translation for a given <code>key</code> in the currently active language. Returns the key itself if the translation is missing.</td>
+                        </tr>
+                        <tr>
+                            <td><b><code>public static void ReloadLanguage()</code></b></td>
+                            <td>Method</td>
+                            <td>Reloads the current language from the CSV file. Useful after manually editing CSV files.</td>
+                        </tr>
+                        <tr>
+                            <td><b><code>public static int GetRequiredArgsCount(string localizedValue)</code></b></td>
+                            <td>Method</td>
+                            <td>Scans a localized string for numeric placeholders (<code>{0}</code>, <code>{1}</code>, …) and returns how many arguments are required. Used internally to validate calls to the formatted overload of <code>GetLocalisedValue</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><b><code>public static void UpdateTexts()</code></b></td>
+                            <td>Method</td>
+                            <td>Forces the <code>OnLanguageChanged</code> event to fire, which causes all subscribing components to refresh their text. Available via <b>Tools &gt; Localization &gt; Update texts</b> menu.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <a class="chip" href="#table-of-contents">↑ Back to top</a>
+                </section>
+
+                <hr class="docs-sep" />
+
+                <section id="32-localizetext-component">
+                    <h3>3.2. <code>LocalizeText</code> (Component)</h3>
+                    <p>The <code>fe1zed.InstantLocalization.LocalizeText</code> is a <code>MonoBehaviour</code> component intended to be attached to a <b>TextMeshProUGUI</b> component.</p>
+
+                    <table class="docs-table">
+                        <thead>
+                        <tr>
+                            <th>Member</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><b><code>public string localizedTextID;</code></b></td>
+                            <td>Field</td>
+                            <td>The <b>key</b> used to look up the text in the currently loaded CSV localization file. This is the main field edited via the Inspector.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Automatic Behavior</b></td>
+                            <td></td>
+                            <td>Subscribes to <code>LocalizationSystem.OnLanguageChanged</code> in <code>OnEnable()</code> and automatically updates its text to the corresponding localized string. Works in both Editor and Runtime.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <a class="chip" href="#table-of-contents">↑ Back to top</a>
+                </section>
+            </section>
+
+            <!-- 4. Editor Tools Menu Reference -->
+            <section id="4-editor-tools-menu-reference" class="feature-item" style="margin-top:20px;">
+                <h2>4. Editor Tools Menu Reference</h2>
+                <p>The system provides convenient menu items under <b>Tools &gt; Localization</b>:</p>
+
+                <table class="docs-table">
+                    <thead>
+                    <tr>
+                        <th>Menu Item</th>
+                        <th>Shortcut</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><b>Open Localization Window</b></td>
+                        <td><code>Ctrl+Shift+T</code></td>
+                        <td>Opens the Localization Key Selector Window.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Update texts</b></td>
+                        <td></td>
+                        <td>Forces all LocalizeText components to refresh their displayed text. Useful after editing CSV files manually.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Auto Translate</b></td>
+                        <td><code>Ctrl+Alt+A</code></td>
+                        <td>Opens the Auto-Translate Window.</td>
+                    </tr>
+                    <tr>
+                        <td><b>Auto Translate Documentation</b></td>
+                        <td></td>
+                        <td>Opens documentation web page.</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <a class="chip" href="#table-of-contents">↑ Back to top</a>
+            </section>
+
+            <!-- 5. Best Practices -->
+            <section id="5-best-practices" class="feature-item" style="margin-top:20px;">
+                <h2>5. Best Practices</h2>
+
+                <p><b>Use the Editor Window:</b><br>
+                    Manage keys through the Localization Key Selector Window instead of manually editing CSV files. This ensures consistency across all language files and reduces the risk of missing or mismatched entries.
+                </p>
+
+                <p><b>Use Favorites for Workflow Efficiency:</b><br>
+                    Mark frequently used keys (such as common UI labels and buttons) as favorites to speed up selection and reduce repetitive searching.
+                </p>
+
+                <p><b>Adopt Consistent Naming Conventions:</b><br>
+                    Use clear, descriptive, and structured key names (for example, ui_button_start, menu_settings_title, dialog_greeting). Consistent naming improves maintainability as the project grows.
+                </p>
+
+                <p><b>Test Language Switching Frequently:</b><br>
+                    Regularly switch languages during Play Mode to verify that all localized components update correctly and that no keys are missing.
+                </p>
+
+                <p><b>Review Generated Translations:</b><br>
+                    If using the Auto-Translate feature, always review machine-generated translations for accuracy and context before release.
+                </p>
+
+                <p><b>Back Up Localization Data:</b><br>
+                    Keep backups of your CSV files before performing bulk edits or automated operations to prevent accidental data loss.
+                </p>
+
+                <p><b>Understand Editor vs Runtime Behavior:</b><br>
+                    Localization files are accessed <b>differently</b> in the Editor (direct file access) and at runtime (via Resources.Load). Always test localization in a built player, not only in Editor Play Mode.
+                </p>
+
+                <p><b>Keep CSV Files Clean and Valid:</b><br>
+                    Ensure files use UTF-8 encoding and avoid duplicate keys, malformed rows, or unintended formatting changes from spreadsheet software.
+                </p>
+
+                <a class="chip" href="#table-of-contents">↑ Back to top</a>
+            </section>
+
+            <!-- 6. Troubleshooting -->
+            <section id="6-troubleshooting" class="feature-item" style="margin-top:20px;">
+                <h2>6. Troubleshooting</h2>
+
+                <p><b>Problem:</b> Text doesn't update when switching languages<br>
+                    <b>Solution:</b> Ensure the <code>LocalizeText</code> component is properly attached and the key exists in all CSV files. Use <b>Tools &gt; Instant Localization &gt; Update texts</b> to force refresh.
+                </p>
+
+                <p><b>Problem:</b> CSV file not found error<br>
+                    <b>Solution:</b> Verify the CSV file is located in <code>Assets/Instant Localization/Resources/</code> and the filename matches the language code being loaded.
+                </p>
+
+                <p><b>Problem:</b> Favorites not persisting<br>
+                    <b>Solution:</b> Check that <code>Assets/Instant Localization/Data/InstantLocalizationFavorites.asset</code> exists and is not corrupted. The asset is auto-created on first use.
+                </p>
+
+                <p><b>Problem:</b> Keys appear as "(missing)"<br>
+                    <b>Solution:</b> The key exists in one language file but not others. Use the Edit function in the Localization Key Selector Window to add translations for all languages.
+                </p>
+
+                <p><b>Problem:</b> Auto-Translate produces empty or incomplete results<br>
+                    <b>Solution:</b> Verify that a valid <code>API key</code> is configured, the selected provider is available, and your internet connection is active. Some providers may also impose request limits or quotas.
+                </p>
+
+                <a class="chip" href="#table-of-contents">↑ Back to top</a>
+            </section>
+
+            <!-- 7. Technical Notes -->
+            <section id="7-technical-notes" class="feature-item" style="margin-top:20px;">
+                <h2>7. Technical Notes</h2>
+                <ul>
+                    <li><b>Editor-Only Features:</b> The Localization Key Selector Window, CSV Manager, and Favorites system are Editor-only and will not be included in builds. As well as Auto-Translate window and related scripts.</li>
+                    <li><b>Performance:</b> CSV files are loaded once when language is set. Runtime lookups use Dictionary for O(1) performance.</li>
+                    <li><b>Thread Safety:</b> The system is not thread-safe. Always call methods from the main Unity thread.</li>
+                    <li><b>File Encoding:</b> CSV files should be UTF-8 encoded to support special characters and non-Latin alphabets.</li>
+                </ul>
+
+                <hr class="docs-sep" />
+
+                <p style="color: var(  --text-secondary); margin: 0;">
+                    <i>Developed by fe1zed</i>
+                </p>
+                
+                <br>
+
+                <a class="chip" href="#table-of-contents">↑ Back to top</a>
+            </section>
+
+        </article>
+    </div>
+</main>
+
+<div id="site-footer"></div>
+<script src="/assets/js/layout.js"></script>
+
+<script>
+    // Copy buttons (for .code-block[data-copy])
+    (function () {
+        const blocks = document.querySelectorAll(".code-block[data-copy]");
+        blocks.forEach(block => {
+            const btn = block.querySelector(".copy-btn");
+            if (!btn) return;
+
+            btn.addEventListener("click", async () => {
+                const text = block.innerText.replace(/\bCopy\b/g, "").trim();
+                try {
+                    await navigator.clipboard.writeText(text);
+                    const old = btn.textContent;
+                    btn.textContent = "Copied";
+                    setTimeout(() => btn.textContent = old, 900);
+                } catch {
+                    const ta = document.createElement("textarea");
+                    ta.value = text;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(ta);
+                    const old = btn.textContent;
+                    btn.textContent = "Copied";
+                    setTimeout(() => btn.textContent = old, 900);
+                }
+            });
+        });
+    })();
+
+    // Scrollspy to highlight TOC items
+    (function () {
+        const tocLinks = Array.from(document.querySelectorAll("#toc a[href^='#']"));
+        const sections = tocLinks
+            .map(a => document.querySelector(a.getAttribute("href")))
+            .filter(Boolean);
+
+        if (!sections.length) return;
+
+        function setActive(id) {
+            tocLinks.forEach(a => {
+                const href = a.getAttribute("href");
+                const isMatch = href === "#" + id;
+                a.classList.toggle("is-active", isMatch);
+            });
+        }
+
+        const obs = new IntersectionObserver((entries) => {
+            const visible = entries
+                .filter(e => e.isIntersecting)
+                .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+            if (visible && visible.target && visible.target.id) setActive(visible.target.id);
+        }, { rootMargin: "-20% 0px -70% 0px", threshold: [0.05, 0.1, 0.2] });
+
+        sections.forEach(s => obs.observe(s));
+    })();
+</script>
+</body>
+</html>
