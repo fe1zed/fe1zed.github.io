@@ -1,15 +1,15 @@
 Tasks
 -----
 
-1. Add the filetree to web page (probably useless as unity shows it itself on item page).
-2. Check the files location in the folders in the Instant localization.
-	- Make sure everything works. (Check the languages it can translate on)
-	- Delete saves.
-	- Make new .unitypackage file.
-	- May be make instructions on how to get API keys [DeepL, Azure].
-3. Make more media for auto translate window.
-4. Remake of unity page. (Rewrite texts manually of the GPT's Unicode leftovers)
-5. Resubmit form.
+1. Check the files location in the folders in the Instant localization.             +
+	- Make sure everything works. (Check the languages it can translate on)         +
+	- Delete saves.                                                                 +
+	- Make new .unity-package file.                                                 ?
+	- May be make instructions on how to get API keys [DeepL, Azure].               +
+2. Make more media for auto translate window.                                       -
+3. Remake of unity page. (Rewrite texts manually of the GPT's Unicode leftovers)    -
+4. Resubmit form.                                                                   -
 
------
-Deadline: Monday 9th of February
+
+Website update                                                                      +
+Rework of the Instant Localization unity-asset's readme.md file                     + 
