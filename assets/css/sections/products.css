@@ -313,3 +313,38 @@
   cursor: pointer;
   transition: background 0.2s ease, transform 0.15s ease;
 }
+
+.rating-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin: 0 0 18px;
+  font-size: 14px;
+}
+
+.stars{
+  display:flex;
+  gap:4px;
+  line-height: 1;
+}
+
+.star{
+  width:24px;
+  height:24px;
+  color:#FFC107;
+}
+
+.star.off{
+  color: #ffffff;
+  opacity:.5;
+}
+
+.rating-text{
+  display:flex;
+  gap:6px;
+  align-items:baseline;
+}
+
+.rating-text strong{
+  font-weight: 600;
+}

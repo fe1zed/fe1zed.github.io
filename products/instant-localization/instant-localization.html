@@ -27,6 +27,10 @@
     <div class="product-hero">
         <div>
             <h1 style="margin:0 0 12px; font-size: 42px;">Instant Localization</h1>
+            <div class="rating-row" id="il-rating" aria-label="Asset Store rating">
+                <div class="stars" data-stars></div>
+                <div class="rating-text" data-text></div>
+            </div>
             <p class="hero-subtitle" style="margin:0 0 24px; font-size: 18px; color: var(--text-muted);">
                 A professional CSV-based localization workflow with editor tooling, QA dashboards, and auto-translate pipelines.
             </p>
@@ -250,6 +254,42 @@
     window.addEventListener('load', () => {
         document.documentElement.classList.remove("boot");
     });
+</script>
+
+<script>
+    (function () {
+        // Update these when you start getting ratings:
+        // Example: rating = 4.8, count = 23
+        const rating = null // null = not enough ratings yet
+        const count  = 0;
+
+        const root = document.getElementById("il-rating");
+        if (!root) return;
+
+        const starsEl = root.querySelector("[data-stars]");
+        const textEl  = root.querySelector("[data-text]");
+
+        function starSvg(isOn){
+            return `
+        <svg class="star ${isOn ? "" : "off"}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 17.27l-5.18 3.05 1.4-5.93-4.62-4 6.08-.52L12 4.2l2.32 5.67 6.08.52-4.62 4 1.4 5.93z"/>
+        </svg>`;
+        }
+
+        const value = (typeof rating === "number") ? Math.max(0, Math.min(5, rating)) : null;
+        const filled = value === null ? 0 : Math.round(value); // simple; can do half-stars later
+
+        starsEl.innerHTML = "";
+        for (let i = 1; i <= 5; i++){
+            starsEl.insertAdjacentHTML("beforeend", starSvg(i <= filled));
+        }
+
+        if (value === null){
+            textEl.innerHTML = `<span><strong>New</strong></span><span>(no ratings yet)</span>`;
+        } else {
+            textEl.innerHTML = `<span><strong>${value.toFixed(1)}</strong></span><span>(${count})</span>`;
+        }
+    })();
 </script>
 
 <script src="/assets/js/layout.js"></script>
