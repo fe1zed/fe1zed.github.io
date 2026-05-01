@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dev Console Pro — Docs</title>
+  <meta name="description" content="Documentation for Dev Console Pro — a fully-featured in-game developer console for Unity." />
+  <meta property="og:title" content="Dev Console Pro — Docs" />
+  <meta property="og:description" content="Fully-featured in-game developer console for Unity. Register commands, inspect logs, and debug at runtime on any platform." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://fe1zed.github.io/docs/dev-console-pro.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <div class="docs-layout">
+
+    <aside class="docs-sidebar">
+      <div class="docs-sidebar-header">
+        <a href="../asset.html?id=dev-console-pro" class="docs-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Dev Console Pro
+        </a>
+      </div>
+      <nav class="docs-nav">
+        <div class="docs-nav-group">
+          <span class="docs-nav-label">Getting Started</span>
+          <a href="#installation">Installation</a>
+          <a href="#quick-start">Quick Start</a>
+          <a href="#keyboard-controls">Keyboard Controls</a>
+        </div>
+        <div class="docs-nav-group">
+          <span class="docs-nav-label">Guide</span>
+          <a href="#commands">Commands</a>
+          <a href="#variables">Variables</a>
+          <a href="#auto-register">Auto-Register</a>
+          <a href="#supported-types">Supported Types</a>
+          <a href="#log-capture">Log Capture</a>
+          <a href="#built-in-commands">Built-in Commands</a>
+        </div>
+        <div class="docs-nav-group">
+          <span class="docs-nav-label">Advanced</span>
+          <a href="#static-members">Static Members</a>
+          <a href="#aliases">Aliases</a>
+          <a href="#console-args">ConsoleArgs</a>
+          <a href="#runtime-registration">Runtime Registration</a>
+          <a href="#api-access">API Access</a>
+          <a href="#theming">Theming</a>
+          <a href="#log-service">ConsoleLogService</a>
+        </div>
+        <div class="docs-nav-group">
+          <span class="docs-nav-label">Reference</span>
+          <a href="#attributes">Attributes Reference</a>
+          <a href="#changelog">Changelog</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+
+      <div class="docs-hero">
+        <div class="docs-hero-tags"><span class="tag">Tools</span><span class="tag">Debug</span></div>
+        <h1>Dev Console Pro</h1>
+        <p class="docs-hero-sub">v1.3.0 · Unity 2020.3+</p>
+      </div>
+
+      <!-- ── Getting Started ── -->
+
+      <section id="installation">
+        <h2>Installation</h2>
+        <p>Import the package from the Unity Asset Store. No additional dependencies are required.</p>
+        <ol>
+          <li>Open the Package Manager: <code>Window → Package Manager</code></li>
+          <li>Switch to <strong>My Assets</strong> and find <em>Dev Console Pro</em></li>
+          <li>Click <strong>Import</strong></li>
+        </ol>
+        <p>Drag the <strong>DevConsolePro</strong> prefab from <code>DevConsolePro/Prefabs/</code> into your scene. The prefab is self-contained — it creates its own Canvas and persists across scene loads.</p>
+      </section>
+
+      <section id="quick-start">
+        <h2>Quick Start</h2>
+        <p>Press <strong>F1</strong> at runtime to open and close the console. Type <code>help</code> to list all registered commands.</p>
+        <p>Add <code>[ConsoleCommand]</code> to any public method and wrap the class with <code>[DevConsole("prefix")]</code>:</p>
+        <pre><code class="language-csharp">using DevConsolePro;
+using UnityEngine;
+
+[DevConsole("player")]
+public class PlayerController : MonoBehaviour
+{
+    [ConsoleCommand("Teleport the player to a position")]
+    public void Teleport(float x, float y, float z)
+    {
+        transform.position = new Vector3(x, y, z);
+    }
+}</code></pre>
+        <p>Open the console at runtime and type:</p>
+        <pre><code class="language-plaintext">player.teleport 0 5 0</code></pre>
+      </section>
+
+      <section id="keyboard-controls">
+        <h2>Keyboard Controls</h2>
+        <table>
+          <thead><tr><th>Key</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><code>F1</code></td><td>Open / close console (configurable via <strong>Toggle Key</strong> on <code>DevConsoleUIRoot</code>)</td></tr>
+            <tr><td><code>Tab</code></td><td>Commit the highlighted suggestion, or the first one if none is highlighted</td></tr>
+            <tr><td><code>↑ / ↓</code></td><td>Navigate suggestion list when open; navigate command history otherwise</td></tr>
+            <tr><td><code>Escape</code></td><td>Dismiss the suggestion list</td></tr>
+            <tr><td><code>Enter</code></td><td>Execute the current command</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ── Guide ── -->
+
+      <section id="commands">
+        <h2>Commands</h2>
+        <p>Use <code>[ConsoleCommand]</code> on any public method inside a class marked with <code>[DevConsole]</code>.</p>
+
+        <h3>Simple form</h3>
+        <pre><code class="language-csharp">[ConsoleCommand("Description")]
+public void MyMethod(float value) { }
+
+// With a shortcut alias
+[ConsoleCommand("Description", shortcut: "sc")]
+public void MyMethod(float value) { }</code></pre>
+
+        <h3>Explicit prefix and aliases</h3>
+        <pre><code class="language-csharp">[ConsoleCommand("myprefix", "Description", "alias1", "alias2")]
+public void MyMethod() { }</code></pre>
+        <p>The resulting command name is <code>prefix.methodName</code> (lowercase first letter). If no prefix is provided on the attribute, the class-level <code>[DevConsole]</code> prefix is used. If neither provides a prefix, the method name alone is used.</p>
+      </section>
+
+      <section id="variables">
+        <h2>Variables</h2>
+        <p>Use <code>[ConsoleVariable]</code> on any public field or property. Variables can be read and written from the console.</p>
+        <pre><code class="language-csharp">[DevConsole("player")]
+public class PlayerController : MonoBehaviour
+{
+    [ConsoleVariable("Movement speed")]
+    public float speed = 5f;
+}</code></pre>
+        <pre><code class="language-plaintext">player.speed          // prints current value
+player.speed 12.5     // sets value to 12.5</code></pre>
+        <p>Read-only properties (no setter) can only be read — attempting to set them logs a warning.</p>
+
+        <h3>Explicit prefix and aliases</h3>
+        <pre><code class="language-csharp">[ConsoleVariable("myprefix", "Movement speed", "spd", "velocity")]
+public float speed = 5f;</code></pre>
+      </section>
+
+      <section id="auto-register">
+        <h2>Auto-Register</h2>
+        <p>Applying <code>[DevConsole]</code> to a class automatically registers <strong>all</strong> public fields and properties as variables — no <code>[ConsoleVariable]</code> needed on each one.</p>
+        <pre><code class="language-csharp">[DevConsole("player")]
+public class PlayerStats : MonoBehaviour
+{
+    public float health  = 100f;  // → player.health
+    public float stamina = 80f;   // → player.stamina
+    public bool  isAlive = true;  // → player.isAlive
+}</code></pre>
+        <p>Use <code>[ConsoleIgnore]</code> on any member you want to exclude from registration.</p>
+        <pre><code class="language-csharp">[DevConsole("player")]
+public class PlayerController : MonoBehaviour
+{
+    public float speed = 5f;          // registered → player.speed
+
+    [ConsoleIgnore]
+    public float internalTimer = 0f;  // skipped
+}</code></pre>
+      </section>
+
+      <section id="supported-types">
+        <h2>Supported Types</h2>
+        <p>These types are supported for command parameters and console variables. Enums and booleans also show autocomplete suggestions.</p>
+        <table>
+          <thead><tr><th>Type</th><th>Example input</th></tr></thead>
+          <tbody>
+            <tr><td><code>string</code></td><td><code>hello</code> or <code>"hello world"</code></td></tr>
+            <tr><td><code>int</code></td><td><code>42</code></td></tr>
+            <tr><td><code>float</code></td><td><code>3.14</code></td></tr>
+            <tr><td><code>double</code></td><td><code>3.14159</code></td></tr>
+            <tr><td><code>bool</code></td><td><code>true</code> / <code>false</code></td></tr>
+            <tr><td><code>enum</code></td><td><code>Normal</code> / <code>Hard</code></td></tr>
+          </tbody>
+        </table>
+        <p>Wrap string arguments in double quotes to pass values that contain spaces: <code>setTitle "My Game v2"</code></p>
+      </section>
+
+      <section id="log-capture">
+        <h2>Log Capture</h2>
+        <p>DevConsole Pro hooks into <code>Application.logMessageReceived</code> automatically. Every <code>Debug.Log</code>, <code>Debug.LogWarning</code>, and <code>Debug.LogError</code> call in your project appears in the console output in real time — no extra setup needed.</p>
+        <pre><code class="language-plaintext">[12:34:56]  > player.speed 20           ← command echo
+[12:34:56]  Player speed changed        ← Debug.Log
+[12:34:57]  Health is low!              ← Debug.LogWarning
+[12:34:58]  NullReferenceException...   ← Debug.LogError</code></pre>
+      </section>
+
+      <section id="built-in-commands">
+        <h2>Built-in Commands</h2>
+        <p>Type <code>help</code> at any time to see the full list of registered commands.</p>
+
+        <h3>General</h3>
+        <table>
+          <thead><tr><th>Command</th><th>Arguments</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>help</code></td><td>—</td><td>Lists all registered commands and variables</td></tr>
+            <tr><td><code>help &lt;name&gt;</code></td><td><code>string</code></td><td>Shows details for a specific command</td></tr>
+            <tr><td><code>clear</code></td><td>—</td><td>Clears the console output log</td></tr>
+            <tr><td><code>version</code></td><td>—</td><td>Shows DevConsole Pro and Unity version info</td></tr>
+            <tr><td><code>quit</code></td><td>—</td><td>Calls <code>Application.Quit()</code></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Debug (<code>debug.</code>)</h3>
+        <table>
+          <thead><tr><th>Command</th><th>Arguments</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>debug.echo &lt;text&gt;</code></td><td><code>string</code></td><td>Prints text to the console</td></tr>
+            <tr><td><code>debug.log &lt;text&gt;</code></td><td><code>string</code></td><td>Writes a <code>Debug.Log</code> message</td></tr>
+            <tr><td><code>debug.warn &lt;text&gt;</code></td><td><code>string</code></td><td>Writes a <code>Debug.LogWarning</code> message</td></tr>
+            <tr><td><code>debug.error &lt;text&gt;</code></td><td><code>string</code></td><td>Writes a <code>Debug.LogError</code> message</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Scene (<code>scene.</code>)</h3>
+        <table>
+          <thead><tr><th>Command</th><th>Arguments</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>scene.current</code></td><td>—</td><td>Shows active scene name, path, and build index</td></tr>
+            <tr><td><code>scene.reload</code></td><td>—</td><td>Reloads the current scene</td></tr>
+            <tr><td><code>scene.load &lt;name&gt;</code></td><td><code>string</code></td><td>Loads a scene by name</td></tr>
+            <tr><td><code>scene.loadIndex &lt;index&gt;</code></td><td><code>int</code></td><td>Loads a scene by build index</td></tr>
+            <tr><td><code>scene.count</code></td><td>—</td><td>Shows number of scenes in Build Settings</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Time (<code>time.</code>)</h3>
+        <table>
+          <thead><tr><th>Command</th><th>Arguments</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>time.scale</code></td><td>—</td><td>Prints the current <code>Time.timeScale</code></td></tr>
+            <tr><td><code>time.scale &lt;value&gt;</code></td><td><code>float</code></td><td>Sets <code>Time.timeScale</code> (clamped 0–100)</td></tr>
+            <tr><td><code>time.pause</code></td><td>—</td><td>Sets <code>Time.timeScale</code> to <code>0</code></td></tr>
+            <tr><td><code>time.resume</code></td><td>—</td><td>Sets <code>Time.timeScale</code> to <code>1</code></td></tr>
+          </tbody>
+        </table>
+
+        <h3>System (<code>sys.</code>)</h3>
+        <table>
+          <thead><tr><th>Command</th><th>Arguments</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>sys.info</code></td><td>—</td><td>Shows product, platform, paths, and runtime info</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ── Advanced ── -->
+
+      <section id="static-members">
+        <h2>Static Members</h2>
+        <p>Commands and variables don't need to be on a MonoBehaviour. Static members are fully supported — no scene instance is required.</p>
+        <pre><code class="language-csharp">[DevConsole("game")]
+public static class GameSettings
+{
+    [ConsoleVariable("Master volume")]
+    public static float masterVolume = 1f;
+
+    [ConsoleCommand("Quit the application")]
+    public static void Quit()
+    {
+        Application.Quit();
+    }
+}</code></pre>
+        <pre><code class="language-plaintext">game.masterVolume 0.5
+game.quit</code></pre>
+      </section>
+
+      <section id="aliases">
+        <h2>Aliases</h2>
+        <p>Both <code>[ConsoleCommand]</code> and <code>[ConsoleVariable]</code> accept aliases — alternative names that map to the same command.</p>
+        <pre><code class="language-csharp">[ConsoleCommand("player", "Teleport to position", "tp", "warp")]
+public void Teleport(float x, float y, float z) { }</code></pre>
+        <p>All three names work identically at runtime:</p>
+        <pre><code class="language-plaintext">player.teleport 0 5 0
+tp 0 5 0
+warp 0 5 0</code></pre>
+      </section>
+
+      <section id="console-args">
+        <h2>ConsoleArgs</h2>
+        <p>For commands that need variable argument counts or custom parsing, use <code>ConsoleArgs</code> as the sole parameter instead of typed values.</p>
+        <pre><code class="language-csharp">using DevConsolePro.Core.Commands;
+
+[ConsoleCommand("Print all provided arguments")]
+public void Echo(ConsoleArgs args)
+{
+    for (int i = 0; i &lt; args.Count; i++)
+        Debug.Log(args[i]);
+}</code></pre>
+        <table>
+          <thead><tr><th>Member</th><th>Returns</th></tr></thead>
+          <tbody>
+            <tr><td><code>args[i]</code></td><td><code>string</code> — raw token</td></tr>
+            <tr><td><code>args.GetString(i)</code></td><td><code>string</code> with bounds check</td></tr>
+            <tr><td><code>args.GetInt(i)</code></td><td><code>int</code> (InvariantCulture)</td></tr>
+            <tr><td><code>args.GetFloat(i)</code></td><td><code>float</code> (InvariantCulture)</td></tr>
+            <tr><td><code>args.GetBool(i)</code></td><td><code>bool</code></td></tr>
+            <tr><td><code>args.Count</code></td><td>Total argument count</td></tr>
+            <tr><td><code>args.ToArray()</code></td><td>Copy of all tokens as <code>string[]</code></td></tr>
+          </tbody>
+        </table>
+        <p>Enum and <code>bool</code> parameters show autocomplete suggestions automatically. <code>bool</code> variables offer <code>true</code> / <code>false</code>; enums offer every value in the type.</p>
+        <pre><code class="language-csharp">public enum Difficulty { Easy, Normal, Hard }
+
+[DevConsole("game")]
+public class GameManager : MonoBehaviour
+{
+    [ConsoleCommand("Set game difficulty")]
+    public void SetDifficulty(Difficulty difficulty)
+    {
+        Debug.Log($"Difficulty set to {difficulty}");
+    }
+}</code></pre>
+        <pre><code class="language-plaintext">game.setDifficulty Hard</code></pre>
+      </section>
+
+      <section id="runtime-registration">
+        <h2>Runtime Registration</h2>
+        <p>Commands can be registered at runtime without attributes using <code>DevConsoleAPI.Register</code>. Useful for procedurally generated commands, plugin systems, or anything not known at compile time.</p>
+
+        <h3>No-argument command</h3>
+        <pre><code class="language-csharp">DevConsoleAPI.Register("scene.reload", () => SceneManager.LoadScene(0));
+
+// With description (shown by 'help')
+DevConsoleAPI.Register("scene.reload", "Reload the active scene", () => SceneManager.LoadScene(0));</code></pre>
+
+        <h3>Typed arguments</h3>
+        <p>Generic overloads provide automatic ghost hints and argument type display. Parameter names are read from the lambda automatically.</p>
+        <pre><code class="language-csharp">// Single argument — hint shows: time.scale &lt;float:value&gt;
+DevConsoleAPI.Register&lt;float&gt;("time.scale", "Set time scale", (float value) =>
+{
+    Time.timeScale = value;
+});
+
+// Two arguments — hint shows: player.move &lt;float:x&gt; &lt;float:z&gt;
+DevConsoleAPI.Register&lt;float, float&gt;("player.move", "Move player on XZ", (float x, float z) =>
+{
+    player.transform.position = new Vector3(x, player.transform.position.y, z);
+});
+
+// Three arguments
+DevConsoleAPI.Register&lt;float, float, float&gt;("cam.pos", "Set camera position",
+    (float x, float y, float z) => cam.transform.position = new Vector3(x, y, z));</code></pre>
+        <p>Overloads exist for <strong>1 through 4</strong> typed parameters. Passing an unsupported type throws immediately at registration time. For 5+ arguments, pass an explicitly typed delegate:</p>
+        <pre><code class="language-csharp">DevConsoleAPI.Register("cmd", "Description",
+    (Action&lt;int, float, string, bool, int&gt;)MyFiveArgMethod);</code></pre>
+
+        <h3>Raw arguments</h3>
+        <pre><code class="language-csharp">DevConsoleAPI.Register("log.print", (ConsoleArgs args) =>
+{
+    Debug.Log(args.GetString(0));
+});</code></pre>
+
+        <h3>Unregistering</h3>
+        <p>Always unregister commands when the owning object is disabled or destroyed to avoid dangling handlers.</p>
+        <pre><code class="language-csharp">private void OnEnable()
+{
+    DevConsoleAPI.Register("fx.enable", OnFxEnable);
+}
+
+private void OnDisable()
+{
+    DevConsoleAPI.Unregister("fx.enable");
+}</code></pre>
+        <p><code>Unregister</code> returns <code>true</code> if the command was found and removed, <code>false</code> if it didn't exist.</p>
+      </section>
+
+      <section id="api-access">
+        <h2>API Access</h2>
+        <p>Use <code>DevConsoleAPI</code> to execute commands from code — useful for cheat systems, automated tests, or custom UIs.</p>
+        <pre><code class="language-csharp">using DevConsolePro.Core;
+
+DevConsoleAPI.Execute("player.speed 20");
+DevConsoleAPI.Execute("game.setDifficulty Hard");</code></pre>
+        <p><code>DevConsoleAPI.Initialize()</code> is called automatically the first time you call <code>Execute()</code>. You can also call it explicitly at startup:</p>
+        <pre><code class="language-csharp">private void Awake()
+{
+    DevConsoleAPI.Initialize();
+}</code></pre>
+        <h3>OnCommandExecuted</h3>
+        <p>Subscribe to <code>DevConsoleAPI.OnCommandExecuted</code> to react after any command executes successfully. The event does <strong>not</strong> fire if the command throws an exception.</p>
+        <pre><code class="language-csharp">private void OnEnable()
+{
+    DevConsoleAPI.OnCommandExecuted += OnCommandRan;
+}
+
+private void OnDisable()
+{
+    DevConsoleAPI.OnCommandExecuted -= OnCommandRan;
+}
+
+private void OnCommandRan(string commandName, string[] args)
+{
+    string argsDisplay = args.Length > 0 ? string.Join(", ", args) : "none";
+    Debug.Log($"Executed '{commandName}' with args: {argsDisplay}");
+}</code></pre>
+        <p>Common uses: analytics tracking, CI test runners, achievement triggers.</p>
+      </section>
+
+      <section id="theming">
+        <h2>Theming</h2>
+        <p>Colours are controlled by a <strong>DevConsoleTheme</strong> ScriptableObject. Create one via <code>Assets → Create → DevConsolePro → Theme</code> and assign it to the <strong>Theme</strong> field on <code>DevConsoleUIRoot</code>.</p>
+        <p>Multiple themes can coexist — swap them at runtime with <code>DevConsoleThemeRuntime.SetTheme(theme)</code>.</p>
+        <table>
+          <thead><tr><th>Section</th><th>Field</th><th>Default</th><th>Affects</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="5"><strong>Input</strong></td><td>Argument Hint Color</td><td><code>#B5FF80</code></td><td>Ghost hint text (remaining params)</td></tr>
+            <tr><td>Typed Argument Color</td><td><code>#FFD180</code></td><td>General typed argument text</td></tr>
+            <tr><td>Number Argument Color</td><td><code>#FF6B6B</code></td><td>Integer / float arguments</td></tr>
+            <tr><td>Bool Argument Color</td><td><code>#7FDBFF</code></td><td><code>true</code> / <code>false</code> arguments</td></tr>
+            <tr><td>String Argument Color</td><td><code>#FFD180</code></td><td>Quoted string arguments</td></tr>
+            <tr><td rowspan="4"><strong>Suggestions</strong></td><td>Normal Background</td><td><code>#000000</code></td><td>Unselected suggestion row background</td></tr>
+            <tr><td>Selected Background</td><td><code>#000000</code> 85%</td><td>Highlighted suggestion row background</td></tr>
+            <tr><td>Normal Text</td><td><code>#FFFFFF</code></td><td>Unselected suggestion text</td></tr>
+            <tr><td>Selected Text</td><td><code>#FFFFFF</code></td><td>Highlighted suggestion text</td></tr>
+            <tr><td rowspan="5"><strong>Output</strong></td><td>Timestamp Color</td><td><code>#808080</code></td><td><code>[HH:mm:ss]</code> prefix</td></tr>
+            <tr><td>Command Echo Color</td><td><code>#7FDBFF</code></td><td><code>&gt; yourCommand</code> echo lines</td></tr>
+            <tr><td>Info Color</td><td><code>#7FEF66</code></td><td><code>Debug.Log</code> output</td></tr>
+            <tr><td>Warning Color</td><td><code>#F5C542</code></td><td><code>Debug.LogWarning</code> output</td></tr>
+            <tr><td>Error Color</td><td><code>#FF6B6B</code></td><td><code>Debug.LogError</code> output</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="log-service">
+        <h2>ConsoleLogService</h2>
+        <p>Provides programmatic access to the console output log.</p>
+        <pre><code class="language-csharp">using DevConsolePro.Core.Log;</code></pre>
+        <table>
+          <thead><tr><th>Member</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>ConsoleLogService.Entries</code></td><td><code>IReadOnlyList&lt;ConsoleLogEntry&gt;</code> — all current entries</td></tr>
+            <tr><td><code>ConsoleLogService.LogsChanged</code></td><td><code>event Action</code> — fires whenever entries are added</td></tr>
+            <tr><td><code>ConsoleLogService.Clear()</code></td><td>Clears all entries and fires <code>LogsChanged</code></td></tr>
+            <tr><td><code>ConsoleLogService.AddCommandEcho(string)</code></td><td>Adds a <code>&gt; command</code> echo line</td></tr>
+          </tbody>
+        </table>
+
+        <h3>ConsoleLogEntry fields</h3>
+        <table>
+          <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>Message</code></td><td><code>string</code></td><td>The log text</td></tr>
+            <tr><td><code>LogType</code></td><td><code>UnityEngine.LogType</code></td><td><code>Log</code>, <code>Warning</code>, <code>Error</code>, <code>Exception</code>, <code>Assert</code></td></tr>
+            <tr><td><code>Timestamp</code></td><td><code>DateTime</code></td><td>When the entry was recorded (UTC)</td></tr>
+            <tr><td><code>IsCommandEcho</code></td><td><code>bool</code></td><td><code>true</code> if this is a <code>&gt; command</code> echo line</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Example — mirror output to a custom UI</h3>
+        <pre><code class="language-csharp">private void OnEnable()
+{
+    ConsoleLogService.LogsChanged += RefreshUI;
+}
+
+private void OnDisable()
+{
+    ConsoleLogService.LogsChanged -= RefreshUI;
+}
+
+private void RefreshUI()
+{
+    foreach (ConsoleLogEntry entry in ConsoleLogService.Entries)
+        Debug.Log($"[{entry.Timestamp:HH:mm:ss}] {entry.Message}");
+}</code></pre>
+      </section>
+
+      <!-- ── Reference ── -->
+
+      <section id="attributes">
+        <h2>Attributes Reference</h2>
+
+        <h3>[DevConsole]</h3>
+        <p><strong>Target:</strong> Class &nbsp;·&nbsp; <strong>Namespace:</strong> <code>DevConsolePro</code></p>
+        <p>Marks a class as console-enabled and sets the prefix for all its commands and variables.</p>
+        <pre><code class="language-csharp">[DevConsole("prefix")]
+public class MyClass : MonoBehaviour { }</code></pre>
+        <table>
+          <thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>prefix</code></td><td><code>string</code></td><td>Prefix prepended to all member names. E.g. <code>"player"</code> → <code>player.speed</code></td></tr>
+          </tbody>
+        </table>
+
+        <h3>[ConsoleCommand]</h3>
+        <p><strong>Target:</strong> Public method &nbsp;·&nbsp; <strong>Namespace:</strong> <code>DevConsolePro</code></p>
+        <pre><code class="language-csharp">// Simple
+[ConsoleCommand("Description")]
+public void MyMethod(float value) { }
+
+// With shortcut
+[ConsoleCommand("Description", shortcut: "sc")]
+public void MyMethod(float value) { }
+
+// Explicit prefix and aliases
+[ConsoleCommand("myprefix", "Description", "alias1", "alias2")]
+public void MyMethod() { }</code></pre>
+        <table>
+          <thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>description</code></td><td><code>string</code></td><td>Shown in help / autocomplete</td></tr>
+            <tr><td><code>shortcut</code></td><td><code>string</code></td><td>Single shortcut alias (overload 1 only)</td></tr>
+            <tr><td><code>prefix</code></td><td><code>string</code></td><td>Overrides the class-level <code>[DevConsole]</code> prefix (overload 2)</td></tr>
+            <tr><td><code>aliases</code></td><td><code>params string[]</code></td><td>Additional names the command responds to (overload 2)</td></tr>
+          </tbody>
+        </table>
+
+        <h3>[ConsoleVariable]</h3>
+        <p><strong>Target:</strong> Public field or property &nbsp;·&nbsp; <strong>Namespace:</strong> <code>DevConsolePro</code></p>
+        <pre><code class="language-csharp">// Simple
+[ConsoleVariable("Movement speed")]
+public float speed = 5f;
+
+// Explicit prefix and aliases
+[ConsoleVariable("myprefix", "Movement speed", "spd", "velocity")]
+public float speed = 5f;</code></pre>
+
+        <h3>[ConsoleIgnore]</h3>
+        <p><strong>Target:</strong> Field, property, or method &nbsp;·&nbsp; <strong>Namespace:</strong> <code>DevConsolePro</code></p>
+        <p>Excludes a member from registration even when its class carries <code>[DevConsole]</code>. No parameters.</p>
+
+        <h3>Naming summary</h3>
+        <table>
+          <thead><tr><th>Scenario</th><th>Resulting name</th></tr></thead>
+          <tbody>
+            <tr><td><code>[DevConsole("player")]</code> on class + field <code>Health</code></td><td><code>player.health</code></td></tr>
+            <tr><td><code>[DevConsole("player")]</code> on class + method <code>SetSpeed</code></td><td><code>player.setSpeed</code></td></tr>
+            <tr><td><code>[ConsoleCommand("ui")]</code> overriding class prefix, method <code>Toggle</code></td><td><code>ui.toggle</code></td></tr>
+            <tr><td>No class prefix, method <code>Reload</code></td><td><code>reload</code></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="changelog">
+        <h2>Changelog</h2>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.3.0 <span class="changelog-date">2026-04-09</span></p>
+
+          <p class="changelog-group-label">Added</p>
+          <ul>
+            <li>Log filter toolbar — Log / Warning / Error toggle buttons above the output; all three can be toggled independently including all-off</li>
+            <li>Per-type log text colors — tag and message body each have their own color per log type, configurable via <code>DevConsoleTheme</code></li>
+            <li>Smart auto-scroll — output only snaps to bottom when already near the bottom; preserves scroll position while reading history</li>
+            <li><code>DevConsoleProExample</code> — single racing-car themed example covering attributes, runtime registration, enums, <code>ConsoleArgs</code>, <code>ConsoleTextTable</code>, and <code>ConsoleIgnore</code></li>
+          </ul>
+
+          <p class="changelog-group-label">Changed</p>
+          <ul>
+            <li>Fast Enter Play Mode support — <code>DevConsoleAPI</code> and <code>ConsoleLogService</code> now reset static state via <code>[RuntimeInitializeOnLoadMethod(SubsystemRegistration)]</code>, preventing stale state on second Play session</li>
+            <li><code>ReflectedConsoleCommand</code> — <code>GetParameters()</code> called once in constructor instead of twice</li>
+            <li><code>ConsoleArgumentHintService</code> — <code>s_tokenDelimiters</code> extracted to <code>static readonly char[]</code>, eliminates per-call array allocation on cache miss</li>
+            <li><code>ConsoleInputSanitizer</code> — three <code>TrimEnd()</code> branches consolidated into one</li>
+            <li><code>ConsoleTextTable</code> — full XML documentation added to all public methods</li>
+            <li><code>ReflectedConsoleCommand</code> — default description changed from literal <code>"&lt;none&gt;"</code> to <code>string.Empty</code></li>
+          </ul>
+
+          <p class="changelog-group-label">Fixed</p>
+          <ul>
+            <li>Suggestion items not clickable with mouse — clicking a suggestion now commits it to the input field instead of only highlighting it</li>
+            <li><code>DevConsolePro.Editor.asmdef</code> — now correctly references the runtime assembly and restricts to Editor platform</li>
+          </ul>
+        </div>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.2.0 <span class="changelog-date">2026-03-30</span></p>
+
+          <p class="changelog-group-label">Added</p>
+          <ul>
+            <li><code>Register&lt;T1, T2, T3, T4&gt;</code> — typed four-argument overload for runtime command registration</li>
+            <li><code>Register(string, Delegate)</code> — escape hatch for 5+ argument commands; reflects parameter types automatically</li>
+            <li><code>ConsoleRegistry.CommandNames</code> — pre-built sorted name list, eliminates per-keypress LINQ allocation</li>
+            <li><code>ConsoleRegistry.CommandSegments</code> — pre-split dot-segments parallel to <code>CommandNames</code>, used by suggestion system</li>
+            <li>Name validated at registration — <code>null</code> or whitespace name throws <code>ArgumentException</code> immediately</li>
+            <li>Parameter types validated at registration via <code>ConsoleArgConverter.AssertSupported</code></li>
+          </ul>
+
+          <p class="changelog-group-label">Changed</p>
+          <ul>
+            <li><code>DevConsoleAPI</code> internal structure refactored — shared <code>RegisterTyped</code> core helper eliminates repeated logic across all typed overloads</li>
+            <li><code>DevConsoleAPI.Register(IConsoleCommand)</code> now uses bubble-insert to maintain sorted order</li>
+            <li><code>ConsoleLogEntry.Timestamp</code> is now <code>DateTime.UtcNow</code> — avoids per-log local timezone lookup</li>
+            <li><code>DevConsoleOutputView</code> — incremental append: only new log entries are instantiated; full rebuild only on first open or after <code>Clear()</code></li>
+            <li><code>DevConsoleSuggestionView</code> — fixed item pool: suggestion rows are rebound in place instead of destroyed and re-instantiated on every keypress</li>
+            <li><code>ConsoleSuggestionService</code> — pre-built <code>CommandSegments</code> replaces per-call <code>Split('.')</code>; removed <code>Select + Distinct + ToList</code> LINQ chain on every keypress</li>
+            <li><code>ConsoleArgumentHintService</code> — usage string tokenized once and cached per command</li>
+            <li><code>ConsoleSuggestionService.GetTypeSuggestions</code> — enum name lists sorted and cached per type; <code>bool</code> suggestions use a static readonly list</li>
+            <li><code>ConsoleRegistry.GetMergedAliases</code> — deduplication now uses <code>HashSet</code> instead of O(n²) inner loop</li>
+            <li><code>ReflectedConsoleVariable</code> — removed duplicate private methods that were full copies of <code>ConsoleArgConverter</code> equivalents</li>
+          </ul>
+        </div>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.1.0 <span class="changelog-date">2026-03-22</span></p>
+
+          <p class="changelog-group-label">Added</p>
+          <ul>
+            <li><code>DevConsoleAPI.Register</code> — runtime command registration without attributes</li>
+            <li>Typed overloads: <code>Register&lt;T&gt;</code>, <code>Register&lt;T1,T2&gt;</code>, <code>Register&lt;T1,T2,T3&gt;</code> with automatic ghost hints</li>
+            <li><code>DevConsoleAPI.Unregister(string)</code> — removes a command at runtime, returns <code>bool</code></li>
+            <li><code>DevConsoleAPI.OnCommandExecuted</code> — event fired after every successful command execution</li>
+            <li><code>ConsoleArgConverter</code> — shared conversion utility used by both reflected and delegate command paths</li>
+            <li><code>RuntimeRegistrationExample</code> — demonstrates Register, Unregister, and OnCommandExecuted</li>
+          </ul>
+
+          <p class="changelog-group-label">Changed</p>
+          <ul>
+            <li><code>ConsoleRegistry</code> now accepts <code>IConsoleCommand</code> directly via <code>Register(IConsoleCommand)</code></li>
+          </ul>
+        </div>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.0.0 <span class="changelog-date">2026-03-21</span></p>
+
+          <p class="changelog-group-label">Added</p>
+          <ul>
+            <li>Initial command registration and execution pipeline with reflection-based command discovery</li>
+            <li>Input sanitization, parsing, and command history navigation</li>
+            <li>Context-aware suggestion system with segmented command support (<code>group.command</code>)</li>
+            <li>Keyboard navigation (↑ ↓), Tab commit, mouse interaction, and default no-selection state</li>
+            <li>Runtime console UI — TMP input, suggestion dropdown, output log, input ghost hints</li>
+            <li>Support for <code>[DevConsole]</code>, <code>[ConsoleCommand]</code>, and <code>[ConsoleVariable]</code> attributes</li>
+            <li>Modular assembly structure: <code>DevConsolePro</code>, <code>DevConsolePro.Tests</code></li>
+          </ul>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <script src="../js/layout.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="../js/docs.js"></script>
+</body>
+</html>

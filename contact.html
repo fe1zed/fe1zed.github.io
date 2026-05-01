@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — fe1zed</title>
+  <meta name="description" content="Get in touch with fe1zed." />
+  <meta property="og:title" content="Contact — fe1zed" />
+  <meta property="og:description" content="Have a question about one of my assets, found a bug, or want to suggest a feature? Get in touch." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fe1zed.github.io/contact.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Contact — fe1zed" />
+  <meta name="twitter:description" content="Have a question about one of my assets, found a bug, or want to suggest a feature? Get in touch." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <main class="contact-main">
+    <div class="contact-wrap">
+
+      <div class="contact-intro">
+        <p class="section-label">Contact</p>
+        <h1 class="contact-heading">Get in touch</h1>
+        <p class="contact-text">
+          Have a question about one of my assets, found a bug, or want to suggest a feature?
+          I read every message and try to reply within a couple of days.
+        </p>
+        <p class="contact-text">
+          You can also reach me directly through the
+          <a href="https://assetstore.unity.com/publishers/128954" target="_blank" rel="noopener">Unity Asset Store</a>
+          publisher page, or find me on
+          <a href="https://github.com/fe1zed" target="_blank" rel="noopener">GitHub</a> and
+          <a href="https://youtube.com/@fe1ze9" target="_blank" rel="noopener">YouTube</a>.
+        </p>
+      </div>
+
+      <form
+        class="contact-form"
+        action="https://formspree.io/f/mbdwrajl"
+        method="POST"
+      >
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="Bug report, question, feedback…" />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="6" placeholder="Write your message here…" required></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send message</button>
+        <p class="form-success" id="form-success">Message sent — I'll get back to you soon.</p>
+        <p class="form-error" id="form-error">Something went wrong. Please try again.</p>
+      </form>
+
+    </div>
+  </main>
+
+  <script src="js/layout.js"></script>
+  <script>
+    const form = document.querySelector('.contact-form');
+    const success = document.getElementById('form-success');
+    const error = document.getElementById('form-error');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('.form-submit');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      success.style.display = 'none';
+      error.style.display = 'none';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          form.reset();
+          success.style.display = 'block';
+          btn.textContent = 'Send message';
+        } else {
+          error.style.display = 'block';
+          btn.textContent = 'Send message';
+        }
+      } catch {
+        error.style.display = 'block';
+        btn.textContent = 'Send message';
+      }
+
+      btn.disabled = false;
+    });
+  </script>
+</body>
+</html>

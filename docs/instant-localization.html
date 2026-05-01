@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instant Localization — Docs</title>
+  <meta name="description" content="Documentation for Instant Localization — CSV-based localization for Unity with editor tooling, QA checker, and auto-translate pipeline." />
+  <meta property="og:title" content="Instant Localization — Docs" />
+  <meta property="og:description" content="CSV-based localization for Unity. Define strings in a spreadsheet, QA check, and ship with auto-translate via DeepL and Azure Translate." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://fe1zed.github.io/docs/instant-localization.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <div class="docs-layout">
+
+    <aside class="docs-sidebar">
+      <div class="docs-sidebar-header">
+        <a href="../asset.html?id=instant-localization" class="docs-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Instant Localization
+        </a>
+      </div>
+      <nav class="docs-nav">
+        <div class="docs-nav-group">
+          <span class="docs-nav-label">Getting Started</span>
+          <a href="#requirements">Requirements</a>
+          <a href="#project-setup">Project Setup</a>
+          <a href="#localizetext">LocalizeText Component</a>
+        </div>
+        <div class="docs-nav-group">
+          <span class="docs-nav-label">Guide</span>
+          <a href="#key-selector">Key Selector Window</a>
+          <a href="#managing-keys">Managing Keys</a>
+          <a href="#runtime-switch">Switching Languages</a>
+          <a href="#code-api">Localize via Code</a>
+          <a href="#auto-translate">Auto-Translate</a>
+        </div>
+        <div class="docs-nav-group">
+          <span class="docs-nav-label">Reference</span>
+          <a href="#script-reference">Script Reference</a>
+          <a href="#editor-tools">Editor Tools Menu</a>
+          <a href="#best-practices">Best Practices</a>
+          <a href="#troubleshooting">Troubleshooting</a>
+          <a href="#technical-notes">Technical Notes</a>
+          <a href="#changelog">Changelog</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-content">
+
+      <div class="docs-hero">
+        <div class="docs-hero-tags"><span class="tag">Translator</span><span class="tag">Editor</span></div>
+        <h1>Instant Localization - Documentation</h1>
+        <p class="docs-hero-sub">v1.2.3 | Unity 2021.3+</p>
+      </div>
+
+      <section id="requirements">
+        <h2>Requirements</h2>
+        <ul>
+          <li>Unity <strong>2021.3 LTS</strong> or newer (recommended)</li>
+          <li><strong>TextMeshPro</strong> package (required for <code>TextMeshProUGUI</code>)</li>
+          <li>Localization CSV files saved as <strong>UTF-8</strong></li>
+        </ul>
+        <p>The Instant Localization asset provides a quick and efficient way to add multilingual support to your Unity project, primarily targeting <strong>TextMeshProUGUI</strong> components. The system relies on CSV files stored in the <a class="link-animated" style="color: white" href="https://docs.unity3d.com/6000.4/Documentation/Manual/assets-resources-system.html">Resources</a> folder and enables static method calls for language management.</p>
+        <ul>
+          <li>CSV-based localization supporting multiple languages</li>
+          <li>Runtime language switching with automatic UI refresh</li>
+          <li>TextMeshPro integration via <code>LocalizeText</code> component</li>
+          <li>Localization Key Selector Window with search and filtering</li>
+          <li>Built-in Favorites system</li>
+          <li>Real-time key management across language files</li>
+          <li>AI-powered Auto-Translate Window (<a class="link-animated" style="color: white" href="https://www.deepl.com/en">DeepL</a> &amp; <a class="link-animated" style="color: white" href="https://portal.azure.com/#home">Azure</a>)</li>
+          <li>Translation preview and caching</li>
+        </ul>
+      </section>
+
+      <section id="project-setup">
+        <h2>Project Setup</h2>
+        <ol>
+          <li>Import the <strong>TextMeshPro</strong> package into your project</li>
+          <li>Navigate to <code>Assets/Instant Localization</code> and locate the Resources folder (create if missing)</li>
+          <li>Place your CSV language files directly into <code>Assets/Instant Localization/Resources/</code></li>
+        </ol>
+        <p>The filename (without the <code>.csv</code> extension) is used as the <strong>language code</strong> when switching languages:</p>
+        <ul>
+          <li><code>English.csv</code> → language code <code>"English"</code></li>
+          <li><code>German.csv</code> → language code <code>"German"</code></li>
+          <li><code>Spanish.csv</code> → language code <code>"Spanish"</code></li>
+        </ul>
+        <p>Every CSV file must have a header row followed by key/value pairs. Keys must be single identifiers without spaces:</p>
+        <pre><code class="language-plaintext">key,text
+examine,Examine
+save_game,Save Game
+gamepadSensitivity,Gamepad Sensitivity
+example_complex,{0}, your character is level {1}. You have {2} skill points and your current quest is: {3}.</code></pre>
+        <p class="docs-note">Keys must be identical across all language files. The system returns the key itself as a fallback if a translation is missing.</p>
+      </section>
+
+      <section id="localizetext">
+        <h2>LocalizeText Component</h2>
+        <p>To localize a UI text element:</p>
+        <ol>
+          <li>Create a UI Text object with a <strong>TextMeshProUGUI</strong> component</li>
+          <li>Add the <strong>LocalizeText</strong> script to the same GameObject</li>
+          <li>Set the key in the Inspector using the <strong>Localized Text ID</strong> field</li>
+        </ol>
+        <p>You can assign a key two ways:</p>
+        <ul>
+          <li>Click the <strong>Search</strong> button to open the Key Selector Window and pick a key visually</li>
+          <li>Type a key manually — it must exist in the CSV files</li>
+        </ul>
+        <p>The component automatically looks up the key for the currently active language and displays the corresponding text. It subscribes to <code>LocalizationSystem.OnLanguageChanged</code> and refreshes instantly — in both Editor and runtime — whenever the language changes.</p>
+      </section>
+
+      <section id="key-selector">
+        <h2>Key Selector Window</h2>
+        <p>Open the window from the menu or via shortcut:</p>
+        <pre><code class="language-plaintext">Tools → Localization → Open Localization Window  // Shortcut [Ctrl+Shift+T]</code></pre>
+        <p>Or click the <strong>Search</strong> button inside any <code>LocalizeText</code> component in the Inspector.</p>
+        <p><strong>Language Selection</strong> — switch the preview language via the dropdown to see translations side by side.</p>
+        <p><strong>Search &amp; Filter</strong> — filter keys by name or value; matching text is highlighted. Toggle <strong>Sort A–Z</strong> for alphabetical ordering. The CSV button opens the current file in your default app.</p>
+        <p><strong>Favorites</strong> — click the star icon next to any key to mark it as a favourite. Favourites always appear at the top of the list and persist via a <a class="link-animated" style="color: white" href="https://docs.unity3d.com/6000.4/Documentation/Manual/class-ScriptableObject.html">ScriptableObject</a> at <code>Assets/Instant Localization/Data/InstantLocalizationFavorites.asset</code>.</p>
+        <p><strong>Selecting a key:</strong></p>
+        <ul>
+          <li>Single-click to select and preview</li>
+          <li>Double-click to apply the key and close the window</li>
+          <li>Click <strong>Select</strong> to apply without closing</li>
+        </ul>
+      </section>
+
+      <section id="managing-keys">
+        <h2>Managing Keys</h2>
+        <p>All key operations update <strong>every language file simultaneously</strong> — no need to edit CSVs by hand.</p>
+        <p><strong>Adding a new key:</strong></p>
+        <ol>
+          <li>Click <strong>Add New</strong></li>
+          <li>Enter the key name and translations for each language</li>
+          <li>Click <strong>Create</strong> — the key is added to all CSV files</li>
+        </ol>
+        <p><strong>Editing a key:</strong></p>
+        <ol>
+          <li>Select the key from the list</li>
+          <li>Click <strong>Edit</strong></li>
+          <li>Modify translations for any language</li>
+          <li>Click <strong>Save</strong></li>
+        </ol>
+        <p><strong>Deleting a key:</strong></p>
+        <ol>
+          <li>Select the key from the list</li>
+          <li>Click <strong>Delete</strong> and confirm — removes from all CSV files</li>
+        </ol>
+        <p class="docs-note">Manage keys through the Key Selector Window rather than editing CSV files directly. This ensures consistency across all language files and prevents mismatched entries.</p>
+      </section>
+
+      <section id="runtime-switch">
+        <h2>Switching Languages at Runtime</h2>
+        <p>The active language for the entire application is controlled by the static <code>LocalizationSystem</code> class. Call <code>SetLanguage</code> with a language code that matches a CSV filename:</p>
+        <pre><code class="language-csharp">// Switches to Spanish — loads 'Spanish.csv' and updates all UI texts.
+fe1zed.InstantLocalization.LocalizationSystem.SetLanguage("Spanish");</code></pre>
+        <p>All <code>LocalizeText</code> components refresh automatically. You can also read the current language:</p>
+        <pre><code class="language-csharp">string current = fe1zed.InstantLocalization.LocalizationSystem.Language;</code></pre>
+      </section>
+
+      <section id="code-api">
+        <h2>Localize via Code</h2>
+        <p>Use <code>GetLocalisedValue</code> for dynamic or formatted text. The method supports string interpolation via ordered placeholders — the first argument replaces <code>{0}</code>, the second replaces <code>{1}</code>, and so on.</p>
+        <p>The package includes a fully commented example at <code>Assets/Instant Localization/Example/Example.cs</code>:</p>
+        <pre><code class="language-csharp">using UnityEngine;
+using TMPro;
+
+namespace fe1zed.InstantLocalization
+{
+    [RequireComponent(typeof(TextMeshProUGUI))]
+    // [ExecuteAlways] // uncomment to preview directly in Editor
+    public class Example : MonoBehaviour
+    {
+        private TextMeshProUGUI textMeshProUGUI;
+
+        private string player = "fe1zed";
+        private int level = 999;
+        private int skillPoints = 100;
+        private string quest = "Make coding easier!";
+
+        private string[] languages = { "English", "French", "German", "Russian", "Spanish" };
+        private int selectedLanguageIndex = 0;
+
+        // Subscribe to language updates
+        private void OnEnable()  => LocalizationSystem.OnLanguageChanged += OnLanguageChanged;
+        private void OnDisable() => LocalizationSystem.OnLanguageChanged -= OnLanguageChanged;
+
+        private void OnLanguageChanged() => SetLocalizedText();
+
+        private void SetLocalizedText()
+        {
+            if (textMeshProUGUI == null) textMeshProUGUI = GetComponent&lt;TextMeshProUGUI&gt;();
+
+            // Example 1 — built-in interpolation
+            // CSV key: example_complex,{0}, your character is level {1}. You have {2} skill points and your current quest is: {3}.
+            textMeshProUGUI.text = LocalizationSystem.GetLocalisedValue("example_complex",
+                player,      // {0}
+                level,       // {1}
+                skillPoints, // {2}
+                quest        // {3}
+            );
+
+            // Example 2 — standard string interpolation
+            // textMeshProUGUI.text = $"{LocalizationSystem.GetLocalisedValue("save_game")} | Yes/No";
+        }
+
+        private void Update()
+        {
+            // Space: increment level and refresh text
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                level++;
+                SetLocalizedText();
+            }
+
+            // L: cycle through languages
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                LocalizationSystem.SetLanguage(languages[selectedLanguageIndex]);
+                selectedLanguageIndex = (selectedLanguageIndex + 1) % languages.Length;
+            }
+        }
+    }
+}</code></pre>
+        <p>If a key has missing arguments the output returns the unmodified value. If a key is missing entirely, the key string itself is returned as fallback.</p>
+      </section>
+
+      <section id="auto-translate">
+        <h2>Auto-Translate</h2>
+        <p>The Auto-Translate window generates translations using external API providers. Open it from:</p>
+        <pre><code class="language-plaintext">Tools → Localization → Auto Translate    (Ctrl+Alt+A)</code></pre>
+        <p><strong>Usage:</strong></p>
+        <ol>
+          <li>Select the source language file</li>
+          <li>Select the target language file</li>
+          <li>Choose a translation provider and enter your API key</li>
+          <li>Click <strong>Generate</strong> — translations are previewed before being applied</li>
+          <li>Review results, then click <strong>Apply</strong> to write to the CSV</li>
+        </ol>
+        <p>Supported providers:</p>
+        <ul>
+          <li><strong><a class="link-animated" style="color: white" href="https://www.deepl.com/en">DeepL</a></strong> — requires a DeepL API key</li>
+          <li><strong><a class="link-animated" style="color: white" href="https://portal.azure.com/#home">Microsoft Azure Translator</a></strong> — requires an Azure API key and region</li>
+        </ul>
+        <p>Only localization values are translated — keys remain unchanged. Existing translations can be preserved or overwritten. Large datasets are processed in batches to comply with provider rate limits.</p>
+        <p class="docs-note">API keys are not included. An active internet connection is required. Always review generated translations before shipping — automated translations may contain errors.</p>
+      </section>
+
+      <section id="script-reference">
+        <h2>Script Reference</h2>
+
+        <h3>LocalizationSystem</h3>
+        <p>Namespace: <code>fe1zed.InstantLocalization</code> — static class, central API for all language state management.</p>
+        <pre><code class="language-csharp">// Property — currently loaded language code
+public static string Language { get; private set; }
+
+// Event — fires whenever a new language loads
+public static event Action OnLanguageChanged;
+
+// Load a language by code (must match CSV filename)
+public static void SetLanguage(string languageCode);
+
+// Get a translated string for the current language
+public static string GetLocalisedValue(string key);
+
+// Reload the current language from CSV (useful after manual edits)
+public static void ReloadLanguage();
+
+// Force all LocalizeText components to refresh
+public static void UpdateTexts();</code></pre>
+
+        <h3>LocalizeText</h3>
+        <p>Namespace: <code>fe1zed.InstantLocalization</code> — MonoBehaviour, attach to any GameObject that has a <code>TextMeshProUGUI</code> component.</p>
+        <pre><code class="language-csharp">// The key used to look up text in the active language CSV
+public string localizedTextID;</code></pre>
+        <p>Automatically subscribes to <code>OnLanguageChanged</code> in <code>OnEnable</code> and unsubscribes in <code>OnDisable</code>. Updates the attached <code>TextMeshProUGUI</code> whenever the language changes, both in the Editor and at runtime.</p>
+      </section>
+
+      <section id="editor-tools">
+        <h2>Editor Tools Menu</h2>
+        <p>All tools are located under <code>Tools → Localization</code>:</p>
+        <ul>
+          <li><strong>Open Localization Window</strong> <code>Ctrl+Shift+T</code> — opens the Key Selector Window</li>
+          <li><strong>Update Texts</strong> — forces all <code>LocalizeText</code> components to refresh; useful after manual CSV edits</li>
+          <li><strong>Auto Translate</strong> <code>Ctrl+Alt+A</code> — opens the Auto-Translate Window</li>
+        </ul>
+        <p class="docs-note">The Key Selector Window, CSV Manager, Favorites system, and Auto-Translate Window are Editor-only and are not included in builds.</p>
+      </section>
+
+      <section id="best-practices">
+        <h2>Best Practices</h2>
+        <ul>
+          <li><strong>Use the Editor Window</strong> — manage keys through the Key Selector Window instead of manually editing CSV files to ensure consistency across all language files.</li>
+          <li><strong>Use Favourites</strong> — mark frequently used keys (common UI labels, buttons) as favourites to speed up selection.</li>
+          <li><strong>Consistent naming</strong> — use structured key names like <code>ui_button_start</code> or <code>menu_settings_title</code>. Consistent naming improves maintainability as the project grows.</li>
+          <li><strong>Test language switching frequently</strong> — regularly switch languages during Play Mode to verify all components update correctly and no keys are missing.</li>
+          <li><strong>Review auto-translations</strong> — always review machine-generated translations for accuracy and context before release.</li>
+          <li><strong>Back up CSV files</strong> — keep backups before performing bulk edits or automated operations.</li>
+          <li><strong>Test in builds</strong> — localization files are accessed differently in the Editor (direct file access) vs runtime (<code>Resources.Load</code>). Always test in a built player.</li>
+          <li><strong>Keep CSVs clean</strong> — use UTF-8 encoding and avoid duplicate keys, malformed rows, or unintended formatting changes from spreadsheet software.</li>
+        </ul>
+      </section>
+
+      <section id="troubleshooting">
+        <h2>Troubleshooting</h2>
+        <ul>
+          <li><strong>Text doesn't update when switching languages</strong> — ensure <code>LocalizeText</code> is attached; the key exists in all CSV files; use <code>Tools → Localization → Update Texts</code> to force a refresh.</li>
+          <li><strong>CSV file not found</strong> — verify the file is in <code>Assets/Instant Localization/Resources/</code> and the filename matches the language code being loaded.</li>
+          <li><strong>Favourites not persisting</strong> — check that <code>Assets/Instant Localization/Data/InstantLocalizationFavorites.asset</code> exists; it is auto-created on first use.</li>
+          <li><strong>Keys appear as the key string</strong> — the key exists in one language file but not others; use <strong>Edit</strong> in the Key Selector Window to add the missing translations.</li>
+          <li><strong>Auto-Translate empty or incomplete results</strong> — verify your API key is valid, the provider is reachable, your internet connection is active, and check quota or billing limits.</li>
+          <li><strong>DeepL AuthenticationFailed despite valid key</strong> — ensure the key uses header-based authorization (<code>Authorization: DeepL-Auth-Key</code>); legacy form-body auth is deprecated.</li>
+        </ul>
+      </section>
+
+      <section id="technical-notes">
+        <h2>Technical Notes</h2>
+        <ul>
+          <li><strong>Performance</strong> — CSV files are loaded once when the language is set. Runtime lookups use <code>Dictionary&lt;string, string&gt;</code> for O(1) performance.</li>
+          <li><strong>Thread safety</strong> — the system is not thread-safe. Always call methods from the main Unity thread.</li>
+          <li><strong>File encoding</strong> — CSV files must be UTF-8 encoded to support special characters and non-Latin alphabets.</li>
+          <li><strong>Editor vs runtime</strong> — Editor tools access CSV files directly from the project folder; at runtime the system uses <code>Resources.Load</code>. Always test localization in a built player.</li>
+        </ul>
+      </section>
+
+      <section id="changelog">
+        <h2>Changelog</h2>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.2.3 <span class="changelog-date">2026-02-24</span></p>
+          <ul>
+            <li>Added public website documentation page with full setup guide and script reference</li>
+            <li>Updated documentation structure — single package README with online docs as source of truth</li>
+          </ul>
+        </div>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.2.2 <span class="changelog-date">2026-02-08</span></p>
+          <ul>
+            <li>Updated DeepL provider to use header-based authorization (<code>Authorization: DeepL-Auth-Key</code>) following DeepL's deprecation of legacy form-body auth</li>
+            <li>Fixed AuthenticationFailed errors occurring despite valid DeepL API keys</li>
+            <li>Prevented empty or invalid DeepL responses from being cached as valid results</li>
+            <li>Improved Azure provider validation to properly detect and report empty responses</li>
+          </ul>
+        </div>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.2.1 <span class="changelog-date">2026-02-07</span></p>
+          <ul>
+            <li>Fixed CSV corruption where translated files could start with duplicated <code>key,</code> header rows</li>
+            <li>Prevented Auto-Translate from treating data rows as header rows</li>
+            <li>Clarified Auto-Translate end-to-end flow: CSV → policies → provider → preview → apply</li>
+          </ul>
+        </div>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.2.0 <span class="changelog-date">2025-12-14</span></p>
+          <ul>
+            <li>Introduced the Auto-Translate Window (DeepL &amp; Azure support)</li>
+            <li>Batch processing to comply with provider rate limits</li>
+            <li>Translation preview before applying changes to CSV</li>
+            <li>Options to preserve or overwrite existing translations</li>
+          </ul>
+        </div>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.1.1 <span class="changelog-date">2025-11-30</span></p>
+          <ul>
+            <li><code>LocalizeText</code> now updates instantly when changing the key in the Inspector (via <code>OnValidate()</code> + <code>[ExecuteAlways]</code>)</li>
+            <li>Confirmed runtime localization loads correctly via <code>RuntimeInitializeOnLoadMethod</code></li>
+            <li>Separated Editor-only code using <code>#if UNITY_EDITOR</code></li>
+          </ul>
+        </div>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.1.0 <span class="changelog-date">2025-11-27</span></p>
+          <ul>
+            <li>Fully reworked Key Selector Window with modular architecture</li>
+            <li>Virtualised list rendering for large CSV files — major performance improvement</li>
+            <li>Favourite keys always appear at the top; saved persistently via ScriptableObject</li>
+            <li>Improved search — results sorted by match position</li>
+            <li>Fixed ArgumentException errors when quickly searching in large lists</li>
+          </ul>
+        </div>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.0.2 <span class="changelog-date">2025-10-14</span></p>
+          <ul>
+            <li>Added <code>LocalizeText</code> component with auto-update via <code>OnLanguageChanged</code></li>
+            <li>Added Editor menu items: <strong>Open Localization Window</strong> and <strong>Update Texts</strong></li>
+            <li>Added search text highlighting inside list items</li>
+            <li>Missing translations now display the key as fallback</li>
+          </ul>
+        </div>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.0.1 <span class="changelog-date">2025-08-21</span></p>
+          <ul>
+            <li>Introduced <code>LocalizationSystem</code> with public API: <code>SetLanguage()</code>, <code>GetLocalisedValue()</code>, <code>OnLanguageChanged</code>, <code>Language</code></li>
+            <li>Automatic CSV loading from Resources folder</li>
+            <li>Initial version of the Key Selector Window</li>
+          </ul>
+        </div>
+
+        <div class="changelog-entry">
+          <p class="changelog-version">v1.0.0 <span class="changelog-date">2025-06-01</span></p>
+          <ul>
+            <li>Initial release</li>
+            <li>CSV-based localization with TextMeshPro support</li>
+            <li>First prototype of the Editor Localization Window</li>
+          </ul>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <script src="../js/layout.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="../js/docs.js"></script>
+</body>
+</html>
