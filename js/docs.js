@@ -26,7 +26,6 @@
           btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
         }, 1800);
       }).catch(() => {
-        // Fallback: select text
         const range = document.createRange();
         range.selectNodeContents(code || pre);
         const sel = window.getSelection();
@@ -35,6 +34,46 @@
       });
     });
   });
+
+  // ── Latest release in #changelog section ──
+  const clSection = document.getElementById("changelog");
+  const backLink  = document.querySelector(".docs-back");
+
+  if (clSection && backLink && typeof ASSETS !== "undefined") {
+    const assetId = new URLSearchParams(new URL(backLink.href).search).get("id");
+    const asset   = assetId ? ASSETS.find((a) => a.id === assetId) : null;
+
+    if (asset && asset.changelog && asset.changelog.length) {
+      const sorted = asset.changelog.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+      const latest = sorted[0];
+      const total  = sorted.length;
+
+      const dateStr = new Date(latest.date).toLocaleDateString("en-US", {
+        year: "numeric", month: "long", day: "numeric",
+      });
+
+      function group(label, arr) {
+        if (!arr || !arr.length) return "";
+        return `<p class="changelog-group-label">${label}</p>
+          <ul>${arr.map((i) => `<li>${i}</li>`).join("")}</ul>`;
+      }
+
+      const body = (latest.added || latest.changed || latest.fixed)
+        ? group("Added", latest.added) + group("Changed", latest.changed) + group("Fixed", latest.fixed)
+        : `<ul>${(latest.items || []).map((i) => `<li>${i}</li>`).join("")}</ul>`;
+
+      clSection.innerHTML = `
+        <h2>Changelog</h2>
+        <div class="changelog-entry">
+          <p class="changelog-version">v${latest.version} <span class="changelog-date">${dateStr}</span></p>
+          ${body}
+        </div>
+        <a class="docs-cl-all-link" href="../changelog.html?id=${assetId}">
+          View all ${total} releases
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>`;
+    }
+  }
 
   // ── Scroll spy ──
   const navLinks = Array.from(document.querySelectorAll(".docs-nav a[href^='#']"));
@@ -46,13 +85,10 @@
     .filter(Boolean);
 
   function getActiveId() {
-    const threshold = 130; // px from top — section becomes "active"
+    const threshold = 130;
     let activeId = sections[0] ? sections[0].id : null;
     for (const sec of sections) {
-      const top = sec.getBoundingClientRect().top;
-      if (top <= threshold) {
-        activeId = sec.id;
-      }
+      if (sec.getBoundingClientRect().top <= threshold) activeId = sec.id;
     }
     return activeId;
   }
@@ -65,19 +101,12 @@
   }
 
   let ticking = false;
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          updateSpy();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    },
-    { passive: true }
-  );
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      requestAnimationFrame(() => { updateSpy(); ticking = false; });
+      ticking = true;
+    }
+  }, { passive: true });
 
   updateSpy();
 })();

@@ -29,6 +29,73 @@ const ASSETS = [
     version: "1.3.0",
     unity: "2020.3+",
     docsPage: "docs/dev-console-pro.html",
+    changelog: [
+      {
+        version: "1.3.0", date: "2026-04-09",
+        added: [
+          "Log filter toolbar — Log / Warning / Error toggle buttons above the output; all three can be toggled independently including all-off",
+          "Per-type log text colors — tag and message body each have their own color per log type, configurable via <code>DevConsoleTheme</code>",
+          "Smart auto-scroll — output only snaps to bottom when already near the bottom; preserves scroll position while reading history",
+          "<code>DevConsoleProExample</code> — single racing-car themed example covering attributes, runtime registration, enums, <code>ConsoleArgs</code>, <code>ConsoleTextTable</code>, and <code>ConsoleIgnore</code>",
+        ],
+        changed: [
+          "Fast Enter Play Mode support — <code>DevConsoleAPI</code> and <code>ConsoleLogService</code> now reset static state via <code>[RuntimeInitializeOnLoadMethod(SubsystemRegistration)]</code>, preventing stale state on second Play session",
+          "<code>ReflectedConsoleCommand</code> — <code>GetParameters()</code> called once in constructor instead of twice",
+          "<code>ConsoleArgumentHintService</code> — <code>s_tokenDelimiters</code> extracted to <code>static readonly char[]</code>, eliminates per-call array allocation on cache miss",
+          "<code>ConsoleInputSanitizer</code> — three <code>TrimEnd()</code> branches consolidated into one",
+          "<code>ConsoleTextTable</code> — full XML documentation added to all public methods",
+          "<code>ReflectedConsoleCommand</code> — default description changed from literal <code>&quot;&lt;none&gt;&quot;</code> to <code>string.Empty</code>",
+        ],
+        fixed: [
+          "Suggestion items not clickable with mouse — clicking a suggestion now commits it to the input field instead of only highlighting it",
+          "<code>DevConsolePro.Editor.asmdef</code> — now correctly references the runtime assembly and restricts to Editor platform",
+        ],
+      },
+      {
+        version: "1.2.0", date: "2026-03-30",
+        added: [
+          "<code>Register&lt;T1, T2, T3, T4&gt;</code> — typed four-argument overload for runtime command registration",
+          "<code>Register(string, Delegate)</code> — escape hatch for 5+ argument commands; reflects parameter types automatically",
+          "<code>ConsoleRegistry.CommandNames</code> — pre-built sorted name list, eliminates per-keypress LINQ allocation",
+          "<code>ConsoleRegistry.CommandSegments</code> — pre-split dot-segments parallel to <code>CommandNames</code>, used by suggestion system",
+          "Name validated at registration — <code>null</code> or whitespace name throws <code>ArgumentException</code> immediately",
+          "Parameter types validated at registration via <code>ConsoleArgConverter.AssertSupported</code>",
+        ],
+        changed: [
+          "<code>DevConsoleAPI</code> internal structure refactored — shared <code>RegisterTyped</code> core helper eliminates repeated logic across all typed overloads",
+          "<code>DevConsoleAPI.Register(IConsoleCommand)</code> now uses bubble-insert to maintain sorted order",
+          "<code>ConsoleLogEntry.Timestamp</code> is now <code>DateTime.UtcNow</code> — avoids per-log local timezone lookup",
+          "<code>DevConsoleOutputView</code> — incremental append: only new log entries are instantiated; full rebuild only on first open or after <code>Clear()</code>",
+          "<code>DevConsoleSuggestionView</code> — fixed item pool: suggestion rows are rebound in place instead of destroyed and re-instantiated on every keypress",
+        ],
+      },
+      {
+        version: "1.1.0", date: "2026-03-22",
+        added: [
+          "<code>DevConsoleAPI.Register</code> — runtime command registration without attributes",
+          "Typed overloads: <code>Register&lt;T&gt;</code>, <code>Register&lt;T1,T2&gt;</code>, <code>Register&lt;T1,T2,T3&gt;</code> with automatic ghost hints",
+          "<code>DevConsoleAPI.Unregister(string)</code> — removes a command at runtime, returns <code>bool</code>",
+          "<code>DevConsoleAPI.OnCommandExecuted</code> — event fired after every successful command execution",
+          "<code>ConsoleArgConverter</code> — shared conversion utility used by both reflected and delegate command paths",
+          "<code>RuntimeRegistrationExample</code> — demonstrates Register, Unregister, and OnCommandExecuted",
+        ],
+        changed: [
+          "<code>ConsoleRegistry</code> now accepts <code>IConsoleCommand</code> directly via <code>Register(IConsoleCommand)</code>",
+        ],
+      },
+      {
+        version: "1.0.0", date: "2026-03-21",
+        added: [
+          "Initial command registration and execution pipeline with reflection-based command discovery",
+          "Input sanitization, parsing, and command history navigation",
+          "Context-aware suggestion system with segmented command support (<code>group.command</code>)",
+          "Keyboard navigation (↑ ↓), Tab commit, mouse interaction, and default no-selection state",
+          "Runtime console UI — TMP input, suggestion dropdown, output log, input ghost hints",
+          "Support for <code>[DevConsole]</code>, <code>[ConsoleCommand]</code>, and <code>[ConsoleVariable]</code> attributes",
+          "Modular assembly structure: <code>DevConsolePro</code>, <code>DevConsolePro.Tests</code>",
+        ],
+      },
+    ],
   },
   {
     id: "instant-localization",
@@ -57,6 +124,84 @@ const ASSETS = [
     version: "1.2.3",
     unity: "2021.3+",
     docsPage: "docs/instant-localization.html",
+    changelog: [
+      {
+        version: "1.2.3", date: "2026-02-24",
+        items: [
+          "Added public website documentation page with full setup guide and script reference",
+          "Updated documentation structure — single package README with online docs as source of truth",
+        ],
+      },
+      {
+        version: "1.2.2", date: "2026-02-08",
+        items: [
+          "Updated DeepL provider to use header-based authorization (<code>Authorization: DeepL-Auth-Key</code>) following DeepL's deprecation of legacy form-body auth",
+          "Fixed AuthenticationFailed errors occurring despite valid DeepL API keys",
+          "Prevented empty or invalid DeepL responses from being cached as valid results",
+          "Improved Azure provider validation to properly detect and report empty responses",
+        ],
+      },
+      {
+        version: "1.2.1", date: "2026-02-07",
+        items: [
+          "Fixed CSV corruption where translated files could start with duplicated <code>key,</code> header rows",
+          "Prevented Auto-Translate from treating data rows as header rows",
+          "Clarified Auto-Translate end-to-end flow: CSV → policies → provider → preview → apply",
+        ],
+      },
+      {
+        version: "1.2.0", date: "2025-12-14",
+        items: [
+          "Introduced the Auto-Translate Window (DeepL &amp; Azure support)",
+          "Batch processing to comply with provider rate limits",
+          "Translation preview before applying changes to CSV",
+          "Options to preserve or overwrite existing translations",
+        ],
+      },
+      {
+        version: "1.1.1", date: "2025-11-30",
+        items: [
+          "<code>LocalizeText</code> now updates instantly when changing the key in the Inspector (via <code>OnValidate()</code> + <code>[ExecuteAlways]</code>)",
+          "Confirmed runtime localization loads correctly via <code>RuntimeInitializeOnLoadMethod</code>",
+          "Separated Editor-only code using <code>#if UNITY_EDITOR</code>",
+        ],
+      },
+      {
+        version: "1.1.0", date: "2025-11-27",
+        items: [
+          "Fully reworked Key Selector Window with modular architecture",
+          "Virtualised list rendering for large CSV files — major performance improvement",
+          "Favourite keys always appear at the top; saved persistently via ScriptableObject",
+          "Improved search — results sorted by match position",
+          "Fixed ArgumentException errors when quickly searching in large lists",
+        ],
+      },
+      {
+        version: "1.0.2", date: "2025-10-14",
+        items: [
+          "Added <code>LocalizeText</code> component with auto-update via <code>OnLanguageChanged</code>",
+          "Added Editor menu items: <strong>Open Localization Window</strong> and <strong>Update Texts</strong>",
+          "Added search text highlighting inside list items",
+          "Missing translations now display the key as fallback",
+        ],
+      },
+      {
+        version: "1.0.1", date: "2025-08-21",
+        items: [
+          "Introduced <code>LocalizationSystem</code> with public API: <code>SetLanguage()</code>, <code>GetLocalisedValue()</code>, <code>OnLanguageChanged</code>, <code>Language</code>",
+          "Automatic CSV loading from Resources folder",
+          "Initial version of the Key Selector Window",
+        ],
+      },
+      {
+        version: "1.0.0", date: "2025-06-01",
+        items: [
+          "Initial release",
+          "CSV-based localization with TextMeshPro support",
+          "First prototype of the Editor Localization Window",
+        ],
+      },
+    ],
   },
   /*{
     id: "scene-transition-kit",

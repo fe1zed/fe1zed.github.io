@@ -133,6 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="asset-hero-actions">
           <a class="asset-btn-primary" href="${asset.storeUrl}" target="_blank" rel="noopener">Buy on Asset Store</a>
           ${asset.docsPage ? `<a class="asset-btn-ghost" href="${asset.docsPage}">Documentation</a>` : ""}
+          ${asset.changelog ? `<a class="asset-btn-ghost" href="changelog.html?id=${asset.id}">Changelog</a>` : ""}
         </div>
       </div>
       <div class="asset-hero-image">
