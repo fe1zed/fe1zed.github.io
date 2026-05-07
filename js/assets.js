@@ -27,8 +27,32 @@ const ASSETS = [
       "Autocomplete for registered commands",
     ],
     version: "1.3.0",
-    unity: "2020.3+",
+    unity: "2022.3+",
+    unityVersions: [
+      { version: "6000.4.5f1",  pipelines: { "Built-in": true,  "URP": true,  "HDRP": true  } },
+      { version: "2022.3.13f1",  pipelines: { "Built-in": true,  "URP": true,  "HDRP": true } },
+    ],
+    pipelines: ["Built-in", "URP", "HDRP"],
+    platforms: ["Windows", "macOS", "Linux", "iOS", "Android", "WebGL"],
+    dependencies: [
+      { name: "TextMeshPro", version: "v3.0.6", required: true,  url: "https://docs.unity3d.com/Packages/com.unity.textmeshpro@latest" },
+    ],
     docsPage: "docs/dev-console-pro.html",
+    quickStart: `using DevConsolePro;
+using UnityEngine;
+
+[DevConsole("player")]
+public class PlayerController : MonoBehaviour
+{
+    [ConsoleCommand("Teleport the player")]
+    public void Teleport(float x, float y, float z)
+    {
+        transform.position = new Vector3(x, y, z);
+    }
+}
+
+// At runtime: press F1 and type
+// > player.teleport 0 5 0`,
     changelog: [
       {
         version: "1.3.0", date: "2026-04-09",
@@ -122,8 +146,39 @@ const ASSETS = [
       "Zero runtime dependencies",
     ],
     version: "1.2.3",
-    unity: "2021.3+",
+    unity: "2022.3+",
+    unityVersions: [
+      { version: "6000.4.5f1",  pipelines: { "Built-in": true,  "URP": true,  "HDRP": true  } },
+      { version: "2022.3.13f1",  pipelines: { "Built-in": true,  "URP": true,  "HDRP": true  } },
+    ],
+    pipelines: ["Built-in", "URP", "HDRP"],
+    platforms: ["Windows", "macOS", "Linux", "iOS", "Android", "WebGL"],
+    dependencies: [
+      { name: "TextMeshPro",     version: "v3.0.6", required: true,  url: "https://docs.unity3d.com/Packages/com.unity.textmeshpro@latest" },
+      { name: "DeepL API",       version: "v2",     required: false, url: "https://www.deepl.com/en/pro-api" },
+      { name: "Azure Translate", version: "v3.0",   required: false, url: "https://learn.microsoft.com/en-us/azure/ai-services/translator/" },
+    ],
     docsPage: "docs/instant-localization.html",
+    quickStart: `using InstantLocalization;
+using UnityEngine;
+
+public class LanguageButton : MonoBehaviour
+{
+    public void SwitchToGerman()
+    {
+        LocalizationSystem.SetLanguage("German");
+    }
+
+    void Start()
+    {
+        // Read a localized string by key
+        string greeting = LocalizationSystem.GetLocalisedValue("welcome_message");
+        Debug.Log(greeting);
+    }
+}
+
+// Or attach the LocalizeText component to any TextMeshProUGUI
+// and pick a key from the Localization Window.`,
     changelog: [
       {
         version: "1.2.3", date: "2026-02-24",

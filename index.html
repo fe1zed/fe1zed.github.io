@@ -27,7 +27,33 @@
   </header>
 
   <main>
-    <p class="section-label">Assets</p>
+    <div class="browse-toolbar">
+      <div class="search-wrap">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="asset-search" type="search" placeholder="Search by name or tag…" autocomplete="off" />
+        <kbd class="search-kbd">↵</kbd>
+      </div>
+      <div class="sort-wrap">
+        <span class="sort-label">Sort</span>
+        <div class="sort-dropdown" id="sort-dropdown">
+          <button class="sort-btn" type="button" id="sort-btn" aria-haspopup="listbox" aria-expanded="false">
+            <span class="sort-btn-text" id="sort-current">Default</span>
+            <svg class="sort-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="sort-menu" id="sort-menu" role="listbox">
+            <button class="sort-option sort-option--active" data-value="default" role="option">Default</button>
+<button class="sort-option" data-value="name-asc" role="option">Name: A → Z</button>
+            <button class="sort-option" data-value="price-asc" role="option">Price: Low → High</button>
+            <button class="sort-option" data-value="price-desc" role="option">Price: High → Low</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tag-chips" id="tag-chips"></div>
+    <div class="browse-meta">
+      <p class="section-label">Assets</p>
+      <span class="asset-count" id="asset-count"></span>
+    </div>
     <div id="asset-grid"></div>
   </main>
 

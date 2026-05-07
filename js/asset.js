@@ -58,6 +58,94 @@ document.addEventListener("DOMContentLoaded", () => {
     .map((f) => `<li class="feature-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>${f}</li>`)
     .join("");
 
+  // ── Compatibility table ──
+  const pipelines = asset.pipelines || [];
+  const cols = pipelines.length;
+  const colTemplate = `160px repeat(${cols}, 1fr)`;
+
+  const checkIcon = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="10" fill="rgba(76,175,80,0.12)" stroke="#4caf50" stroke-width="1.5"/>
+    <polyline points="7.5 12 10.5 15 16.5 9" stroke="#4caf50" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+
+  const crossIcon = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="10" fill="rgba(229,115,115,0.1)" stroke="#e57373" stroke-width="1.5"/>
+    <line x1="8" y1="8" x2="16" y2="16" stroke="#e57373" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="16" y1="8" x2="8" y2="16" stroke="#e57373" stroke-width="2.2" stroke-linecap="round"/>
+  </svg>`;
+
+  // Normalise entries: string → all pipelines compatible, object → use per-pipeline status
+  const rawVersions = asset.unityVersions || (asset.unity ? [asset.unity] : []);
+  const versions = rawVersions.map((v) => {
+    if (typeof v === "string") {
+      const map = {};
+      pipelines.forEach((p) => { map[p] = true; });
+      return { version: v, pipelines: map };
+    }
+    return v;
+  });
+
+  function pipelineCell(entry, pipeline) {
+    const status = entry.pipelines?.[pipeline];
+    if (status === true)  return `<div class="compat-td">${checkIcon}<span class="compat-status compat-status--ok">Compatible</span></div>`;
+    if (status === false) return `<div class="compat-td">${crossIcon}<span class="compat-status compat-status--no">Not Supported</span></div>`;
+    return `<div class="compat-td"><span class="compat-status compat-status--na">Not Tested</span></div>`;
+  }
+
+  const compatTable = cols ? `
+    <div class="compat-table">
+      <div class="compat-thead" style="grid-template-columns:${colTemplate}">
+        <div class="compat-th compat-th--version">Unity Version</div>
+        ${pipelines.map((p) => `<div class="compat-th">${p}</div>`).join("")}
+      </div>
+      <div class="compat-tbody">
+        ${versions.map((v) => `
+        <div class="compat-tr" style="grid-template-columns:${colTemplate}">
+          <div class="compat-td compat-td--version">${v.version}</div>
+          ${pipelines.map((p) => pipelineCell(v, p)).join("")}
+        </div>`).join("")}
+      </div>
+    </div>` : "";
+
+  const compatPlatforms = (asset.platforms && asset.platforms.length) ? `
+    <div class="compat-platforms">
+      <span class="compat-platforms-label">Platforms</span>
+      ${asset.platforms.map((p) => `<span class="compat-platform">${p}</span>`).join("")}
+    </div>` : "";
+
+  const compatContent = compatTable + compatPlatforms;
+
+  // ── Dependencies ──
+  const pkgIcon = `<svg class="dep-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`;
+
+  const depsHTML = (asset.dependencies && asset.dependencies.length) ? `
+    <div class="deps-list">
+      ${asset.dependencies.map((d) => {
+        const name    = typeof d === "string" ? d : d.name;
+        const version = typeof d === "object" && d.version ? d.version : null;
+        const opt     = typeof d === "object" && d.required === false;
+        const url  = typeof d === "object" && d.url ? d.url : null;
+        const nameEl = url
+          ? `<a class="dep-name link-animated" href="${url}" target="_blank" rel="noopener">${name}</a>`
+          : `<span class="dep-name">${name}</span>`;
+        return `
+        <div class="dep-row">
+          ${pkgIcon}
+          <div class="dep-name-wrap">${nameEl}</div>
+          ${version ? `<span class="dep-version">${version}</span>` : ""}
+          <span class="dep-status ${opt ? "dep-status--opt" : "dep-status--req"}">${opt ? "Optional" : "Required"}</span>
+        </div>`;
+      }).join("")}
+    </div>` : "";
+
+  // ── Quick Start ──
+  function escapeHtml(s) {
+    return s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+  }
+  const quickStartHTML = asset.quickStart
+    ? `<pre><code class="language-csharp">${escapeHtml(asset.quickStart)}</code></pre>`
+    : "";
+
   const screenshots = (asset.screenshots || []).map((src, i) => {
     const ytId = getYouTubeId(src);
     const thumb = ytId
@@ -141,10 +229,30 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     </div>
 
-    ${features ? `
-    <div class="asset-section">
-      <h2 class="asset-section-title">Features</h2>
-      <ul class="features-list">${features}</ul>
+    ${features || compatContent || depsHTML ? `
+    <div class="asset-info-grid">
+      ${features ? `
+      <div class="asset-section asset-section--features">
+        <h2 class="asset-section-title">Features</h2>
+        <ul class="features-list">${features}</ul>
+      </div>` : ""}
+      ${compatContent || depsHTML ? `
+      <div class="asset-section asset-section--compat">
+        ${compatContent ? `
+        <h2 class="asset-section-title">Compatibility</h2>
+        ${compatContent}` : ""}
+        ${depsHTML ? `
+        <div class="asset-deps">
+          <h2 class="asset-section-title">Dependencies</h2>
+          ${depsHTML}
+        </div>` : ""}
+      </div>` : ""}
+    </div>` : ""}
+
+    ${quickStartHTML ? `
+    <div class="asset-section asset-quickstart">
+      <h2 class="asset-section-title">Quick Start</h2>
+      ${quickStartHTML}
     </div>` : ""}
 
     ${screenshots ? `
@@ -239,4 +347,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "ArrowLeft")  show(current - 1);
     if (e.key === "ArrowRight") show(current + 1);
   });
+
+  // ── Syntax highlighting for Quick Start ──
+  if (window.hljs) {
+    main.querySelectorAll("pre code").forEach((el) => hljs.highlightElement(el));
+  }
 });

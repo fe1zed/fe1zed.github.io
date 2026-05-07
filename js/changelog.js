@@ -65,7 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function buildJumpBar(entries) {
     const pills = entries
-      .map((e, i) => `<a class="cl-jump-pill${i === 0 ? " cl-jump-pill--latest" : ""}" href="#${versionId(e.version)}">v${e.version}</a>`)
+      .map((e, i) => i === 0
+        ? `<a class="cl-jump-pill cl-jump-pill--latest" href="#${versionId(e.version)}">LATEST v${e.version}</a>`
+        : `<a class="cl-jump-pill" href="#${versionId(e.version)}">v${e.version}</a>`)
       .join("");
     return `<div class="cl-jump-bar">${pills}</div>`;
   }
