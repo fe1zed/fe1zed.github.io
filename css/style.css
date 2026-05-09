@@ -1169,6 +1169,13 @@ footer {
   min-height: 90px;
 }
 
+.form-hint {
+  display: block;
+  font-size: 0.72rem;
+  color: #444;
+  margin-top: 5px;
+}
+
 .form-char-count {
   font-size: 0.72rem;
   color: #444;

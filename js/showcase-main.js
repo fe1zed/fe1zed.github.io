@@ -107,6 +107,18 @@ function setupForm() {
     const dev              = document.getElementById("field-developer")?.value.trim();
     const desc             = document.getElementById("field-desc")?.value.trim();
     const quote            = document.getElementById("field-quote")?.value.trim();
+    const thumbUrl         = document.getElementById("field-thumb")?.value.trim();
+
+    // Show URL-based thumb only when no local file has been dropped
+    if (thumbUrl && previewImg && previewImg.dataset.source !== "local") {
+      previewImg.src = thumbUrl;
+      previewImg.style.display = "block";
+      if (previewThumbEmpty) previewThumbEmpty.style.display = "none";
+    } else if (!thumbUrl && previewImg?.dataset.source !== "local") {
+      previewImg.src = "";
+      previewImg.style.display = "none";
+      if (previewThumbEmpty) previewThumbEmpty.style.display = "flex";
+    }
     const checkedAssets    = [...(checkboxWrap?.querySelectorAll("input:checked") || [])].map((el) => el.value);
     const checkedPlatforms = [...(platformChips?.querySelectorAll("input:checked") || [])].map((el) => el.value);
 
@@ -143,7 +155,7 @@ function setupForm() {
   }
 
   // Wire text inputs to preview
-  ["field-project", "field-developer", "field-desc", "field-quote"].forEach((id) => {
+  ["field-project", "field-developer", "field-desc", "field-quote", "field-thumb"].forEach((id) => {
     document.getElementById(id)?.addEventListener("input", updatePreview);
   });
 
@@ -225,9 +237,10 @@ function setupForm() {
       dropzoneIdle.style.display = "none";
       previewWrap.style.display = "block";
 
-      // Card preview
+      // Card preview — mark as local so URL field doesn't override it
       previewImg.src = src;
       previewImg.style.display = "block";
+      previewImg.dataset.source = "local";
       previewThumbEmpty.style.display = "none";
     };
     reader.readAsDataURL(file);
@@ -266,16 +279,15 @@ function setupForm() {
     }
   });
 
-  // Remove image
+  // Remove image — clear local flag so URL field takes over again
   removeBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     fileInput.value = "";
     dropzoneImg.src = "";
     dropzoneIdle.style.display = "flex";
     previewWrap.style.display = "none";
-    previewImg.src = "";
-    previewImg.style.display = "none";
-    previewThumbEmpty.style.display = "flex";
+    delete previewImg.dataset.source;
+    updatePreview(); // re-apply URL thumb if one was entered
   });
 
   // ── Form submit ──
@@ -286,9 +298,15 @@ function setupForm() {
     btn.textContent = "Sending…";
 
     try {
+      // Formspree free plan doesn't accept binary file attachments — strip the
+      // screenshot field before posting. The image is only used for the live
+      // preview; the reviewer adds it manually when publishing the entry.
+      const data = new FormData(form);
+      data.delete("screenshot");
+
       const res = await fetch(form.action, {
         method: "POST",
-        body: new FormData(form),
+        body: data,
         headers: { Accept: "application/json" },
       });
 
