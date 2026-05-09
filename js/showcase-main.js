@@ -109,12 +109,11 @@ function setupForm() {
     const quote            = document.getElementById("field-quote")?.value.trim();
     const thumbUrl         = document.getElementById("field-thumb")?.value.trim();
 
-    // Show URL-based thumb only when no local file has been dropped
-    if (thumbUrl && previewImg && previewImg.dataset.source !== "local") {
+    if (thumbUrl && previewImg) {
       previewImg.src = thumbUrl;
       previewImg.style.display = "block";
       if (previewThumbEmpty) previewThumbEmpty.style.display = "none";
-    } else if (!thumbUrl && previewImg?.dataset.source !== "local") {
+    } else if (!thumbUrl && previewImg) {
       previewImg.src = "";
       previewImg.style.display = "none";
       if (previewThumbEmpty) previewThumbEmpty.style.display = "flex";
@@ -217,78 +216,6 @@ function setupForm() {
   }
 
   platformChips?.addEventListener("change", updatePlatformUrls);
-
-  // ── Dropzone ──
-  const dropzone        = document.getElementById("dropzone");
-  const fileInput       = document.getElementById("field-image");
-  const dropzoneIdle    = document.getElementById("dropzone-idle");
-  const previewWrap     = document.getElementById("dropzone-preview-wrap");
-  const dropzoneImg     = document.getElementById("dropzone-img");
-  const removeBtn       = document.getElementById("dropzone-remove");
-
-  function loadImage(file) {
-    if (!file || !file.type.startsWith("image/")) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const src = e.target.result;
-
-      // Dropzone preview
-      dropzoneImg.src = src;
-      dropzoneIdle.style.display = "none";
-      previewWrap.style.display = "block";
-
-      // Card preview — mark as local so URL field doesn't override it
-      previewImg.src = src;
-      previewImg.style.display = "block";
-      previewImg.dataset.source = "local";
-      previewThumbEmpty.style.display = "none";
-    };
-    reader.readAsDataURL(file);
-  }
-
-  // Click to browse
-  dropzone.addEventListener("click", (e) => {
-    if (e.target === removeBtn || removeBtn.contains(e.target)) return;
-    fileInput.click();
-  });
-
-  fileInput.addEventListener("change", () => {
-    if (fileInput.files[0]) loadImage(fileInput.files[0]);
-  });
-
-  // Drag and drop
-  dropzone.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropzone.classList.add("dropzone--over");
-  });
-
-  ["dragleave", "dragend"].forEach((ev) => {
-    dropzone.addEventListener(ev, () => dropzone.classList.remove("dropzone--over"));
-  });
-
-  dropzone.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropzone.classList.remove("dropzone--over");
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      // Transfer to file input so it submits with the form
-      const dt = new DataTransfer();
-      dt.items.add(file);
-      fileInput.files = dt.files;
-      loadImage(file);
-    }
-  });
-
-  // Remove image — clear local flag so URL field takes over again
-  removeBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    fileInput.value = "";
-    dropzoneImg.src = "";
-    dropzoneIdle.style.display = "flex";
-    previewWrap.style.display = "none";
-    delete previewImg.dataset.source;
-    updatePreview(); // re-apply URL thumb if one was entered
-  });
 
   // ── Form submit ──
   form.addEventListener("submit", async (e) => {
