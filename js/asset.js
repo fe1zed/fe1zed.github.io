@@ -119,31 +119,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const pkgIcon = `<svg class="dep-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`;
 
   const depsHTML = (asset.dependencies && asset.dependencies.length) ? `
-    <div class="deps-list">
-      ${asset.dependencies.map((d) => {
-        const name    = typeof d === "string" ? d : d.name;
-        const version = typeof d === "object" && d.version ? d.version : null;
-        const opt     = typeof d === "object" && d.required === false;
-        const url  = typeof d === "object" && d.url ? d.url : null;
-        const nameEl = url
-          ? `<a class="dep-name link-animated" href="${url}" target="_blank" rel="noopener">${name}</a>`
-          : `<span class="dep-name">${name}</span>`;
-        return `
-        <div class="dep-row">
-          ${pkgIcon}
-          <div class="dep-name-wrap">${nameEl}</div>
-          ${version ? `<span class="dep-version">${version}</span>` : ""}
-          <span class="dep-status ${opt ? "dep-status--opt" : "dep-status--req"}">${opt ? "Optional" : "Required"}</span>
-        </div>`;
-      }).join("")}
+    <div class="deps-table">
+      <div class="deps-thead">
+        <div class="deps-th deps-th--name">Dependency</div>
+        <div class="deps-th">Version</div>
+        <div class="deps-th">Required</div>
+      </div>
+      <div class="deps-tbody">
+        ${asset.dependencies.map((d) => {
+          const name    = typeof d === "string" ? d : d.name;
+          const version = typeof d === "object" && d.version ? d.version : null;
+          const opt     = typeof d === "object" && d.required === false;
+          const url     = typeof d === "object" && d.url ? d.url : null;
+          const nameEl  = url
+            ? `<a class="dep-name link-animated" href="${url}" target="_blank" rel="noopener">${name}</a>`
+            : `<span class="dep-name">${name}</span>`;
+          return `
+          <div class="deps-tr">
+            <div class="deps-td deps-td--name">${pkgIcon}${nameEl}</div>
+            <div class="deps-td deps-td--version">${version ? version : `<span class="dep-na">—</span>`}</div>
+            <div class="deps-td"><span class="dep-status ${opt ? "dep-status--opt" : "dep-status--req"}">${opt ? "Optional" : "Required"}</span></div>
+          </div>`;
+        }).join("")}
+      </div>
     </div>` : "";
 
   // ── Quick Start ──
   function escapeHtml(s) {
     return s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
   }
+  const copyIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+  const checkIcon2 = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+
   const quickStartHTML = asset.quickStart
-    ? `<pre><code class="language-csharp">${escapeHtml(asset.quickStart)}</code></pre>`
+    ? `<div class="code-block">
+        <button class="code-copy-btn" aria-label="Copy code">${copyIcon}</button>
+        <pre><code class="language-csharp">${escapeHtml(asset.quickStart)}</code></pre>
+      </div>`
     : "";
 
   const screenshots = (asset.screenshots || []).map((src, i) => {
@@ -228,6 +240,12 @@ document.addEventListener("DOMContentLoaded", () => {
         <img src="${asset.thumb}" alt="${asset.name}" onerror="this.parentElement.classList.add('no-img')">
       </div>
     </div>
+    
+        ${screenshots ? `
+    <div class="asset-section">
+      <h2 class="asset-section-title">Screenshots</h2>
+      <div class="screenshots-grid">${screenshots}</div>
+    </div>` : ""}
 
     ${features || compatContent || depsHTML ? `
     <div class="asset-info-grid">
@@ -253,12 +271,6 @@ document.addEventListener("DOMContentLoaded", () => {
     <div class="asset-section asset-quickstart">
       <h2 class="asset-section-title">Quick Start</h2>
       ${quickStartHTML}
-    </div>` : ""}
-
-    ${screenshots ? `
-    <div class="asset-section">
-      <h2 class="asset-section-title">Screenshots</h2>
-      <div class="screenshots-grid">${screenshots}</div>
     </div>` : ""}
 
     ${relatedSection}
@@ -352,4 +364,19 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.hljs) {
     main.querySelectorAll("pre code").forEach((el) => hljs.highlightElement(el));
   }
+
+  // ── Copy button ──
+  main.querySelectorAll(".code-copy-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const code = btn.closest(".code-block").querySelector("code");
+      navigator.clipboard.writeText(code.innerText).then(() => {
+        btn.innerHTML = checkIcon2;
+        btn.classList.add("code-copy-btn--copied");
+        setTimeout(() => {
+          btn.innerHTML = copyIcon;
+          btn.classList.remove("code-copy-btn--copied");
+        }, 2000);
+      });
+    });
+  });
 });

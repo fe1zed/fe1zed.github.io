@@ -10,6 +10,7 @@
   <a class="nav-logo" href="${base}index.html">fe1zed</a>
   <div class="nav-right">
     <a class="nav-link" href="${base}index.html">Home</a>
+    <a class="nav-link" href="${base}showcase.html">Showcase</a>
     <a class="nav-link" href="${base}contact.html">Contact</a>
     <a class="nav-link" href="https://assetstore.unity.com/publishers/128954">Asset Store</a>
     <div class="nav-divider"></div>
@@ -33,6 +34,7 @@
       <div class="footer-col">
         <p class="footer-col-label">Navigation</p>
         <a href="${base}index.html">Home</a>
+        <a href="${base}showcase.html">Showcase</a>
         <a href="${base}contact.html">Contact</a>
         <a href="https://assetstore.unity.com/publishers/128954" target="_blank" rel="noopener">Asset Store</a>
       </div>

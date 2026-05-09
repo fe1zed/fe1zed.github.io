@@ -3,7 +3,9 @@ const ASSETS = [
     id: "dev-console-pro",
     name: "Dev Console Pro",
     description: "Powerful in-game developer console for Unity.",
-    longDescription: "Dev Console Pro is a fully-featured in-game developer console that lets you run commands, inspect logs, and debug your game at runtime — on any platform. Register custom commands with one attribute, filter logs by type, and toggle the console with a configurable hotkey.",
+    longDescription: "DevConsolePro is a runtime developer console for Unity designed to simplify debugging, testing, and interaction with your game during play mode. " +
+        "It provides a structured command system that allows developers to execute commands, modify variables, and control game behavior in real time. " +
+        "The system is fully customizable and extensible, allowing developers to define their own commands, group them logically, and expose variables through a simple and intuitive API. ",
     price: "$20",
     tags: ["Tools", "Debug"],
     storeUrl: "https://assetstore.unity.com/packages/your-link-here",
@@ -36,6 +38,7 @@ const ASSETS = [
     platforms: ["Windows", "macOS", "Linux", "iOS", "Android", "WebGL"],
     dependencies: [
       { name: "TextMeshPro", version: "v3.0.6", required: true,  url: "https://docs.unity3d.com/Packages/com.unity.textmeshpro@latest" },
+      { name: "Unity UI (uGUI)", version: "v2.5.0", required: true,  url: "https://docs.unity3d.com/Packages/com.unity.ugui@2.5/manual/index.html" },
     ],
     docsPage: "docs/dev-console-pro.html",
     quickStart: `using DevConsolePro;
@@ -125,7 +128,10 @@ public class PlayerController : MonoBehaviour
     id: "instant-localization",
     name: "Instant Localization",
     description: "CSV-based localization workflow with editor tooling, QA, and auto-translate pipeline.",
-    longDescription: "Instant Localization is a lightweight, in-editor localization system for Unity. Define all your strings in a simple CSV file, run the built-in QA checker to catch missing keys, and ship with confidence. Includes an auto-translate pipeline powered by DeepL and Azure Translate.",
+    longDescription: "Instant Localization is a great solution for adding infinite-language support to your Unity projects. " +
+        "It relies on a static system that loads all localization data from CSV files stored in the Resources folder. " +
+        "It also includes an Auto-Translate feature that can generate translations using external machine translation services such as DeepL and Microsoft Azure Translator. " +
+        "It runs entirely in the editor, so no assets or scripts from the package are included in builds.",
     price: "$25",
     // salePrice: "$0",
     tags: ["Translator", "Editor"],
