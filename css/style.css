@@ -793,6 +793,15 @@ footer {
   margin-bottom: 10px;
 }
 
+.showcase-count {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
 .showcase-hero-sub {
   font-size: 0.95rem;
   color: var(--text-muted);
@@ -1189,6 +1198,52 @@ footer {
 
 .form-char-count--full {
   color: #e57373;
+}
+
+/* ── Form validation ── */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15%       { transform: translateX(-5px); }
+  30%       { transform: translateX(5px); }
+  45%       { transform: translateX(-4px); }
+  60%       { transform: translateX(4px); }
+  75%       { transform: translateX(-2px); }
+  90%       { transform: translateX(2px); }
+}
+
+.form-submit-btn--shake {
+  animation: shake 0.4s ease;
+}
+
+.form-group--error .form-input {
+  border-color: #c0392b;
+}
+
+.form-group--error .form-input:focus {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+}
+
+.form-error-msg {
+  font-size: 0.72rem;
+  color: #e57373;
+  display: none;
+  margin-top: 2px;
+}
+
+.form-group--error .form-error-msg {
+  display: block;
+}
+
+.form-group--error .form-hint {
+  display: none;
+}
+
+.form-group--error .platform-chips,
+.form-group--error .asset-checkboxes {
+  outline: 1px solid #c0392b;
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 .asset-checkboxes {

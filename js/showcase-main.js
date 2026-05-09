@@ -1,13 +1,13 @@
 const PLATFORM_ICONS = {
   "Steam":       `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/></svg>`,
   "Epic Games":  `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.537 0C2.165 0 1.66.506 1.66 1.879V18.44a4.262 4.262 0 00.02.433c.031.3.037.59.316.92.027.033.311.245.311.245.153.075.258.13.43.2l8.335 3.491c.433.199.614.276.928.27h.002c.314.006.495-.071.928-.27l8.335-3.492c.172-.07.277-.124.43-.2 0 0 .284-.211.311-.243.28-.33.285-.621.316-.92a4.261 4.261 0 00.02-.434V1.879c0-1.373-.506-1.88-1.878-1.88zm13.366 3.11h.68c1.138 0 1.688.553 1.688 1.696v1.88h-1.374v-1.8c0-.369-.17-.54-.523-.54h-.235c-.367 0-.537.17-.537.539v5.81c0 .369.17.54.537.54h.262c.353 0 .523-.171.523-.54V8.619h1.373v2.143c0 1.144-.562 1.71-1.7 1.71h-.694c-1.138 0-1.7-.566-1.7-1.71V4.82c0-1.144.562-1.709 1.7-1.709zm-12.186.08h3.114v1.274H6.117v2.603h1.648v1.275H6.117v2.774h1.74v1.275h-3.14zm3.816 0h2.198c1.138 0 1.7.564 1.7 1.708v2.445c0 1.144-.562 1.71-1.7 1.71h-.799v3.338h-1.4zm4.53 0h1.4v9.201h-1.4zm-3.13 1.235v3.392h.575c.354 0 .523-.171.523-.54V4.965c0-.368-.17-.54-.523-.54zm-3.74 10.147a1.708 1.708 0 01.591.108 1.745 1.745 0 01.49.299l-.452.546a1.247 1.247 0 00-.308-.195.91.91 0 00-.363-.068.658.658 0 00-.28.06.703.703 0 00-.224.163.783.783 0 00-.151.243.799.799 0 00-.056.299v.008a.852.852 0 00.056.31.7.7 0 00.157.245.736.736 0 00.238.16.774.774 0 00.303.058.79.79 0 00.445-.116v-.339h-.548v-.565H7.37v1.255a2.019 2.019 0 01-.524.307 1.789 1.789 0 01-.683.123 1.642 1.642 0 01-.602-.107 1.46 1.46 0 01-.478-.3 1.371 1.371 0 01-.318-.455 1.438 1.438 0 01-.115-.58v-.008a1.426 1.426 0 01.113-.57 1.449 1.449 0 01.312-.46 1.418 1.418 0 01.474-.309 1.58 1.58 0 01.598-.111zm11.963.008a2.006 2.006 0 01.612.094 1.61 1.61 0 01.507.277l-.386.546a1.562 1.562 0 00-.39-.205 1.178 1.178 0 00-.388-.07.347.347 0 00-.208.052.154.154 0 00-.07.127v.008a.158.158 0 00.022.084.198.198 0 00.076.066.831.831 0 00.147.06c.062.02.14.04.236.061a3.389 3.389 0 01.43.122 1.292 1.292 0 01.328.17.678.678 0 01.207.24.739.739 0 01.071.337v.008a.865.865 0 01-.081.382.82.82 0 01-.229.285 1.032 1.032 0 01-.353.18 1.606 1.606 0 01-.46.061 2.16 2.16 0 01-.71-.116 1.718 1.718 0 01-.593-.346l.43-.514c.277.223.578.335.9.335a.457.457 0 00.236-.05.157.157 0 00.082-.142v-.008a.15.15 0 00-.02-.077.204.204 0 00-.073-.066.753.753 0 00-.143-.062 2.45 2.45 0 00-.233-.062 5.036 5.036 0 01-.413-.113 1.26 1.26 0 01-.331-.16.72.72 0 01-.222-.243.73.73 0 01-.082-.36v-.008a.863.863 0 01.074-.359.794.794 0 01.214-.283 1.007 1.007 0 01.34-.185 1.423 1.423 0 01.448-.066zm-9.358.025h.742l1.183 2.81h-.825l-.203-.499H8.623l-.198.498h-.81zm2.197.02h.814l.663 1.08.663-1.08h.814v2.79h-.766v-1.602l-.711 1.091h-.016l-.707-1.083v1.593h-.754zm3.469 0h2.235v.658h-1.473v.422h1.334v.61h-1.334v.442h1.493v.658h-2.255zm-5.3.897l-.315.793h.624zm-1.145 5.19h8.014l-4.09 1.348z"/></svg>`,
+  "PS Store":    `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.984 2.596v17.547l3.915 1.261V6.688c0-.69.304-1.151.794-.991.636.18.76.814.76 1.505v5.875c2.441 1.193 4.362-.002 4.362-3.152 0-3.237-1.126-4.675-4.438-5.827-1.307-.448-3.728-1.186-5.39-1.502zm4.656 16.241l6.296-2.275c.715-.258.826-.625.246-.818-.586-.192-1.637-.139-2.357.123l-4.205 1.5V14.98l.24-.085s1.201-.42 2.913-.615c1.696-.18 3.785.03 5.437.661 1.848.601 2.04 1.472 1.576 2.072-.465.6-1.622 1.036-1.622 1.036l-8.544 3.107V18.86zM1.807 18.6c-1.9-.545-2.214-1.668-1.352-2.32.801-.586 2.16-1.052 2.16-1.052l5.615-2.013v2.313L4.205 17c-.705.271-.825.632-.239.826.586.195 1.637.15 2.343-.12L8.247 17v2.074c-.12.03-.256.044-.39.073-1.939.331-3.996.196-6.038-.479z"/></svg>`,
   "Itch.io":     `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 4.95v1.03c0 1.303 1.22 2.45 2.325 2.45 1.33 0 2.436-1.102 2.436-2.41 0 1.308 1.07 2.41 2.4 2.41 1.328 0 2.362-1.102 2.362-2.41 0 1.308 1.137 2.41 2.466 2.41h.024c1.33 0 2.466-1.102 2.466-2.41 0 1.308 1.034 2.41 2.363 2.41 1.33 0 2.4-1.102 2.4-2.41 0 1.308 1.106 2.41 2.435 2.41C22.78 8.43 24 7.282 24 5.98V4.95c-.02-.62-2.082-2.99-3.13-3.612-3.253-.114-5.508-.134-8.87-.133-3.362 0-7.945.053-8.87.133zm6.376 6.477a2.74 2.74 0 0 1-.468.602c-.5.49-1.19.795-1.947.795a2.786 2.786 0 0 1-1.95-.795c-.182-.178-.32-.37-.446-.59-.127.222-.303.412-.486.59a2.788 2.788 0 0 1-1.95.795c-.092 0-.187-.025-.264-.052-.107 1.113-.152 2.176-.168 2.95v.005l-.006 1.167c.02 2.334-.23 7.564 1.03 8.85 1.952.454 5.545.662 9.15.663 3.605 0 7.198-.21 9.15-.664 1.26-1.284 1.01-6.514 1.03-8.848l-.006-1.167v-.004c-.016-.775-.06-1.838-.168-2.95-.077.026-.172.052-.263.052a2.788 2.788 0 0 1-1.95-.795c-.184-.178-.36-.368-.486-.59-.127.22-.265.412-.447.59a2.786 2.786 0 0 1-1.95.794c-.76 0-1.446-.303-1.948-.793a2.74 2.74 0 0 1-.468-.602 2.738 2.738 0 0 1-.463.602 2.787 2.787 0 0 1-1.95.794h-.16a2.787 2.787 0 0 1-1.95-.793 2.738 2.738 0 0 1-.464-.602zm-2.004 2.59v.002c.795.002 1.5 0 2.373.953.687-.072 1.406-.108 2.125-.107.72 0 1.438.035 2.125.107.873-.953 1.578-.95 2.372-.953.376 0 1.876 0 2.92 2.934l1.123 4.028c.832 2.995-.266 3.068-1.636 3.07-2.03-.075-3.156-1.55-3.156-3.025-1.124.184-2.436.276-3.748.277-1.312 0-2.624-.093-3.748-.277 0 1.475-1.125 2.95-3.156 3.026-1.37-.004-2.468-.077-1.636-3.072l1.122-4.027c1.045-2.934 2.545-2.934 2.92-2.934zM12 12.714c-.002.002-2.14 1.964-2.523 2.662l1.4-.056v1.22c0 .056.56.033 1.123.007.562.026 1.124.05 1.124-.008v-1.22l1.4.055C14.138 14.677 12 12.713 12 12.713z"/></svg>`,
   "App Store":   `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>`,
   "Google Play": `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.018 13.298l-3.919 2.218-3.515-3.493 3.543-3.521 3.891 2.202a1.49 1.49 0 0 1 0 2.594zM1.337.924a1.486 1.486 0 0 0-.112.568v21.017c0 .217.045.419.124.6l11.155-11.087L1.337.924zm12.207 10.065l3.258-3.238L3.45.195a1.466 1.466 0 0 0-.946-.179l11.04 10.973zm0 2.067l-11 10.933c.298.036.612-.016.906-.183l13.324-7.54-3.23-3.21z"/></svg>`,
   "Web":         `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`,
   "Other":       `<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>`,
 };
-
 function platformBadges(platforms, platformUrls) {
   return (platforms || []).map((p) => {
     const icon = PLATFORM_ICONS[p] || "";
@@ -34,13 +34,17 @@ function renderShowcase() {
   const empty = document.getElementById("showcase-empty");
   if (!grid) return;
 
+  const countEl = document.getElementById("showcase-count");
+
   if (!SHOWCASE || SHOWCASE.length === 0) {
     grid.style.display = "none";
     if (empty) empty.style.display = "block";
+    if (countEl) countEl.style.display = "none";
     return;
   }
 
   if (empty) empty.style.display = "none";
+  if (countEl) countEl.textContent = `${SHOWCASE.length} projects`;
 
   grid.innerHTML = SHOWCASE.map((entry) => {
     return `
@@ -80,6 +84,14 @@ function setupForm() {
   const success = document.getElementById("form-success");
   if (!form) return;
 
+  // ── Platform chips — generated from PLATFORM_ICONS (single source of truth) ──
+  const platformChipsEl = document.getElementById("platform-chips");
+  if (platformChipsEl) {
+    platformChipsEl.innerHTML = Object.keys(PLATFORM_ICONS).map((name) =>
+      `<label class="platform-chip"><input type="checkbox" name="platforms" value="${name}">${PLATFORM_ICONS[name]}${name}</label>`
+    ).join("");
+  }
+
   // ── Asset checkboxes ──
   const checkboxWrap = document.getElementById("asset-checkboxes");
   if (checkboxWrap && typeof ASSETS !== "undefined") {
@@ -101,6 +113,51 @@ function setupForm() {
   const previewPlatforms  = document.getElementById("preview-platforms");
   const previewQuote      = document.getElementById("preview-quote");
   const platformChips     = document.getElementById("platform-chips");
+
+  // ── Validation helpers ──
+  function setFieldError(group, message) {
+    if (!group) return;
+    group.classList.toggle("form-group--error", !!message);
+    let errEl = group.querySelector(".form-error-msg");
+    if (!errEl) {
+      errEl = document.createElement("span");
+      errEl.className = "form-error-msg";
+      group.appendChild(errEl);
+    }
+    errEl.textContent = message || "";
+  }
+
+  function validateInput(input) {
+    const group = input.closest(".form-group");
+    if (!group) return true;
+    const val = input.value.trim();
+    if (input.required && !val) {
+      setFieldError(group, "This field is required.");
+      return false;
+    }
+    if (input.type === "url" && val) {
+      try { new URL(val); }
+      catch { setFieldError(group, "Please enter a valid URL (starting with https://)."); return false; }
+    }
+    setFieldError(group, null);
+    return true;
+  }
+
+  function validatePlatforms() {
+    const group = platformChips?.closest(".form-group");
+    if (!group) return true;
+    const ok = platformChips.querySelectorAll("input:checked").length > 0;
+    setFieldError(group, ok ? null : "Select at least one platform.");
+    return ok;
+  }
+
+  function validateAssets() {
+    const group = checkboxWrap?.closest(".form-group");
+    if (!group) return true;
+    const ok = checkboxWrap.querySelectorAll("input:checked").length > 0;
+    setFieldError(group, ok ? null : "Select at least one asset.");
+    return ok;
+  }
 
   function updatePreview() {
     const name             = document.getElementById("field-project")?.value.trim();
@@ -154,7 +211,7 @@ function setupForm() {
   }
 
   // Wire text inputs to preview
-  ["field-project", "field-developer", "field-desc", "field-quote", "field-thumb"].forEach((id) => {
+  ["field-project", "field-developer", "field-desc", "field-quote", "field-thumb", "field-email"].forEach((id) => {
     document.getElementById(id)?.addEventListener("input", updatePreview);
   });
 
@@ -182,8 +239,23 @@ function setupForm() {
     });
   }
 
-  // Wire asset checkboxes to preview
-  checkboxWrap?.addEventListener("change", updatePreview);
+  // Character counter for extra info
+  const extraField = document.getElementById("field-extra");
+  const extraCount = document.getElementById("extra-count");
+  if (extraField && extraCount) {
+    extraField.addEventListener("input", () => {
+      const len = extraField.value.length;
+      extraCount.textContent = `${len} / 500`;
+      extraCount.classList.toggle("form-char-count--near", len >= 450);
+      extraCount.classList.toggle("form-char-count--full", len >= 500);
+    });
+  }
+
+  // Wire asset checkboxes to preview + validate (only after first submit)
+  checkboxWrap?.addEventListener("change", () => {
+    if (submitted) validateAssets();
+    updatePreview();
+  });
 
   // Dynamic per-platform URL fields
   const urlsContainer = document.getElementById("platform-urls");
@@ -215,14 +287,49 @@ function setupForm() {
     updatePreview();
   }
 
-  platformChips?.addEventListener("change", updatePlatformUrls);
+  // Gate: only show validation errors after the first submit attempt
+  let submitted = false;
+
+  platformChips?.addEventListener("change", () => {
+    if (submitted) validatePlatforms();
+    updatePlatformUrls();
+  });
+
+  // ── Blur/input validation — only active after first submit attempt ──
+  const requiredInputs = [...form.querySelectorAll("input[required], textarea[required]")];
+  requiredInputs.forEach((input) => {
+    input.addEventListener("blur", () => {
+      if (submitted) validateInput(input);
+    });
+    input.addEventListener("input", () => {
+      if (submitted && input.closest(".form-group")?.classList.contains("form-group--error")) {
+        validateInput(input);
+      }
+    });
+  });
 
   // ── Form submit ──
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    submitted = true;
     const btn = form.querySelector(".form-submit-btn");
     btn.disabled = true;
     btn.textContent = "Sending…";
+
+    // Validate all required fields + chip groups
+    const inputs = [...form.querySelectorAll("input[required], textarea[required]")];
+    const allValid    = inputs.map(validateInput).every(Boolean);
+    const platValid   = validatePlatforms();
+    const assetValid  = validateAssets();
+
+    if (!allValid || !platValid || !assetValid) {
+      btn.disabled = false;
+      btn.textContent = "Submit project";
+      btn.classList.add("form-submit-btn--shake");
+      btn.addEventListener("animationend", () => btn.classList.remove("form-submit-btn--shake"), { once: true });
+      form.querySelector(".form-group--error")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
 
     try {
       // Formspree free plan doesn't accept binary file attachments — strip the
