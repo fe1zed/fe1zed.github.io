@@ -13,7 +13,7 @@
 //   quote        (string, optional)  — Short testimonial quote from the developer (max ~160 chars)
 
 const SHOWCASE = [
-  {
+  /*{
     name: "Dota 2",
     developer: "Valve",
     description: "A complex team-based action RPG featuring over a hundred heroes. Two teams of five battle across a vast map to destroy the enemy Ancient.",
@@ -101,5 +101,5 @@ const SHOWCASE = [
       "Itch.io": "https://blobfish.itch.io/brotato",
     },
     quote: "The CSV-based workflow of Instant Localization fits perfectly with our rapid iteration style.",
-  },
+  },*/
 ];

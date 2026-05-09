@@ -37,22 +37,10 @@ document.addEventListener("DOMContentLoaded", () => {
   setMeta("name",     "twitter:description", desc);
   setMeta("name",     "twitter:image",      thumb);
 
-  // ── Helpers ──
-  function getYouTubeId(url) {
-    const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/);
-    return m ? m[1] : null;
-  }
+  // getYouTubeId(), isYouTube(), formatSalePrice() are provided by utils.js
 
-  function isYouTube(url) {
-    return !!getYouTubeId(url);
-  }
-
-  function formatSalePrice(p) {
-    return parseFloat(p.replace(/[^0-9.]/g, "")) === 0 ? "Free" : p;
-  }
-
-  // ── Build sections ──
-  const tags = asset.tags.map((t) => `<span class="tag">${t}</span>`).join("");
+  // ── Build sections ── (renderTags from utils.js)
+  const tags = renderTags(asset.tags);
 
   const features = (asset.features || [])
     .map((f) => `<li class="feature-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>${f}</li>`)
@@ -144,16 +132,11 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     </div>` : "";
 
-  // ── Quick Start ──
-  function escapeHtml(s) {
-    return s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
-  }
-  const copyIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
-  const checkIcon2 = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+  // ── Quick Start ── (escapeHtml, ICON_COPY from utils.js)
 
   const quickStartHTML = asset.quickStart
     ? `<div class="code-block">
-        <button class="code-copy-btn" aria-label="Copy code">${copyIcon}</button>
+        <button class="code-copy-btn" aria-label="Copy code">${ICON_COPY}</button>
         <pre><code class="language-csharp">${escapeHtml(asset.quickStart)}</code></pre>
       </div>`
     : "";
@@ -187,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .map((x) => x.asset);
 
   const relatedCards = related.map((r) => {
-    const rTags = r.tags.map((t) => `<span class="tag">${t}</span>`).join("");
+    const rTags = renderTags(r.tags);
     const rPrice = r.salePrice
       ? `<span class="related-price-original">${r.price}</span><span class="related-price-sale">${formatSalePrice(r.salePrice)}</span>`
       : `<span class="related-price">${r.price}</span>`;
@@ -365,18 +348,13 @@ document.addEventListener("DOMContentLoaded", () => {
     main.querySelectorAll("pre code").forEach((el) => hljs.highlightElement(el));
   }
 
-  // ── Copy button ──
+  // ── Copy button ── (uses shared setupCopyButton from utils.js)
   main.querySelectorAll(".code-copy-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const code = btn.closest(".code-block").querySelector("code");
-      navigator.clipboard.writeText(code.innerText).then(() => {
-        btn.innerHTML = checkIcon2;
-        btn.classList.add("code-copy-btn--copied");
-        setTimeout(() => {
-          btn.innerHTML = copyIcon;
-          btn.classList.remove("code-copy-btn--copied");
-        }, 2000);
-      });
-    });
+    setupCopyButton(
+      btn,
+      () => btn.closest(".code-block").querySelector("code").innerText,
+      "code-copy-btn--copied",
+      2000,
+    );
   });
 });

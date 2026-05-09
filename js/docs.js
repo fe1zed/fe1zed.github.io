@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  // ── Copy buttons on code blocks ──
+  // ── Copy buttons on code blocks ── (uses shared utils.js)
   document.querySelectorAll(".docs-content pre").forEach((pre) => {
     const wrap = document.createElement("div");
     wrap.className = "pre-wrap";
@@ -11,27 +11,12 @@
     const btn = document.createElement("button");
     btn.className = "copy-btn";
     btn.setAttribute("aria-label", "Copy code");
-    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+    btn.innerHTML = ICON_COPY;
     wrap.appendChild(btn);
 
-    btn.addEventListener("click", () => {
+    setupCopyButton(btn, () => {
       const code = pre.querySelector("code");
-      const text = code ? code.innerText : pre.innerText;
-
-      navigator.clipboard.writeText(text).then(() => {
-        btn.classList.add("copy-btn--copied");
-        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`;
-        setTimeout(() => {
-          btn.classList.remove("copy-btn--copied");
-          btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
-        }, 1800);
-      }).catch(() => {
-        const range = document.createRange();
-        range.selectNodeContents(code || pre);
-        const sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-      });
+      return code ? code.innerText : pre.innerText;
     });
   });
 
@@ -46,30 +31,16 @@
     if (asset && asset.changelog && asset.changelog.length) {
       const sorted = asset.changelog.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
       const latest = sorted[0];
-      const total  = sorted.length;
 
-      const dateStr = new Date(latest.date).toLocaleDateString("en-US", {
-        year: "numeric", month: "long", day: "numeric",
-      });
-
-      function group(label, arr) {
-        if (!arr || !arr.length) return "";
-        return `<p class="changelog-group-label">${label}</p>
-          <ul>${arr.map((i) => `<li>${i}</li>`).join("")}</ul>`;
-      }
-
-      const body = (latest.added || latest.changed || latest.fixed)
-        ? group("Added", latest.added) + group("Changed", latest.changed) + group("Fixed", latest.fixed)
-        : `<ul>${(latest.items || []).map((i) => `<li>${i}</li>`).join("")}</ul>`;
-
+      // formatLongDate() and renderChangelogBody() are provided by utils.js
       clSection.innerHTML = `
         <h2>Changelog</h2>
         <div class="changelog-entry">
-          <p class="changelog-version">v${latest.version} <span class="changelog-date">${dateStr}</span></p>
-          ${body}
+          <p class="changelog-version">v${latest.version} <span class="changelog-date">${formatLongDate(latest.date)}</span></p>
+          ${renderChangelogBody(latest)}
         </div>
         <a class="docs-cl-all-link" href="../changelog.html?id=${assetId}">
-          View all ${total} releases
+          View all ${sorted.length} releases
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </a>`;
     }
@@ -156,12 +127,7 @@
     let activeIdx = 0;
     let currentResults = [];
 
-    function escapeHtml(s) {
-      return s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
-    }
-    function escapeRegex(s) {
-      return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    }
+    // escapeHtml() and escapeRegex() are provided by utils.js
 
     function search(q) {
       const lq = q.trim().toLowerCase();

@@ -3,47 +3,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
 
-  // ── Shared helpers ──
-  function formatDate(iso) {
-    return new Date(iso).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  }
-
-  function versionId(version) {
-    return "v" + version.replace(/\./g, "-");
-  }
-
-  function renderGroup(label, arr) {
-    if (!arr || !arr.length) return "";
-    return `<p class="changelog-group-label">${label}</p>
-      <ul>${arr.map((i) => `<li>${i}</li>`).join("")}</ul>`;
-  }
+  // formatLongDate(), versionAnchorId(), renderChangelogBody() are provided by utils.js
 
   function renderEntry(entry, showChip, isLatest) {
-    const { asset, version, date, added, changed, fixed, items } = entry;
+    const { asset, version, date } = entry;
 
-    const body = (added || changed || fixed)
-      ? renderGroup("Added", added) + renderGroup("Changed", changed) + renderGroup("Fixed", fixed)
-      : `<ul>${(items || []).map((i) => `<li>${i}</li>`).join("")}</ul>`;
-
-    const chip = showChip
-      ? `<a class="cl-asset-chip" href="asset.html?id=${asset.id}">${asset.name}</a>`
-      : "";
-
+    const chip  = showChip ? `<a class="cl-asset-chip" href="asset.html?id=${asset.id}">${asset.name}</a>` : "";
     const badge = isLatest ? `<span class="cl-latest-badge">Latest</span>` : "";
 
     return `
-      <div class="cl-entry" id="${versionId(version)}">
+      <div class="cl-entry" id="${versionAnchorId(version)}">
         <div class="cl-entry-meta">
           ${chip}
           <span class="cl-version">v${version}</span>
           ${badge}
-          <span class="cl-date">${formatDate(date)}</span>
+          <span class="cl-date">${formatLongDate(date)}</span>
         </div>
-        <div class="cl-body">${body}</div>
+        <div class="cl-body">${renderChangelogBody(entry)}</div>
       </div>`;
   }
 
@@ -66,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function buildJumpBar(entries) {
     const pills = entries
       .map((e, i) => i === 0
-        ? `<a class="cl-jump-pill cl-jump-pill--latest" href="#${versionId(e.version)}">LATEST v${e.version}</a>`
-        : `<a class="cl-jump-pill" href="#${versionId(e.version)}">v${e.version}</a>`)
+        ? `<a class="cl-jump-pill cl-jump-pill--latest" href="#${versionAnchorId(e.version)}">LATEST v${e.version}</a>`
+        : `<a class="cl-jump-pill" href="#${versionAnchorId(e.version)}">v${e.version}</a>`)
       .join("");
     return `<div class="cl-jump-bar">${pills}</div>`;
   }
