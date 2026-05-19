@@ -1,0 +1,233 @@
+/* ── Copy buttons — shared by .code-copy-btn (asset.js) and .copy-btn (docs.js) ── */
+.code-copy-btn,
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 0.15s, color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.code-copy-btn { background: var(--bg-card); }
+.copy-btn      { background: var(--bg); }
+
+.code-block:hover .code-copy-btn,
+.pre-wrap:hover .copy-btn {
+  opacity: 1;
+}
+
+.code-copy-btn:hover,
+.copy-btn:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+}
+
+.code-copy-btn--copied,
+.copy-btn--copied {
+  color: #4caf50 !important;
+  border-color: rgba(76, 175, 80, 0.35) !important;
+  opacity: 1 !important;
+}
+
+/* ── Code block styles — shared by asset Quick Start + docs ── */
+.asset-quickstart pre,
+.docs-content pre {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0;
+  overflow-x: auto;
+}
+
+.asset-quickstart pre { margin: 0; }
+.docs-content pre     { margin-bottom: 16px; }
+
+.asset-quickstart pre code,
+.docs-content pre code {
+  display: block;
+  background: none;
+  border: none;
+  padding: 20px 24px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: #BCBEC4;
+  line-height: 1.7;
+}
+
+.screenshots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.screenshot-item {
+  position: relative;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  cursor: zoom-in;
+  transition: border-color 0.15s;
+  aspect-ratio: 16 / 9;
+  background: #111;
+}
+
+.screenshot-item:hover {
+  border-color: var(--border-hover);
+}
+
+.screenshot-item img { transition: opacity 0.15s; }
+
+.screenshot-item:hover img {
+  opacity: 0.8;
+}
+
+.screenshot-item--video {
+  cursor: pointer;
+}
+
+.screenshot-play-btn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  pointer-events: none;
+}
+
+.screenshot-play-btn svg {
+  width: 48px;
+  height: 48px;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 50%;
+  padding: 12px;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.screenshot-item--video:hover .screenshot-play-btn svg {
+  background: rgba(0, 0, 0, 0.75);
+  transform: scale(1.08);
+}
+
+/* ── Inline code — shared by docs body + changelog list items ── */
+.docs-content code,
+.cl-body li code {
+  font-family: var(--font-mono);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+}
+
+.docs-content code  { font-size: 0.8rem;  padding: 2px 6px; }
+.cl-body li code    { font-size: 0.78rem; padding: 1px 5px; }
+
+
+/* ── Syntax highlighting — JetBrains Rider Dark (New UI) ── */
+.docs-content pre code,
+.hljs-title.class_,
+.hljs-class .hljs-title,
+.hljs-params,
+.hljs-variable,
+.hljs-attr                              { color: #BCBEC4; }   /* default — body, classes, params, vars */
+.hljs-keyword,
+.hljs-built_in                          { color: #CF8E6D; }   /* soft orange — keywords */
+.hljs-string,
+.hljs-template-string,
+.hljs-meta .hljs-string                 { color: #6AAB73; }   /* green — strings (incl. in [Attrs]) */
+.hljs-number,
+.hljs-literal                           { color: #2AACB8; }   /* teal — numbers, true/false/null */
+.hljs-title.function_                   { color: #56A8F5; }   /* blue — method names */
+.hljs-meta,
+.hljs-meta .hljs-keyword                { color: #B3AE60; }   /* yellow — [Attributes] */
+.hljs-comment                           { color: #7A7E85; font-style: italic; }
+
+
+.docs-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+.docs-content thead tr {
+  border-bottom: 1px solid #333;
+}
+
+.docs-content th {
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 8px 14px 8px 0;
+}
+
+.docs-content td {
+  padding: 9px 14px 9px 0;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+.docs-content td:first-child,
+.docs-content th:first-child {
+  padding-left: 0;
+}
+
+.docs-content td strong {
+  color: var(--text);
+}
+
+.docs-note {
+  background: rgba(255,255,255,0.04);
+  border-left: 3px solid #444;
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.85rem !important;
+}
+
+.changelog-entry {
+  margin-bottom: 36px;
+}
+
+.changelog-version {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text) !important;
+  margin-bottom: 12px !important;
+}
+
+.changelog-date {
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 8px;
+}
+
+.changelog-group-label {
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.09em !important;
+  text-transform: uppercase !important;
+  color: var(--text-muted) !important;
+  margin-top: 14px !important;
+  margin-bottom: 4px !important;
+}
+
+/* ── Copy button on code blocks ── */
+.pre-wrap {
+  position: relative;
+}
+

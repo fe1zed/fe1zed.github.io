@@ -1,0 +1,25 @@
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  #asset-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  header {
+    padding: 56px 20px 40px;
+  }
+
+  main {
+    padding: 40px 20px 64px;
+  }
+
+  #asset-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-wrap {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}

@@ -1,0 +1,31 @@
+:root {
+  --bg:        #0d0d0d;
+  --bg-card:   #161616;
+  --bg-card-hover: #1c1c1c;
+  --border:    #252525;
+  --border-hover: #444;
+  --text:      #e8e8e8;
+  --text-muted:#888;
+  --accent:    #e8e8e8;
+  --tag-bg:    #222;
+  --tag-text:  #999;
+  --btn-bg:    #e8e8e8;
+  --btn-text:  #0d0d0d;
+  --radius:    8px;
+
+  /* Fonts */
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Footer columns horizontal offset — positive = right, negative = left */
+  --footer-cols-x: -500px;
+
+  /* Docs content max width */
+  --docs-content-width: none;
+
+  /* Asset page content max width */
+  --asset-content-width: 1600px;
+
+  /* Changelog page content max width */
+  --changelog-content-width: 1600px;
+}
+

@@ -1,0 +1,61 @@
+/* ── Changelog page ── */
+.cl-main {
+  flex: 1;
+  max-width: var(--changelog-content-width);
+  margin: 0 auto;
+  padding: 30px 24px 96px;
+}
+
+.cl-header {
+  margin-bottom: 56px;
+}
+
+.cl-heading {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.page-type-badge {
+  display: inline-block;
+  font-size: 0.5em;
+  font-weight: 700;
+  font-family: inherit;
+  font-style: normal;
+  letter-spacing: -0.03em;
+  -webkit-font-smoothing: subpixel-antialiased;
+  color: var(--btn-text);
+  background: var(--btn-bg);
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  white-space: nowrap;
+  vertical-align: middle;
+  position: relative;
+  top: -0.1em;
+}
+
+.cl-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.cl-entry {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 0 48px;
+  padding: 36px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cl-entry:first-child {
+  padding-top: 0;
+}
+
+.cl-entry-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding-top: 1px;
+}
+

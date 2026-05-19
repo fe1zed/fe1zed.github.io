@@ -1,0 +1,42 @@
+/* ── Header ── */
+header {
+  padding: 72px 24px 64px;
+  text-align: center;
+}
+
+.brand {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+.brand span {
+  color: var(--text-muted);
+}
+
+.tagline {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* ── Main ── */
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 32px;
+  font-weight: 1000;
+}
+

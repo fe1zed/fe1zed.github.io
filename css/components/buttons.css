@@ -1,0 +1,73 @@
+/* ── Buttons — primary / ghost shared rules ── */
+/* Primary: white pill on dark bg, fades on hover. */
+.card-btn,
+.asset-btn-primary,
+.form-submit-btn,
+.contact-form .form-submit,
+.page-404-btn {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.card-btn:hover,
+.asset-btn-primary:hover,
+.form-submit-btn:hover,
+.contact-form .form-submit:hover,
+.page-404-btn:hover {
+  opacity: 0.85;
+}
+
+/* Ghost: transparent border pill, colors in on hover. */
+.card-btn--ghost,
+.asset-btn-ghost,
+.tag-chip {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.card-btn--ghost:hover,
+.asset-btn-ghost:hover,
+.tag-chip:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+  opacity: 1;
+}
+
+/* Active tag chip — must come AFTER .tag-chip ghost rule to win the cascade */
+.tag-chip--active {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border-color: var(--btn-bg);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.tag-chip--active:hover {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border-color: var(--btn-bg);
+  opacity: 0.85;
+}
+
+/* Per-instance sizing — shared properties live above */
+.card-btn {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 8px 16px;
+}
+
+.card-btn--ghost {
+  border-color: var(--border);
+}
+

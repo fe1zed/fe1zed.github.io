@@ -1,0 +1,133 @@
+/* ── Inverted badges (light pill on dark bg) — shared between asset chip + latest badge ── */
+.cl-asset-chip,
+.cl-latest-badge {
+  text-transform: uppercase;
+  color: var(--btn-text);
+  background: var(--btn-bg);
+  border-radius: 4px;
+}
+
+.cl-asset-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  text-decoration: none;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.cl-asset-chip:hover {
+  opacity: 0.8;
+}
+
+.cl-version {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.cl-date {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.cl-body {
+  border-left: 1px solid var(--border);
+  padding-left: 40px;
+}
+
+.cl-body ul {
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+.cl-body li {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 4px;
+}
+
+.cl-body .changelog-group-label {
+  font-size: 0.82rem !important;
+  color: var(--text) !important;
+  margin-top: 20px !important;
+  margin-bottom: 6px !important;
+}
+
+.cl-body > .changelog-group-label:first-child {
+  margin-top: 0 !important;
+}
+
+.cl-body > ul:first-child {
+  margin-top: 0;
+}
+
+.cl-back { margin-bottom: 20px; }
+
+.cl-sub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.cl-jump-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.cl-jump-pill {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  padding: 4px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+
+.cl-jump-pill:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+  background: rgba(255,255,255,0.04);
+}
+
+/* Latest pill — must come AFTER .cl-jump-pill ghost rule to win the cascade */
+.cl-jump-pill--latest {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border-color: var(--btn-bg);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.cl-jump-pill--latest:hover {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border-color: var(--btn-bg);
+  opacity: 0.85;
+}
+
+.cl-latest-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  padding: 2px 8px;
+}
+
+.cl-empty {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+

@@ -1,0 +1,146 @@
+/* ── Card base — shared by .card, .showcase-card, .related-card ── */
+.card,
+.showcase-card,
+.related-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.card:hover,
+.showcase-card:hover,
+.related-card:hover {
+  background: var(--bg-card-hover);
+  border-color: #333;
+  transform: translateY(-2px);
+}
+
+.card { border-radius: var(--radius); }
+
+.card-thumb {
+  aspect-ratio: 16 / 9;
+  background: #111;
+  overflow: hidden;
+  position: relative;
+}
+
+
+/* ── All cover-fit images share the same fill rules ── */
+.card-thumb img,
+.showcase-card-thumb img,
+.asset-hero-image img,
+.screenshot-item img,
+.related-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-thumb img        { transition: opacity 0.2s; }
+
+/* ── "No preview" placeholder — shared by .card-thumb + .related-card-thumb ── */
+.card-thumb.no-img,
+.related-card-thumb.no-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-thumb.no-img::after,
+.related-card-thumb.no-img::after {
+  content: "No preview";
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.card-thumb.no-img img,
+.related-card-thumb.no-img img {
+  display: none;
+}
+
+.card-thumb.no-img::after          { font-size: 0.75rem; }
+.related-card-thumb.no-img::after  { font-size: 0.7rem; }
+
+.card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+/* ── Small label pills — shared bg + radius across .tag, .asset-meta-item, .compat-platform ── */
+.tag,
+.asset-meta-item,
+.compat-platform {
+  background: var(--tag-bg);
+  border-radius: 4px;
+}
+
+.tag {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tag-text);
+  padding: 3px 8px;
+}
+
+.card-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.card-desc {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.card-price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.card-price-original {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.card-price--sale {
+  color: #7dcea0;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+

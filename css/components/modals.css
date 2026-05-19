@@ -1,0 +1,113 @@
+/* ── Lightbox ── */
+/* ── Full-screen modals — shared by .lightbox + .docs-search-modal ── */
+.lightbox,
+.docs-search-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.lightbox--open,
+.docs-search-modal--open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox {
+  align-items: center;
+  transition: opacity 0.2s ease;
+}
+
+/* ── Modal backdrops — shared between lightbox + docs search ── */
+.lightbox-backdrop,
+.docs-search-backdrop {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.lightbox-backdrop      { background: rgba(0, 0, 0, 0.88); }
+
+.lightbox-media-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-img,
+.lightbox-video {
+  max-height: 82vh;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox-img {
+  max-width: 90vw;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+.lightbox-video {
+  width: 90vw;
+  max-width: 1100px;
+  height: calc(90vw * 9 / 16);
+  display: none;
+}
+
+/* ── Lightbox controls — shared by close + prev/next ── */
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  z-index: 2;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+}
+
+.lightbox-close { top: 20px; right: 24px; width: 36px; height: 36px; }
+
+.lightbox-prev,
+.lightbox-next {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+}
+
+.lightbox-prev { left: 24px; }
+.lightbox-next { right: 24px; }
+
+.lightbox-counter {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+

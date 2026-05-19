@@ -1,0 +1,354 @@
+/* ── Asset landing page ── */
+.asset-main {
+  flex: 1;
+  max-width: var(--asset-content-width);
+  margin: 0 auto;
+  padding: 25px 24px 10px;
+}
+
+.asset-not-found {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.asset-not-found a {
+  color: var(--text);
+}
+
+/* ── Back links — shared by .asset-back, .docs-back, .cl-back ── */
+.asset-back,
+.docs-back,
+.cl-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.asset-back:hover,
+.docs-back:hover,
+.cl-back:hover {
+  color: var(--text);
+}
+
+.asset-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+.asset-hero-tags {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.asset-hero-name {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+
+.asset-hero-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.asset-hero-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.asset-meta-item {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: 4px 10px;
+}
+
+.asset-hero-price {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.asset-price-original {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.asset-price-sale {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #7dcea0;
+}
+
+.asset-price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.asset-hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.asset-btn-primary,
+.asset-btn-ghost {
+  display: inline-block;
+  font-size: 0.875rem;
+  padding: 12px 24px;
+  border-radius: 6px;
+}
+
+.asset-btn-primary { font-weight: 600; }
+.asset-btn-ghost   { font-weight: 500; }
+
+.asset-hero-image {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #111;
+  aspect-ratio: 16 / 9;
+}
+
+.asset-hero-image img { transform: scale(1.05); }
+
+.asset-hero-image.no-img img {
+  display: none;
+}
+
+.asset-section {
+  margin-bottom: 64px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+}
+
+.asset-section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+}
+
+/* ── Dependencies ── */
+.asset-deps {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.asset-deps .asset-section-title {
+  margin-bottom: 16px;
+}
+
+/* ── Features + Compatibility side-by-side ── */
+.asset-info-grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 0 64px;
+  border-top: 1px solid var(--border);
+  margin-bottom: 64px;
+}
+
+.asset-info-grid .asset-section {
+  border-top: none;
+  margin-bottom: 0;
+}
+
+.features-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.feature-item svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--text);
+  opacity: 0.6;
+}
+
+/* ── Compatibility-specific overrides (most table styling shared above) ── */
+.compat-table {
+  margin-bottom: 16px;
+}
+
+.compat-thead,
+.compat-tr {
+  display: grid;
+  /* grid-template-columns set inline per instance */
+}
+
+.compat-td--version {
+  font-weight: 500;
+  color: white;
+}
+
+.compat-status {
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.compat-status--ok { color: #4caf50; }
+.compat-status--no { color: #e57373; }
+.compat-status--na { color: var(--text-muted); }
+
+/* Platforms row below table */
+.compat-platforms {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.compat-platforms-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.compat-platform {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text);
+  padding: 3px 10px;
+}
+
+@media (max-width: 640px) {
+  .compat-thead,
+  .compat-tr {
+    grid-template-columns: 1fr !important;
+  }
+  .compat-th--version,
+  .compat-td--version {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 860px) {
+  .asset-info-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .asset-info-grid .asset-section--compat {
+    border-top: 1px solid var(--border);
+  }
+}
+
+/* ── Quick Start code block ── */
+.code-block {
+  position: relative;
+}
+
+/* ── "You might also like" section ── */
+.asset-section--related {
+  text-align: center;
+}
+
+.asset-section-title--related {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  text-align: left;
+}
+
+.related-card {
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+
+.related-card-thumb {
+  aspect-ratio: 16 / 9;
+  background: #111;
+  overflow: hidden;
+}
+
+.related-card-thumb img { transition: opacity 0.15s; }
+
+.related-card:hover .related-card-thumb img {
+  opacity: 0.85;
+}
+
+.related-card-body {
+  padding: 10px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.related-card-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.related-card-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.related-card-price {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.related-price-original {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.related-price-sale {
+  color: #7dcea0;
+}
+
+.related-price {
+  color: var(--text);
+}
+

@@ -1,0 +1,145 @@
+/* ── Nav ── */
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13, 13, 13, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.nav-logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+
+.nav-logo span {
+  color: var(--text-muted);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  position: relative;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 6px 14px;
+  transition: color 0.15s;
+}
+
+.nav-link::before,
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  height: 1px;
+  width: 0;
+  background: currentColor;
+  transition: width 0.25s ease;
+}
+.nav-link::before { left: 14px; }
+.nav-link::after  { right: 14px; }
+
+.nav-link:hover {
+  color: var(--text);
+}
+.nav-link:hover::before,
+.nav-link:hover::after {
+  width: calc(50% - 14px);
+}
+
+.nav-link--active {
+  color: var(--text);
+}
+.nav-link--active::before,
+.nav-link--active::after {
+  width: calc(50% - 14px);
+}
+
+.nav-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+  margin: 0 4px;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  padding: 6px;
+  border-radius: 8px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.nav-icon:hover {
+  color: var(--text);
+}
+
+/* ── Animated underline — reusable, apply .link-animated to any element ── */
+.link-animated {
+  position: relative;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.link-animated:hover {
+  color: var(--text);
+}
+
+.footer-col a,
+.contact-text a {
+  position: relative;
+}
+
+.link-animated::before,
+.link-animated::after,
+.footer-col a::before,
+.footer-col a::after,
+.contact-text a::before,
+.contact-text a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  height: 1px;
+  width: 0;
+  background: currentColor;
+  transition: width 0.25s ease;
+}
+
+.link-animated::before,
+.footer-col a::before,
+.contact-text a::before { left: 0; }
+
+.link-animated::after,
+.footer-col a::after,
+.contact-text a::after  { right: 0; }
+
+.link-animated:hover::before,
+.link-animated:hover::after,
+.footer-col a:hover::before,
+.footer-col a:hover::after,
+.contact-text a:hover::before,
+.contact-text a:hover::after {
+  width: 50%;
+}
+
