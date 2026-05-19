@@ -1,4 +1,4 @@
-/* ── Card base — shared by .card, .showcase-card, .related-card ── */
+/* -- Card base - shared by .card, .showcase-card, .related-card -- */
 .card,
 .showcase-card,
 .related-card {
@@ -28,7 +28,7 @@
 }
 
 
-/* ── All cover-fit images share the same fill rules ── */
+/* -- All cover-fit images share the same fill rules -- */
 .card-thumb img,
 .showcase-card-thumb img,
 .asset-hero-image img,
@@ -42,7 +42,7 @@
 
 .card-thumb img        { transition: opacity 0.2s; }
 
-/* ── "No preview" placeholder — shared by .card-thumb + .related-card-thumb ── */
+/* -- "No preview" placeholder - shared by .card-thumb + .related-card-thumb -- */
 .card-thumb.no-img,
 .related-card-thumb.no-img {
   display: flex;
@@ -79,7 +79,7 @@
   margin-bottom: 12px;
 }
 
-/* ── Small label pills — shared bg + radius across .tag, .asset-meta-item, .compat-platform ── */
+/* -- Small label pills - shared bg + radius across .tag, .asset-meta-item, .compat-platform -- */
 .tag,
 .asset-meta-item,
 .compat-platform {

@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return `<div class="cl-jump-bar">${pills}</div>`;
   }
 
-  // ── Single-asset view ──
+  // -- Single-asset view --
   if (id) {
     const asset = ASSETS.find((a) => a.id === id);
 

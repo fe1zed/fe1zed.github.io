@@ -1,4 +1,4 @@
-// ── Shared utilities — must be loaded before main.js / asset.js / docs.js ──
+// -- Shared utilities — must be loaded before main.js / asset.js / docs.js --
 
 /** Treats "$0" / "0" as "Free", returns the original string otherwise. */
 function formatSalePrice(p) {
@@ -26,7 +26,7 @@ function escapeRegex(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-// ── Copy-to-clipboard icons (shared across asset, docs, changelog) ──
+// -- Copy-to-clipboard icons (shared across asset, docs, changelog) --
 const ICON_COPY  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
 const ICON_CHECK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
 
@@ -53,7 +53,7 @@ function renderTags(tags) {
   return (tags || []).map((t) => `<span class="tag">${t}</span>`).join("");
 }
 
-// ── Changelog rendering — shared by changelog.js + docs.js ──
+// -- Changelog rendering — shared by changelog.js + docs.js --
 
 /** Long-format date: "April 9, 2026" */
 function formatLongDate(iso) {

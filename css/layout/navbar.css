@@ -1,4 +1,4 @@
-/* ── Nav ── */
+/* -- Nav -- */
 .site-nav {
   display: flex;
   align-items: center;
@@ -92,7 +92,7 @@
   color: var(--text);
 }
 
-/* ── Animated underline — reusable, apply .link-animated to any element ── */
+/* -- Animated underline - reusable, apply .link-animated to any element -- */
 .link-animated {
   position: relative;
   color: var(--text-muted);

@@ -1,5 +1,5 @@
-/* ── Lightbox ── */
-/* ── Full-screen modals — shared by .lightbox + .docs-search-modal ── */
+/* -- Lightbox -- */
+/* -- Full-screen modals - shared by .lightbox + .docs-search-modal -- */
 .lightbox,
 .docs-search-modal {
   position: fixed;
@@ -22,7 +22,7 @@
   transition: opacity 0.2s ease;
 }
 
-/* ── Modal backdrops — shared between lightbox + docs search ── */
+/* -- Modal backdrops - shared between lightbox + docs search -- */
 .lightbox-backdrop,
 .docs-search-backdrop {
   position: absolute;
@@ -63,7 +63,7 @@
   display: none;
 }
 
-/* ── Lightbox controls — shared by close + prev/next ── */
+/* -- Lightbox controls - shared by close + prev/next -- */
 .lightbox-close,
 .lightbox-prev,
 .lightbox-next {

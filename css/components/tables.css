@@ -1,4 +1,4 @@
-/* ── Tables (deps + compat share most styling) ── */
+/* -- Tables (deps + compat share most styling) -- */
 .deps-table,
 .compat-table {
   border: 1px solid var(--border);

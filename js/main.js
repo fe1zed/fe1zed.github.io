@@ -10,7 +10,7 @@ function latestUpdate(asset) {
   return Math.max(...asset.changelog.map((e) => new Date(e.date).getTime()));
 }
 
-// ── State ──
+// -- State --
 let searchQuery = "";
 let activeTag   = "All";
 let sortBy      = "default";

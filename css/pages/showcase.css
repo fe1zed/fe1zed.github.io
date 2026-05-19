@@ -1,4 +1,4 @@
-/* ── Showcase page ── */
+/* -- Showcase page -- */
 .showcase-main {
   flex: 1;
   max-width: 1300px;
@@ -134,7 +134,7 @@
   margin-top: 10px;
 }
 
-/* Asset tag in showcase card — shares all styling with .platform-badge below */
+/* Asset tag in showcase card - shares all styling with .platform-badge below */
 
 
 .showcase-empty {
@@ -144,7 +144,7 @@
   padding: 48px 0 80px;
 }
 
-/* ── Submit form ── */
+/* -- Submit form -- */
 .showcase-submit {
   border-top: 1px solid var(--border);
   padding-top: 64px;
@@ -295,7 +295,7 @@
   color: #e57373;
 }
 
-/* ── Form validation ── */
+/* -- Form validation -- */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   15%       { transform: translateX(-5px); }
@@ -341,7 +341,7 @@
   border-radius: 4px;
 }
 
-/* Form pills — used by both .asset-checkbox and .platform-chip */
+/* Form pills - used by both .asset-checkbox and .platform-chip */
 .asset-checkboxes,
 .platform-chips {
   display: flex;
@@ -399,7 +399,7 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Platform badges — showcase card */
+/* Platform badges - showcase card */
 .showcase-card-platforms {
   display: flex;
   flex-wrap: wrap;

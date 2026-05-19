@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  // ── Copy buttons on code blocks ── (uses shared utils.js)
+  // -- Copy buttons on code blocks -- (uses shared utils.js)
   document.querySelectorAll(".docs-content pre").forEach((pre) => {
     const wrap = document.createElement("div");
     wrap.className = "pre-wrap";
@@ -20,7 +20,7 @@
     });
   });
 
-  // ── Latest release in #changelog section ──
+  // -- Latest release in #changelog section --
   const clSection = document.getElementById("changelog");
   const backLink  = document.querySelector(".docs-back");
 
@@ -46,7 +46,7 @@
     }
   }
 
-  // ── Scroll spy ──
+  // -- Scroll spy --
   const navLinks = Array.from(document.querySelectorAll(".docs-nav a[href^='#']"));
   if (!navLinks.length) return;
 
@@ -81,7 +81,7 @@
 
   updateSpy();
 
-  // ── Docs search (Cmd+K / Ctrl+K) ──
+  // -- Docs search (Cmd+K / Ctrl+K) --
   setupDocsSearch();
 
   function setupDocsSearch() {

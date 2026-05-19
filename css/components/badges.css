@@ -1,4 +1,4 @@
-/* ── Inverted badges (light pill on dark bg) — shared between asset chip + latest badge ── */
+/* -- Inverted badges (light pill on dark bg) - shared between asset chip + latest badge -- */
 .cl-asset-chip,
 .cl-latest-badge {
   text-transform: uppercase;
@@ -101,7 +101,7 @@
   background: rgba(255,255,255,0.04);
 }
 
-/* Latest pill — must come AFTER .cl-jump-pill ghost rule to win the cascade */
+/* Latest pill - must come AFTER .cl-jump-pill ghost rule to win the cascade */
 .cl-jump-pill--latest {
   background: var(--btn-bg);
   color: var(--btn-text);

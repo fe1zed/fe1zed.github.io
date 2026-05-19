@@ -1,21 +1,21 @@
-/* ════════════════════════════════════════════════════════════
-   main.css — stylesheet entry point
+/* ============================================================
+   main.css - stylesheet entry point
    The only CSS file linked from HTML. Imports every module below
    in cascade order: base → layout → components → pages → utilities.
    Add a new module by dropping a file in the right folder and
    adding one @import line in the matching group.
-   ════════════════════════════════════════════════════════════ */
+   ============================================================ */
 
-/* ── Base — variables, reset, document defaults ── */
+/* -- Base - variables, reset, document defaults -- */
 @import "base/variables.css";
 @import "base/reset.css";
 
-/* ── Layout — page chrome ── */
+/* -- Layout - page chrome -- */
 @import "layout/navbar.css";
 @import "layout/header.css";
 @import "layout/footer.css";
 
-/* ── Components — reusable UI pieces ── */
+/* -- Components - reusable UI pieces -- */
 @import "components/buttons.css";
 @import "components/cards.css";
 @import "components/tables.css";
@@ -23,7 +23,7 @@
 @import "components/modals.css";
 @import "components/badges.css";
 
-/* ── Pages — page-specific styles ── */
+/* -- Pages - page-specific styles -- */
 @import "pages/home.css";
 @import "pages/showcase.css";
 @import "pages/asset.css";
@@ -32,5 +32,5 @@
 @import "pages/contact.css";
 @import "pages/error.css";
 
-/* ── Utilities — responsive overrides, helpers ── */
+/* -- Utilities - responsive overrides, helpers -- */
 @import "utilities/responsive.css";

@@ -1,4 +1,4 @@
-/* ── Docs page ── */
+/* -- Docs page -- */
 .docs-layout {
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -137,7 +137,7 @@
   font-weight: 600;
 }
 
-/* ── Docs changelog footer link ── */
+/* -- Docs changelog footer link -- */
 .docs-cl-all-link {
   display: inline-flex;
   align-items: center;
@@ -154,7 +154,7 @@
   color: var(--text);
 }
 
-/* ── Docs search ── */
+/* -- Docs search -- */
 .docs-search-trigger {
   margin-top: 16px;
   display: flex;
@@ -183,7 +183,7 @@
   text-align: left;
 }
 
-/* ── Keyboard shortcut chips — shared by search trigger + footer ── */
+/* -- Keyboard shortcut chips - shared by search trigger + footer -- */
 .docs-search-trigger kbd,
 .docs-search-footer kbd {
   font-family: var(--font-mono);

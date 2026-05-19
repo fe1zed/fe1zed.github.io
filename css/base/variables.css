@@ -16,7 +16,7 @@
   /* Fonts */
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Footer columns horizontal offset — positive = right, negative = left */
+  /* Footer columns horizontal offset - positive = right, negative = left */
   --footer-cols-x: -500px;
 
   /* Docs content max width */

@@ -1,4 +1,4 @@
-/* ── Copy buttons — shared by .code-copy-btn (asset.js) and .copy-btn (docs.js) ── */
+/* -- Copy buttons - shared by .code-copy-btn (asset.js) and .copy-btn (docs.js) -- */
 .code-copy-btn,
 .copy-btn {
   position: absolute;
@@ -39,7 +39,7 @@
   opacity: 1 !important;
 }
 
-/* ── Code block styles — shared by asset Quick Start + docs ── */
+/* -- Code block styles - shared by asset Quick Start + docs -- */
 .asset-quickstart pre,
 .docs-content pre {
   background: var(--bg-card);
@@ -119,7 +119,7 @@
   transform: scale(1.08);
 }
 
-/* ── Inline code — shared by docs body + changelog list items ── */
+/* -- Inline code - shared by docs body + changelog list items -- */
 .docs-content code,
 .cl-body li code {
   font-family: var(--font-mono);
@@ -133,23 +133,23 @@
 .cl-body li code    { font-size: 0.78rem; padding: 1px 5px; }
 
 
-/* ── Syntax highlighting — JetBrains Rider Dark (New UI) ── */
+/* -- Syntax highlighting - JetBrains Rider Dark (New UI) -- */
 .docs-content pre code,
 .hljs-title.class_,
 .hljs-class .hljs-title,
 .hljs-params,
 .hljs-variable,
-.hljs-attr                              { color: #BCBEC4; }   /* default — body, classes, params, vars */
+.hljs-attr                              { color: #BCBEC4; }   /* default - body, classes, params, vars */
 .hljs-keyword,
-.hljs-built_in                          { color: #CF8E6D; }   /* soft orange — keywords */
+.hljs-built_in                          { color: #CF8E6D; }   /* soft orange - keywords */
 .hljs-string,
 .hljs-template-string,
-.hljs-meta .hljs-string                 { color: #6AAB73; }   /* green — strings (incl. in [Attrs]) */
+.hljs-meta .hljs-string                 { color: #6AAB73; }   /* green - strings (incl. in [Attrs]) */
 .hljs-number,
-.hljs-literal                           { color: #2AACB8; }   /* teal — numbers, true/false/null */
-.hljs-title.function_                   { color: #56A8F5; }   /* blue — method names */
+.hljs-literal                           { color: #2AACB8; }   /* teal - numbers, true/false/null */
+.hljs-title.function_                   { color: #56A8F5; }   /* blue - method names */
 .hljs-meta,
-.hljs-meta .hljs-keyword                { color: #B3AE60; }   /* yellow — [Attributes] */
+.hljs-meta .hljs-keyword                { color: #B3AE60; }   /* yellow - [Attributes] */
 .hljs-comment                           { color: #7A7E85; font-style: italic; }
 
 
@@ -226,7 +226,7 @@
   margin-bottom: 4px !important;
 }
 
-/* ── Copy button on code blocks ── */
+/* -- Copy button on code blocks -- */
 .pre-wrap {
   position: relative;
 }

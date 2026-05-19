@@ -83,7 +83,7 @@ function setupForm() {
   const success = document.getElementById("form-success");
   if (!form) return;
 
-  // ── Platform chips — generated from PLATFORM_ICONS (single source of truth) ──
+  // -- Platform chips — generated from PLATFORM_ICONS (single source of truth) --
   const platformChipsEl = document.getElementById("platform-chips");
   if (platformChipsEl) {
     platformChipsEl.innerHTML = Object.keys(PLATFORM_ICONS).map((name) =>
@@ -91,7 +91,7 @@ function setupForm() {
     ).join("");
   }
 
-  // ── Asset checkboxes ──
+  // -- Asset checkboxes --
   const checkboxWrap = document.getElementById("asset-checkboxes");
   if (checkboxWrap && typeof ASSETS !== "undefined") {
     checkboxWrap.innerHTML = ASSETS.map((a) => `
@@ -102,7 +102,7 @@ function setupForm() {
     ).join("");
   }
 
-  // ── Live preview elements ──
+  // -- Live preview elements --
   const previewImg        = document.getElementById("preview-img");
   const previewThumbEmpty = document.getElementById("preview-thumb-empty");
   const previewDev        = document.getElementById("preview-dev");
@@ -113,7 +113,7 @@ function setupForm() {
   const previewQuote      = document.getElementById("preview-quote");
   const platformChips     = document.getElementById("platform-chips");
 
-  // ── Validation helpers ──
+  // -- Validation helpers --
   function setFieldError(group, message) {
     if (!group) return;
     group.classList.toggle("form-group--error", !!message);
@@ -294,7 +294,7 @@ function setupForm() {
     updatePlatformUrls();
   });
 
-  // ── Blur/input validation — only active after first submit attempt ──
+  // -- Blur/input validation — only active after first submit attempt --
   const requiredInputs = [...form.querySelectorAll("input[required], textarea[required]")];
   requiredInputs.forEach((input) => {
     input.addEventListener("blur", () => {
@@ -307,7 +307,7 @@ function setupForm() {
     });
   });
 
-  // ── Form submit ──
+  // -- Form submit --
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     submitted = true;

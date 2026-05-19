@@ -1,4 +1,4 @@
-/* ── Buttons — primary / ghost shared rules ── */
+/* -- Buttons - primary / ghost shared rules -- */
 /* Primary: white pill on dark bg, fades on hover. */
 .card-btn,
 .asset-btn-primary,
@@ -42,7 +42,7 @@
   opacity: 1;
 }
 
-/* Active tag chip — must come AFTER .tag-chip ghost rule to win the cascade */
+/* Active tag chip - must come AFTER .tag-chip ghost rule to win the cascade */
 .tag-chip--active {
   background: var(--btn-bg);
   color: var(--btn-text);
@@ -58,7 +58,7 @@
   opacity: 0.85;
 }
 
-/* Per-instance sizing — shared properties live above */
+/* Per-instance sizing - shared properties live above */
 .card-btn {
   display: inline-block;
   font-size: 0.8rem;

@@ -4,7 +4,7 @@
   padding: 0;
 }
 
-/* ── Scrollbar ── */
+/* -- Scrollbar -- */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;

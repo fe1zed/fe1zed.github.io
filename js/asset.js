@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.title = `${asset.name} - fe1zed`;
 
-  // ── SEO meta tags ──
+  // -- SEO meta tags --
   function setMeta(attr, attrVal, content) {
     let el = document.querySelector(`meta[${attr}="${attrVal}"]`);
     if (!el) {
@@ -39,14 +39,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // getYouTubeId(), isYouTube(), formatSalePrice() are provided by utils.js
 
-  // ── Build sections ── (renderTags from utils.js)
+  // -- Build sections -- (renderTags from utils.js)
   const tags = renderTags(asset.tags);
 
   const features = (asset.features || [])
     .map((f) => `<li class="feature-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>${f}</li>`)
     .join("");
 
-  // ── Compatibility table ──
+  // -- Compatibility table --
   const pipelines = asset.pipelines || [];
   const cols = pipelines.length;
   const colTemplate = `160px repeat(${cols}, 1fr)`;
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const compatContent = compatTable + compatPlatforms;
 
-  // ── Dependencies ──
+  // -- Dependencies --
   const pkgIcon = `<svg class="dep-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`;
 
   const depsHTML = (asset.dependencies && asset.dependencies.length) ? `
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     </div>` : "";
 
-  // ── Quick Start ── (escapeHtml, ICON_COPY from utils.js)
+  // -- Quick Start -- (escapeHtml, ICON_COPY from utils.js)
 
   const quickStartHTML = asset.quickStart
     ? `<div class="code-block">
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>`;
   }).join("");
 
-  // ── Related assets ──
+  // -- Related assets --
   const related = ASSETS
     .filter((a) => a.id !== asset.id)
     .map((a) => ({
@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="related-grid">${relatedCards}</div>
     </div>` : "";
 
-  // ── Price display ──
+  // -- Price display --
   const priceHTML = asset.salePrice
     ? `<span class="asset-price-original">${asset.price}</span><span class="asset-price-sale">${formatSalePrice(asset.salePrice)}</span>`
     : `<span class="asset-price">${asset.price}</span>`;
@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ${relatedSection}
   `;
 
-  // ── Lightbox ──
+  // -- Lightbox --
   const srcs = asset.screenshots || [];
   if (!srcs.length) return;
 
@@ -343,12 +343,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "ArrowRight") show(current + 1);
   });
 
-  // ── Syntax highlighting for Quick Start ──
+  // -- Syntax highlighting for Quick Start --
   if (window.hljs) {
     main.querySelectorAll("pre code").forEach((el) => hljs.highlightElement(el));
   }
 
-  // ── Copy button ── (uses shared setupCopyButton from utils.js)
+  // -- Copy button -- (uses shared setupCopyButton from utils.js)
   main.querySelectorAll(".code-copy-btn").forEach((btn) => {
     setupCopyButton(
       btn,

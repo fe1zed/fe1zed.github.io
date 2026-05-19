@@ -1,4 +1,4 @@
-/* ── Asset landing page ── */
+/* -- Asset landing page -- */
 .asset-main {
   flex: 1;
   max-width: var(--asset-content-width);
@@ -15,7 +15,7 @@
   color: var(--text);
 }
 
-/* ── Back links — shared by .asset-back, .docs-back, .cl-back ── */
+/* -- Back links - shared by .asset-back, .docs-back, .cl-back -- */
 .asset-back,
 .docs-back,
 .cl-back {
@@ -147,7 +147,7 @@
   margin-bottom: 24px;
 }
 
-/* ── Dependencies ── */
+/* -- Dependencies -- */
 .asset-deps {
   margin-top: 40px;
   padding-top: 32px;
@@ -158,7 +158,7 @@
   margin-bottom: 16px;
 }
 
-/* ── Features + Compatibility side-by-side ── */
+/* -- Features + Compatibility side-by-side -- */
 .asset-info-grid {
   display: grid;
   grid-template-columns: 2fr 3fr;
@@ -195,7 +195,7 @@
   opacity: 0.6;
 }
 
-/* ── Compatibility-specific overrides (most table styling shared above) ── */
+/* -- Compatibility-specific overrides (most table styling shared above) -- */
 .compat-table {
   margin-bottom: 16px;
 }
@@ -267,12 +267,12 @@
   }
 }
 
-/* ── Quick Start code block ── */
+/* -- Quick Start code block -- */
 .code-block {
   position: relative;
 }
 
-/* ── "You might also like" section ── */
+/* -- "You might also like" section -- */
 .asset-section--related {
   text-align: center;
 }
