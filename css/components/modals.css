@@ -59,7 +59,7 @@
 .lightbox-video {
   width: 90vw;
   max-width: 1100px;
-  height: calc(90vw * 9 / 16);
+  aspect-ratio: 16 / 9;
   display: none;
 }
 

@@ -42,10 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // -- Build sections -- (renderTags from utils.js)
   const tags = renderTags(asset.tags);
 
-  const features = (asset.features || [])
-    .map((f) => `<li class="feature-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>${f}</li>`)
-    .join("");
-
   // -- Compatibility table --
   const pipelines = asset.pipelines || [];
   const cols = pipelines.length;
@@ -147,9 +143,13 @@ document.addEventListener("DOMContentLoaded", () => {
       ? `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`
       : src;
 
+    const onErr = ytId
+      ? `this.onerror=null;this.src='https://img.youtube.com/vi/${ytId}/hqdefault.jpg'`
+      : `this.style.display='none'`;
+
     return `
       <div class="screenshot-item${ytId ? " screenshot-item--video" : ""}" data-index="${i}">
-        <img src="${thumb}" alt="${asset.name}" loading="lazy" onerror="this.style.display='none'">
+        <img src="${thumb}" alt="${asset.name}" loading="lazy" onerror="${onErr}">
         ${ytId ? `
         <div class="screenshot-play-btn">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
@@ -230,23 +230,15 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="screenshots-grid">${screenshots}</div>
     </div>` : ""}
 
-    ${features || compatContent || depsHTML ? `
-    <div class="asset-info-grid">
-      ${features ? `
-      <div class="asset-section asset-section--features">
-        <h2 class="asset-section-title">Features</h2>
-        <ul class="features-list">${features}</ul>
-      </div>` : ""}
-      ${compatContent || depsHTML ? `
-      <div class="asset-section asset-section--compat">
-        ${compatContent ? `
-        <h2 class="asset-section-title">Compatibility</h2>
-        ${compatContent}` : ""}
-        ${depsHTML ? `
-        <div class="asset-deps">
-          <h2 class="asset-section-title">Dependencies</h2>
-          ${depsHTML}
-        </div>` : ""}
+    ${compatContent || depsHTML ? `
+    <div class="asset-section asset-section--compat">
+      ${compatContent ? `
+      <h2 class="asset-section-title">Compatibility</h2>
+      ${compatContent}` : ""}
+      ${depsHTML ? `
+      <div class="asset-deps">
+        <h2 class="asset-section-title">Dependencies</h2>
+        ${depsHTML}
       </div>` : ""}
     </div>` : ""}
 

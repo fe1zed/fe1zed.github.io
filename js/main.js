@@ -40,28 +40,27 @@ case "name-asc":   results.sort((a, b) => a.name.localeCompare(b.name)); break;
 }
 
 function renderCard(asset) {
-  const card = document.createElement("article");
+  const card = document.createElement("a");
   card.className = "card";
+  card.href = `asset.html?id=${asset.id}`;
 
   card.innerHTML = `
     <div class="card-thumb">
       <img src="${asset.thumb}" alt="${asset.name}" loading="lazy" onerror="this.parentElement.classList.add('no-img')">
     </div>
     <div class="card-body">
-      <div class="card-tags">${renderTags(asset.tags)}</div>
-      <h2 class="card-name">${asset.name}</h2>
-      <p class="card-desc">${asset.description}</p>
-      <div class="card-footer">
+      <div class="card-header">
+        <div class="card-header-text">
+          <div class="card-tags">${renderTags(asset.tags)}</div>
+          <h2 class="card-name">${asset.name}</h2>
+        </div>
         <div class="card-price-wrap">
           ${asset.salePrice
             ? `<span class="card-price-original">${asset.price}</span><span class="card-price card-price--sale">${formatSalePrice(asset.salePrice)}</span>`
             : `<span class="card-price">${asset.price}</span>`}
         </div>
-        <div class="card-actions">
-          <a class="card-btn card-btn--ghost" href="asset.html?id=${asset.id}">Details</a>
-          <a class="card-btn" href="${asset.storeUrl}" target="_blank" rel="noopener">Buy</a>
-        </div>
       </div>
+      <p class="card-desc">${asset.description}</p>
     </div>
   `;
   return card;

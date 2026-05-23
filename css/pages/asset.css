@@ -158,43 +158,6 @@
   margin-bottom: 16px;
 }
 
-/* -- Features + Compatibility side-by-side -- */
-.asset-info-grid {
-  display: grid;
-  grid-template-columns: 2fr 3fr;
-  gap: 0 64px;
-  border-top: 1px solid var(--border);
-  margin-bottom: 64px;
-}
-
-.asset-info-grid .asset-section {
-  border-top: none;
-  margin-bottom: 0;
-}
-
-.features-list {
-  list-style: none;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-}
-
-.feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.feature-item svg {
-  flex-shrink: 0;
-  margin-top: 2px;
-  color: var(--text);
-  opacity: 0.6;
-}
-
 /* -- Compatibility-specific overrides (most table styling shared above) -- */
 .compat-table {
   margin-bottom: 16px;
@@ -253,17 +216,6 @@
   .compat-td--version {
     border-right: none;
     border-bottom: 1px solid var(--border);
-  }
-}
-
-@media (max-width: 860px) {
-  .asset-info-grid {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .asset-info-grid .asset-section--compat {
-    border-top: 1px solid var(--border);
   }
 }
 
