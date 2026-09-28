@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>404 — fe1zed</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
 
-  <link rel="stylesheet" href="css/main.css" />
+  <!-- Absolute paths: GitHub Pages serves this file for any missing URL, at any depth. -->
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages/error.css">
+
+  <script type="module" src="/js/components/site-chrome.js"></script>
 </head>
 <body>
+  <site-nav></site-nav>
 
-  <main class="page-404">
-    <p class="page-404-code">404</p>
-    <h1 class="page-404-title">Page not found</h1>
-    <p class="page-404-sub">This page doesn't exist or was moved.</p>
-    <a class="page-404-btn" href="index.html">Back to home</a>
+  <main class="page page--error">
+    <p class="error-code">404</p>
+    <h1 class="error-title">Page not found</h1>
+    <p class="error-text">This page doesn't exist or was moved.</p>
+    <a class="btn btn--primary btn--sm" href="/">Back to home</a>
   </main>
 
-  <script src="js/layout.js"></script>
+  <site-footer></site-footer>
 </body>
 </html>

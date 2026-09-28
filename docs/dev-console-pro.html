@@ -13,18 +13,29 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/main.css" />
+
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages/docs.css" />
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script type="module" src="../js/pages/docs.js"></script>
 </head>
-<body>
+<body data-asset="dev-console-pro">
+  <site-nav></site-nav>
 
   <div class="docs-layout">
 
     <aside class="docs-sidebar">
       <div class="docs-sidebar-header">
-        <a href="../asset.html?id=dev-console-pro" class="docs-back">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-          Dev Console Pro
-        </a>
+        <nav class="back-nav" aria-label="Breadcrumb">
+          <a class="back-btn" href="../asset.html?id=dev-console-pro" data-back>
+            <span class="back-btn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span>
+            <span class="back-btn-label">Dev Console Pro</span>
+          </a>
+        </nav>
       </div>
       <nav class="docs-nav">
         <div class="docs-nav-group">
@@ -60,11 +71,11 @@
       </nav>
     </aside>
 
-    <main class="docs-content">
+    <main class="docs-content prose">
 
       <div class="docs-hero">
         <h1>Dev Console Pro <span class="page-type-badge">Documentation</span></h1>
-        <p class="docs-hero-sub">v1.3.0 · Unity 2020.3+</p>
+        <p class="docs-hero-sub" data-asset-meta>&nbsp;</p>
       </div>
 
       <!-- ── Getting Started ── -->
@@ -545,109 +556,12 @@ public float speed = 5f;</code></pre>
         </table>
       </section>
 
-      <section id="changelog">
-        <h2>Changelog</h2>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.3.0 <span class="changelog-date">2026-04-09</span></p>
-
-          <p class="changelog-group-label">Added</p>
-          <ul>
-            <li>Log filter toolbar — Log / Warning / Error toggle buttons above the output; all three can be toggled independently including all-off</li>
-            <li>Per-type log text colors — tag and message body each have their own color per log type, configurable via <code>DevConsoleTheme</code></li>
-            <li>Smart auto-scroll — output only snaps to bottom when already near the bottom; preserves scroll position while reading history</li>
-            <li><code>DevConsoleProExample</code> — single racing-car themed example covering attributes, runtime registration, enums, <code>ConsoleArgs</code>, <code>ConsoleTextTable</code>, and <code>ConsoleIgnore</code></li>
-          </ul>
-
-          <p class="changelog-group-label">Changed</p>
-          <ul>
-            <li>Fast Enter Play Mode support — <code>DevConsoleAPI</code> and <code>ConsoleLogService</code> now reset static state via <code>[RuntimeInitializeOnLoadMethod(SubsystemRegistration)]</code>, preventing stale state on second Play session</li>
-            <li><code>ReflectedConsoleCommand</code> — <code>GetParameters()</code> called once in constructor instead of twice</li>
-            <li><code>ConsoleArgumentHintService</code> — <code>s_tokenDelimiters</code> extracted to <code>static readonly char[]</code>, eliminates per-call array allocation on cache miss</li>
-            <li><code>ConsoleInputSanitizer</code> — three <code>TrimEnd()</code> branches consolidated into one</li>
-            <li><code>ConsoleTextTable</code> — full XML documentation added to all public methods</li>
-            <li><code>ReflectedConsoleCommand</code> — default description changed from literal <code>"&lt;none&gt;"</code> to <code>string.Empty</code></li>
-          </ul>
-
-          <p class="changelog-group-label">Fixed</p>
-          <ul>
-            <li>Suggestion items not clickable with mouse — clicking a suggestion now commits it to the input field instead of only highlighting it</li>
-            <li><code>DevConsolePro.Editor.asmdef</code> — now correctly references the runtime assembly and restricts to Editor platform</li>
-          </ul>
-        </div>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.2.0 <span class="changelog-date">2026-03-30</span></p>
-
-          <p class="changelog-group-label">Added</p>
-          <ul>
-            <li><code>Register&lt;T1, T2, T3, T4&gt;</code> — typed four-argument overload for runtime command registration</li>
-            <li><code>Register(string, Delegate)</code> — escape hatch for 5+ argument commands; reflects parameter types automatically</li>
-            <li><code>ConsoleRegistry.CommandNames</code> — pre-built sorted name list, eliminates per-keypress LINQ allocation</li>
-            <li><code>ConsoleRegistry.CommandSegments</code> — pre-split dot-segments parallel to <code>CommandNames</code>, used by suggestion system</li>
-            <li>Name validated at registration — <code>null</code> or whitespace name throws <code>ArgumentException</code> immediately</li>
-            <li>Parameter types validated at registration via <code>ConsoleArgConverter.AssertSupported</code></li>
-          </ul>
-
-          <p class="changelog-group-label">Changed</p>
-          <ul>
-            <li><code>DevConsoleAPI</code> internal structure refactored — shared <code>RegisterTyped</code> core helper eliminates repeated logic across all typed overloads</li>
-            <li><code>DevConsoleAPI.Register(IConsoleCommand)</code> now uses bubble-insert to maintain sorted order</li>
-            <li><code>ConsoleLogEntry.Timestamp</code> is now <code>DateTime.UtcNow</code> — avoids per-log local timezone lookup</li>
-            <li><code>DevConsoleOutputView</code> — incremental append: only new log entries are instantiated; full rebuild only on first open or after <code>Clear()</code></li>
-            <li><code>DevConsoleSuggestionView</code> — fixed item pool: suggestion rows are rebound in place instead of destroyed and re-instantiated on every keypress</li>
-            <li><code>ConsoleSuggestionService</code> — pre-built <code>CommandSegments</code> replaces per-call <code>Split('.')</code>; removed <code>Select + Distinct + ToList</code> LINQ chain on every keypress</li>
-            <li><code>ConsoleArgumentHintService</code> — usage string tokenized once and cached per command</li>
-            <li><code>ConsoleSuggestionService.GetTypeSuggestions</code> — enum name lists sorted and cached per type; <code>bool</code> suggestions use a static readonly list</li>
-            <li><code>ConsoleRegistry.GetMergedAliases</code> — deduplication now uses <code>HashSet</code> instead of O(n²) inner loop</li>
-            <li><code>ReflectedConsoleVariable</code> — removed duplicate private methods that were full copies of <code>ConsoleArgConverter</code> equivalents</li>
-          </ul>
-        </div>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.1.0 <span class="changelog-date">2026-03-22</span></p>
-
-          <p class="changelog-group-label">Added</p>
-          <ul>
-            <li><code>DevConsoleAPI.Register</code> — runtime command registration without attributes</li>
-            <li>Typed overloads: <code>Register&lt;T&gt;</code>, <code>Register&lt;T1,T2&gt;</code>, <code>Register&lt;T1,T2,T3&gt;</code> with automatic ghost hints</li>
-            <li><code>DevConsoleAPI.Unregister(string)</code> — removes a command at runtime, returns <code>bool</code></li>
-            <li><code>DevConsoleAPI.OnCommandExecuted</code> — event fired after every successful command execution</li>
-            <li><code>ConsoleArgConverter</code> — shared conversion utility used by both reflected and delegate command paths</li>
-            <li><code>RuntimeRegistrationExample</code> — demonstrates Register, Unregister, and OnCommandExecuted</li>
-          </ul>
-
-          <p class="changelog-group-label">Changed</p>
-          <ul>
-            <li><code>ConsoleRegistry</code> now accepts <code>IConsoleCommand</code> directly via <code>Register(IConsoleCommand)</code></li>
-          </ul>
-        </div>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.0.0 <span class="changelog-date">2026-03-21</span></p>
-
-          <p class="changelog-group-label">Added</p>
-          <ul>
-            <li>Initial command registration and execution pipeline with reflection-based command discovery</li>
-            <li>Input sanitization, parsing, and command history navigation</li>
-            <li>Context-aware suggestion system with segmented command support (<code>group.command</code>)</li>
-            <li>Keyboard navigation (↑ ↓), Tab commit, mouse interaction, and default no-selection state</li>
-            <li>Runtime console UI — TMP input, suggestion dropdown, output log, input ghost hints</li>
-            <li>Support for <code>[DevConsole]</code>, <code>[ConsoleCommand]</code>, and <code>[ConsoleVariable]</code> attributes</li>
-            <li>Modular assembly structure: <code>DevConsolePro</code>, <code>DevConsolePro.Tests</code></li>
-          </ul>
-        </div>
-
-      </section>
+      <!-- Filled from js/data/assets.js -->
+      <section id="changelog"></section>
 
     </main>
   </div>
 
-  <script src="../js/layout.js"></script>
-  <script src="../js/utils.js"></script>
-  <script src="../js/assets.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="../js/docs.js"></script>
+  <site-footer></site-footer>
 </body>
 </html>

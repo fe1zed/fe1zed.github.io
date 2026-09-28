@@ -1,0 +1,305 @@
+/* ============================================================
+   Layout — site chrome rendered by <site-nav> / <site-footer>.
+   ============================================================ */
+
+/* -- Nav --
+   The custom element is the sticky box and reserves its height up front,
+   so the page doesn't shift when the module upgrades it. */
+site-nav {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-height);
+  background: rgba(13, 13, 13, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 var(--gutter);
+}
+
+.nav-logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  --underline-inset: 14px;
+  --underline-bottom: 5px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 6px 14px;
+}
+
+.nav-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+  margin: 0 4px;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.nav-icon:hover { color: var(--text); }
+
+.nav-socials {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Desktop shows icons only; the label stays for screen readers. */
+.nav-icon-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.nav-link-arrow { display: none; }
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.nav-toggle-open,
+.nav-toggle-close { display: flex; }
+
+.nav-toggle-close { display: none; }
+
+.site-nav--open .nav-toggle {
+  background: var(--bg-card);
+  border-color: var(--border-hover);
+}
+
+.site-nav--open .nav-toggle-open { display: none; }
+.site-nav--open .nav-toggle-close { display: flex; }
+
+/* -- Phones: the menu is a full-screen sheet under the bar -- */
+@media (max-width: 720px) {
+  .nav-toggle { display: flex; }
+
+  /* Solid bar while the sheet is open so it reads as one surface. */
+  site-nav.is-menu-open { background: var(--bg); }
+
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    height: calc(100vh - var(--nav-height));
+    height: calc(100dvh - var(--nav-height));
+    padding: 12px var(--gutter) calc(24px + env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--bg);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+  }
+
+  .site-nav--open .nav-menu {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s ease;
+  }
+
+  .nav-link {
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .nav-link::before,
+  .nav-link::after { display: none; }
+
+  .nav-link-arrow {
+    display: flex;
+    color: var(--text-muted);
+    transition: transform 0.2s ease, color 0.15s;
+  }
+
+  .nav-link:active .nav-link-arrow { transform: translateX(3px); }
+
+  /* The current page gets a dot, the others stay muted. */
+  .site-nav .nav-link.is-active::before {
+    content: "";
+    display: block;
+    position: static;
+    width: 6px;
+    height: 6px;
+    margin-right: 12px;
+    background: var(--text);
+    border-radius: 50%;
+    order: -1;
+  }
+
+  .nav-link.is-active { justify-content: flex-start; }
+  .nav-link.is-active .nav-link-arrow { margin-left: auto; }
+
+  .nav-divider { display: none; }
+
+  .nav-socials {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 32px;
+  }
+
+  .nav-icon {
+    justify-content: center;
+    gap: 10px;
+    padding: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .nav-icon-label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+
+  /* Items rise in one after another as the sheet opens. */
+  .site-nav--open .nav-link,
+  .site-nav--open .nav-socials {
+    animation: nav-item-in 0.35s ease both;
+    animation-delay: calc(var(--i, 0) * 40ms + 40ms);
+  }
+}
+
+@keyframes nav-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav--open .nav-link,
+  .site-nav--open .nav-socials { animation: none; }
+}
+
+html.nav-locked { overflow: hidden; }
+
+
+/* -- Footer -- */
+site-footer { display: block; }
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 40px var(--gutter) 28px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 120px;
+  margin-bottom: 32px;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer-logo {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.footer-tagline { font-size: 0.78rem; }
+
+.footer-cols {
+  display: flex;
+  gap: 64px;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.footer-col-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 4px;
+}
+
+.footer-col .link-underline {
+  gap: 8px;
+  font-size: 0.82rem;
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+}
+
+@media (max-width: 720px) {
+  .footer-inner {
+    flex-direction: column;
+    gap: 32px;
+  }
+  .footer-cols { gap: 48px; }
+}

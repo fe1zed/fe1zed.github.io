@@ -1,14 +1,10 @@
 /* -- Changelog page -- */
-.cl-main {
-  flex: 1;
-  max-width: var(--changelog-content-width);
-  margin: 0 auto;
-  padding: 30px 24px 96px;
+.page--changelog {
+  --page-width: 1600px;
+  --page-padding: 30px var(--gutter) 96px;
 }
 
-.cl-header {
-  margin-bottom: 56px;
-}
+.cl-header { margin-bottom: 56px; }
 
 .cl-heading {
   font-size: clamp(2rem, 5vw, 3rem);
@@ -16,40 +12,33 @@
   letter-spacing: -0.04em;
 }
 
-.page-type-badge {
-  display: inline-block;
-  font-size: 0.5em;
-  font-weight: 700;
-  font-family: inherit;
-  font-style: normal;
-  letter-spacing: -0.03em;
-  -webkit-font-smoothing: subpixel-antialiased;
-  color: var(--btn-text);
-  background: var(--btn-bg);
-  padding: 0.2em 0.5em;
-  border-radius: 4px;
-  white-space: nowrap;
-  vertical-align: middle;
-  position: relative;
-  top: -0.1em;
+.cl-summary {
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
 }
 
-.cl-list {
+.cl-jump-bar {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.cl-jump-bar .chip--active {
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 .cl-entry {
   display: grid;
-  grid-template-columns: 160px 1fr;
+  grid-template-columns: 160px minmax(0, 1fr);
   gap: 0 48px;
   padding: 36px 0;
   border-bottom: 1px solid var(--border);
 }
 
-.cl-entry:first-child {
-  padding-top: 0;
-}
+.cl-entry:first-child { padding-top: 0; }
 
 .cl-entry-meta {
   display: flex;
@@ -59,3 +48,70 @@
   padding-top: 1px;
 }
 
+.cl-version {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.cl-date {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.cl-body {
+  --inline-code-size: 0.78rem;
+  --inline-code-padding: 1px 5px;
+  padding-left: 40px;
+  border-left: 1px solid var(--border);
+}
+
+.cl-body ul { padding-left: 20px; }
+
+.cl-body li {
+  margin-bottom: 4px;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+.cl-body .changelog-group-label {
+  margin: 20px 0 6px;
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.cl-body .changelog-group-label:first-child { margin-top: 0; }
+
+@media (max-width: 640px) {
+  .page--changelog { --page-padding: 30px var(--gutter) 64px; }
+
+  .cl-header { margin-bottom: 40px; }
+
+  /* One swipeable row instead of chips wrapping onto several lines;
+     bleeds to the screen edges so it reads as scrollable. */
+  .cl-jump-bar {
+    flex-wrap: nowrap;
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .cl-jump-bar::-webkit-scrollbar { display: none; }
+
+  .cl-jump-bar .chip { flex-shrink: 0; }
+
+  .cl-entry {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .cl-entry-meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .cl-body { padding-left: 16px; }
+}

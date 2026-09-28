@@ -1,65 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>fe1zed — Unity Assets</title>
-  <meta name="description" content="Unity assets by fe1zed. Available on the Unity Asset Store." />
-  <meta property="og:title" content="fe1zed — Unity Assets" />
-  <meta property="og:description" content="Editor extensions and systems for Unity, built by fe1zed. Available on the Unity Asset Store." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://fe1zed.github.io/" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="fe1zed — Unity Assets" />
-  <meta name="twitter:description" content="Editor extensions and systems for Unity, built by fe1zed." />
+  <meta name="description" content="Unity assets by fe1zed. Available on the Unity Asset Store.">
+  <meta property="og:title" content="fe1zed — Unity Assets">
+  <meta property="og:description" content="Editor extensions and systems for Unity, built by fe1zed. Available on the Unity Asset Store.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fe1zed.github.io/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="fe1zed — Unity Assets">
+  <meta name="twitter:description" content="Editor extensions and systems for Unity, built by fe1zed.">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
 
-  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages/home.css">
+
+  <script type="module" src="js/pages/home.js"></script>
 </head>
 <body>
+  <site-nav></site-nav>
 
-  <header>
-    <p class="brand">fe1zed's Unity Tools</p>
-    <p class="tagline">Editor extensions and systems for professional use.</p>
+  <header class="home-hero">
+    <h1 class="home-title">fe1zed's Unity Tools</h1>
+    <p class="home-tagline">Editor extensions and systems for professional use.</p>
   </header>
 
-  <main>
-    <div class="browse-toolbar">
-      <div class="search-wrap">
-        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="asset-search" type="search" placeholder="Search by name or tag…" autocomplete="off" />
-        <kbd class="search-kbd">↵</kbd>
-      </div>
-      <div class="sort-wrap">
-        <span class="sort-label">Sort</span>
-        <div class="sort-dropdown" id="sort-dropdown">
-          <button class="sort-btn" type="button" id="sort-btn" aria-haspopup="listbox" aria-expanded="false">
-            <span class="sort-btn-text" id="sort-current">Default</span>
-            <svg class="sort-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="sort-menu" id="sort-menu" role="listbox">
-            <button class="sort-option sort-option--active" data-value="default" role="option">Default</button>
-<button class="sort-option" data-value="name-asc" role="option">Name: A → Z</button>
-            <button class="sort-option" data-value="price-asc" role="option">Price: Low → High</button>
-            <button class="sort-option" data-value="price-desc" role="option">Price: High → Low</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="tag-chips" id="tag-chips"></div>
-    <div class="browse-meta">
-      <p class="section-label">Assets</p>
-      <span class="asset-count" id="asset-count"></span>
-    </div>
-    <div id="asset-grid"></div>
+  <main class="page page--home">
+
+    <h2 class="browse-title">Assets</h2>
+
+    <div class="asset-grid" id="asset-grid"></div>
   </main>
 
-  <script src="js/layout.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/assets.js"></script>
-  <script src="js/main.js"></script>
+  <site-footer></site-footer>
 </body>
 </html>

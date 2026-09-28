@@ -1,0 +1,767 @@
+/* ============================================================
+   Components — reusable pieces shared by two or more pages.
+   Page files only position these; they don't restyle them.
+   ============================================================ */
+
+/* -- Animated underline link --
+   Two half-width lines grow from the edges toward the centre.
+   Tune with --underline-inset / --underline-bottom. */
+.link-underline {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.link-underline::before,
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: var(--underline-bottom, -2px);
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.25s ease;
+}
+
+.link-underline::before { left: var(--underline-inset, 0px); }
+.link-underline::after  { right: var(--underline-inset, 0px); }
+
+.link-underline:hover,
+.link-underline.is-active { color: var(--text); }
+
+.link-underline:hover::before,
+.link-underline:hover::after,
+.link-underline.is-active::before,
+.link-underline.is-active::after {
+  width: calc(50% - var(--underline-inset, 0px));
+}
+
+.link-underline--strong { color: var(--text); }
+
+/* -- Back button + breadcrumb -- */
+.back-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  margin-bottom: 24px;
+}
+
+.back-btn {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  height: 40px;
+  padding: 0 14px 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.back-btn:hover {
+  background: var(--bg-card);
+  border-color: var(--border-hover);
+}
+
+.back-btn-icon {
+  display: flex;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.back-btn:hover .back-btn-icon { transform: translateX(-3px); }
+
+.back-btn-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.back-btn-count {
+  flex-shrink: 0;
+  padding: 2px 7px;
+  background: var(--bg-inset);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding-left: 16px;
+  border-left: 1px solid var(--border);
+  list-style: none;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.crumbs li {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.crumbs li + li::before {
+  content: "/";
+  margin: 0 10px;
+  opacity: 0.5;
+}
+
+.crumbs [aria-current] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+}
+
+/* The pill already says where "back" goes; the trail is desktop context. */
+@media (max-width: 560px) {
+  .crumbs { display: none; }
+}
+
+/* -- Buttons -- */
+.btn {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: var(--inverse-bg);
+  color: var(--inverse-text);
+}
+
+.btn--primary:hover:not(:disabled) { opacity: 0.85; }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  font-weight: 500;
+}
+
+.btn--ghost:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+}
+
+.btn--sm {
+  font-size: 0.85rem;
+  padding: 10px 24px;
+}
+
+/* -- Chips (filter / jump pills) -- */
+.chip {
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s, opacity 0.15s;
+}
+
+.chip:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+}
+
+.chip--sm {
+  font-size: 0.75rem;
+  padding: 4px 12px;
+}
+
+.chip--sm:hover { background: rgba(255, 255, 255, 0.04); }
+
+.chip.chip--active {
+  background: var(--inverse-bg);
+  color: var(--inverse-text);
+  border-color: var(--inverse-bg);
+}
+
+.chip.chip--active:hover { opacity: 0.85; }
+
+/* -- Inverted badges -- */
+.badge-inverse {
+  display: inline-flex;
+  align-items: center;
+  color: var(--inverse-text);
+  background: var(--inverse-bg);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge-inverse--sm {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  padding: 2px 8px;
+}
+
+
+/* Heading suffix, e.g. "Dev Console Pro [Changelog]" */
+.page-type-badge {
+  display: inline-block;
+  position: relative;
+  top: -0.1em;
+  font-size: 0.5em;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--inverse-text);
+  background: var(--inverse-bg);
+  padding: 0.2em 0.5em;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* -- Small label pills -- */
+.pill {
+  background: var(--tag-bg);
+  border-radius: var(--radius-sm);
+}
+
+.tag {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tag-text);
+  padding: 3px 8px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* -- Price -- */
+.price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--price-gap, 6px);
+  flex-shrink: 0;
+}
+
+.price-current {
+  font-size: var(--price-size, 1rem);
+  font-weight: var(--price-weight, 600);
+  letter-spacing: var(--price-tracking, normal);
+  color: var(--text);
+}
+
+.price-current--sale { color: var(--sale); }
+
+.price-original {
+  font-size: var(--price-original-size, 0.8rem);
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+/* -- Cards -- */
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+
+.card-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--bg-inset);
+}
+
+.card-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.2s, transform 0.3s;
+}
+
+.card:hover .card-thumb--zoom img { transform: scale(1.03); }
+.card:hover .card-thumb--fade img { opacity: 0.85; }
+
+.card-thumb.no-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-thumb.no-img img { display: none; }
+
+.card-thumb.no-img::after {
+  content: "No preview";
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+/* -- Grid tables (compatibility) -- */
+.grid-table {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.grid-table-head,
+.grid-table-row {
+  display: grid;
+  grid-template-columns: var(--cols, 1fr 1fr 1fr);
+}
+
+.grid-table-head {
+  background: var(--bg-raised);
+  border-bottom: 1px solid var(--border);
+}
+
+.grid-table-row + .grid-table-row { border-top: 1px solid var(--border); }
+
+.grid-table-th,
+.grid-table-td {
+  font-size: 0.82rem;
+  border-right: 1px solid var(--border);
+}
+
+.grid-table-th:last-child,
+.grid-table-td:last-child { border-right: none; }
+
+.grid-table-th {
+  padding: 10px 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.grid-table-td {
+  display: flex;
+  align-items: center;
+  gap: var(--td-gap, 8px);
+  padding: 12px 16px;
+}
+
+.grid-table--hover .grid-table-row { transition: background 0.12s; }
+.grid-table--hover .grid-table-row:hover { background: rgba(255, 255, 255, 0.03); }
+
+/* Phones: each row becomes a small card. The first cell is its title and the
+   rest read "label ........ value", labels coming from data-label. */
+@media (max-width: 640px) {
+  .grid-table-head { display: none; }
+
+  .grid-table-row {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 6px 0 10px;
+  }
+
+  .grid-table-td {
+    padding: 6px 16px;
+    border-right: none;
+  }
+
+  .grid-table-td:first-child {
+    padding-top: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .grid-table-td[data-label]::before {
+    content: attr(data-label);
+    margin-right: auto;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+}
+
+/* -- Code blocks -- */
+.code-block {
+  position: relative;
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.code-block pre code {
+  display: block;
+  padding: 20px 24px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--code-text);
+}
+
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: var(--copy-btn-bg, var(--bg));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.code-block:hover .copy-btn,
+.copy-btn:focus-visible { opacity: 1; }
+
+.copy-btn:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+}
+
+.copy-btn.is-copied {
+  opacity: 1;
+  color: var(--success);
+  border-color: rgba(76, 175, 80, 0.35);
+}
+
+/* Syntax highlighting — JetBrains Rider Dark (New UI) */
+.hljs-title.class_,
+.hljs-class .hljs-title,
+.hljs-params,
+.hljs-variable,
+.hljs-attr                { color: var(--code-text); }
+.hljs-keyword,
+.hljs-built_in            { color: #cf8e6d; }
+.hljs-string,
+.hljs-template-string,
+.hljs-meta .hljs-string   { color: #6aab73; }
+.hljs-number,
+.hljs-literal             { color: #2aacb8; }
+.hljs-title.function_     { color: #56a8f5; }
+.hljs-meta,
+.hljs-meta .hljs-keyword  { color: #b3ae60; }
+.hljs-comment             { color: #7a7e85; font-style: italic; }
+
+/* Inline code (docs body + changelog items) */
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: var(--inline-code-size, 0.8rem);
+  padding: var(--inline-code-padding, 2px 6px);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+/* -- Changelog entry body (changelog page + docs "latest release") -- */
+.changelog-group-label {
+  margin: 14px 0 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* -- Modals (lightbox + docs search) -- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s;
+}
+
+.modal--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, var(--backdrop-alpha, 0.88));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* -- Lightbox -- */
+.lightbox { align-items: center; }
+
+.lightbox-media {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-img,
+.lightbox-video {
+  max-height: 82vh;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-pop);
+}
+
+.lightbox-img {
+  display: block;
+  max-width: 90vw;
+}
+
+.lightbox-video {
+  width: 90vw;
+  max-width: 1100px;
+  aspect-ratio: 16 / 9;
+}
+
+
+.lightbox-btn {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.lightbox-btn:hover {
+  color: var(--text);
+  border-color: var(--border-hover);
+}
+
+
+.lightbox-close {
+  top: 20px;
+  right: 24px;
+  width: 36px;
+  height: 36px;
+}
+
+.lightbox-prev,
+.lightbox-next {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lightbox-prev { left: 24px; }
+.lightbox-next { right: 24px; }
+
+.lightbox-counter {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .lightbox-prev { left: 8px; }
+  .lightbox-next { right: 8px; }
+  .lightbox-close { top: 12px; right: 12px; }
+}
+
+/* -- Forms -- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-gap, 20px);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-group-gap, 7px);
+}
+
+/* <legend> sits outside the fieldset's flex flow, so it can't use gap. */
+.form-group > legend { margin-bottom: var(--form-group-gap, 7px); }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.form-label--caps {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.form-required { color: var(--danger); }
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-input::placeholder { color: var(--text-faint); }
+.form-input:focus { border-color: var(--text-subtle); }
+
+.form-textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.form-hint,
+.form-char-count {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+}
+
+.form-hint { margin-top: 5px; }
+
+.form-char-count {
+  text-align: right;
+  transition: color 0.15s;
+}
+
+.form-char-count--near { color: var(--text-muted); }
+.form-char-count--full { color: var(--danger); }
+
+.form-error-msg {
+  display: none;
+  margin-top: 2px;
+  font-size: 0.72rem;
+  color: var(--danger);
+}
+
+.form-group--error .form-error-msg { display: block; }
+.form-group--error .form-hint { display: none; }
+.form-group--error .form-input { border-color: var(--danger-strong); }
+
+.form-group--error .form-input:focus {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+}
+
+.form-flash {
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+}
+
+
+.form-flash--success {
+  color: var(--sale);
+  background: rgba(125, 206, 160, 0.08);
+  border: 1px solid rgba(125, 206, 160, 0.2);
+}
+
+.form-flash--error {
+  color: var(--danger);
+  background: rgba(229, 115, 115, 0.08);
+  border: 1px solid rgba(229, 115, 115, 0.2);
+}
+
+.btn--shake { animation: shake 0.4s ease; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15%      { transform: translateX(-5px); }
+  30%      { transform: translateX(5px); }
+  45%      { transform: translateX(-4px); }
+  60%      { transform: translateX(4px); }
+  75%      { transform: translateX(-2px); }
+  90%      { transform: translateX(2px); }
+}
+
+/* -- Keyboard hint -- */
+.kbd {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+/* -- Empty / not-found messages -- */
+.empty-state {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.empty-state a { color: var(--text); }

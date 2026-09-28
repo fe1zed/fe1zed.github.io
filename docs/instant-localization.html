@@ -13,18 +13,29 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/main.css" />
+
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/pages/docs.css" />
+
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script type="module" src="../js/pages/docs.js"></script>
 </head>
-<body>
+<body data-asset="instant-localization">
+  <site-nav></site-nav>
 
   <div class="docs-layout">
 
     <aside class="docs-sidebar">
       <div class="docs-sidebar-header">
-        <a href="../asset.html?id=instant-localization" class="docs-back">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-          Instant Localization
-        </a>
+        <nav class="back-nav" aria-label="Breadcrumb">
+          <a class="back-btn" href="../asset.html?id=instant-localization" data-back>
+            <span class="back-btn-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></span>
+            <span class="back-btn-label">Instant Localization</span>
+          </a>
+        </nav>
       </div>
       <nav class="docs-nav">
         <div class="docs-nav-group">
@@ -53,11 +64,11 @@
       </nav>
     </aside>
 
-    <main class="docs-content">
+    <main class="docs-content prose">
 
       <div class="docs-hero">
         <h1>Instant Localization <span class="page-type-badge">Documentation</span></h1>
-        <p class="docs-hero-sub">v1.2.3 · Unity 2021.3+</p>
+        <p class="docs-hero-sub" data-asset-meta>&nbsp;</p>
       </div>
 
       <section id="requirements">
@@ -67,7 +78,7 @@
           <li><strong>TextMeshPro</strong> package (required for <code>TextMeshProUGUI</code>)</li>
           <li>Localization CSV files saved as <strong>UTF-8</strong></li>
         </ul>
-        <p>The Instant Localization asset provides a quick and efficient way to add multilingual support to your Unity project, primarily targeting <strong>TextMeshProUGUI</strong> components. The system relies on CSV files stored in the <a class="link-animated" style="color: white" href="https://docs.unity3d.com/6000.4/Documentation/Manual/assets-resources-system.html">Resources</a> folder and enables static method calls for language management.</p>
+        <p>The Instant Localization asset provides a quick and efficient way to add multilingual support to your Unity project, primarily targeting <strong>TextMeshProUGUI</strong> components. The system relies on CSV files stored in the <a class="link-underline link-underline--strong" href="https://docs.unity3d.com/6000.4/Documentation/Manual/assets-resources-system.html">Resources</a> folder and enables static method calls for language management.</p>
         <ul>
           <li>CSV-based localization supporting multiple languages</li>
           <li>Runtime language switching with automatic UI refresh</li>
@@ -75,7 +86,7 @@
           <li>Localization Key Selector Window with search and filtering</li>
           <li>Built-in Favorites system</li>
           <li>Real-time key management across language files</li>
-          <li>AI-powered Auto-Translate Window (<a class="link-animated" style="color: white" href="https://www.deepl.com/en">DeepL</a> &amp; <a class="link-animated" style="color: white" href="https://portal.azure.com/#home">Azure</a>)</li>
+          <li>AI-powered Auto-Translate Window (<a class="link-underline link-underline--strong" href="https://www.deepl.com/en">DeepL</a> &amp; <a class="link-underline link-underline--strong" href="https://portal.azure.com/#home">Azure</a>)</li>
           <li>Translation preview and caching</li>
         </ul>
       </section>
@@ -125,7 +136,7 @@ example_complex,{0}, your character is level {1}. You have {2} skill points and 
         <p>Or click the <strong>Search</strong> button inside any <code>LocalizeText</code> component in the Inspector.</p>
         <p><strong>Language Selection</strong> — switch the preview language via the dropdown to see translations side by side.</p>
         <p><strong>Search &amp; Filter</strong> — filter keys by name or value; matching text is highlighted. Toggle <strong>Sort A–Z</strong> for alphabetical ordering. The CSV button opens the current file in your default app.</p>
-        <p><strong>Favorites</strong> — click the star icon next to any key to mark it as a favourite. Favourites always appear at the top of the list and persist via a <a class="link-animated" style="color: white" href="https://docs.unity3d.com/6000.4/Documentation/Manual/class-ScriptableObject.html">ScriptableObject</a> at <code>Assets/Instant Localization/Data/InstantLocalizationFavorites.asset</code>.</p>
+        <p><strong>Favorites</strong> — click the star icon next to any key to mark it as a favourite. Favourites always appear at the top of the list and persist via a <a class="link-underline link-underline--strong" href="https://docs.unity3d.com/6000.4/Documentation/Manual/class-ScriptableObject.html">ScriptableObject</a> at <code>Assets/Instant Localization/Data/InstantLocalizationFavorites.asset</code>.</p>
         <p><strong>Selecting a key:</strong></p>
         <ul>
           <li>Single-click to select and preview</li>
@@ -248,8 +259,8 @@ namespace fe1zed.InstantLocalization
         </ol>
         <p>Supported providers:</p>
         <ul>
-          <li><strong><a class="link-animated" style="color: white" href="https://www.deepl.com/en">DeepL</a></strong> — requires a DeepL API key</li>
-          <li><strong><a class="link-animated" style="color: white" href="https://portal.azure.com/#home">Microsoft Azure Translator</a></strong> — requires an Azure API key and region</li>
+          <li><strong><a class="link-underline link-underline--strong" href="https://www.deepl.com/en">DeepL</a></strong> — requires a DeepL API key</li>
+          <li><strong><a class="link-underline link-underline--strong" href="https://portal.azure.com/#home">Microsoft Azure Translator</a></strong> — requires an Azure API key and region</li>
         </ul>
         <p>Only localization values are translated — keys remain unchanged. Existing translations can be preserved or overwritten. Large datasets are processed in batches to comply with provider rate limits.</p>
         <p class="docs-note">API keys are not included. An active internet connection is required. Always review generated translations before shipping — automated translations may contain errors.</p>
@@ -332,104 +343,12 @@ public string localizedTextID;</code></pre>
         </ul>
       </section>
 
-      <section id="changelog">
-        <h2>Changelog</h2>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.2.3 <span class="changelog-date">2026-02-24</span></p>
-          <ul>
-            <li>Added public website documentation page with full setup guide and script reference</li>
-            <li>Updated documentation structure — single package README with online docs as source of truth</li>
-          </ul>
-        </div>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.2.2 <span class="changelog-date">2026-02-08</span></p>
-          <ul>
-            <li>Updated DeepL provider to use header-based authorization (<code>Authorization: DeepL-Auth-Key</code>) following DeepL's deprecation of legacy form-body auth</li>
-            <li>Fixed AuthenticationFailed errors occurring despite valid DeepL API keys</li>
-            <li>Prevented empty or invalid DeepL responses from being cached as valid results</li>
-            <li>Improved Azure provider validation to properly detect and report empty responses</li>
-          </ul>
-        </div>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.2.1 <span class="changelog-date">2026-02-07</span></p>
-          <ul>
-            <li>Fixed CSV corruption where translated files could start with duplicated <code>key,</code> header rows</li>
-            <li>Prevented Auto-Translate from treating data rows as header rows</li>
-            <li>Clarified Auto-Translate end-to-end flow: CSV → policies → provider → preview → apply</li>
-          </ul>
-        </div>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.2.0 <span class="changelog-date">2025-12-14</span></p>
-          <ul>
-            <li>Introduced the Auto-Translate Window (DeepL &amp; Azure support)</li>
-            <li>Batch processing to comply with provider rate limits</li>
-            <li>Translation preview before applying changes to CSV</li>
-            <li>Options to preserve or overwrite existing translations</li>
-          </ul>
-        </div>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.1.1 <span class="changelog-date">2025-11-30</span></p>
-          <ul>
-            <li><code>LocalizeText</code> now updates instantly when changing the key in the Inspector (via <code>OnValidate()</code> + <code>[ExecuteAlways]</code>)</li>
-            <li>Confirmed runtime localization loads correctly via <code>RuntimeInitializeOnLoadMethod</code></li>
-            <li>Separated Editor-only code using <code>#if UNITY_EDITOR</code></li>
-          </ul>
-        </div>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.1.0 <span class="changelog-date">2025-11-27</span></p>
-          <ul>
-            <li>Fully reworked Key Selector Window with modular architecture</li>
-            <li>Virtualised list rendering for large CSV files — major performance improvement</li>
-            <li>Favourite keys always appear at the top; saved persistently via ScriptableObject</li>
-            <li>Improved search — results sorted by match position</li>
-            <li>Fixed ArgumentException errors when quickly searching in large lists</li>
-          </ul>
-        </div>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.0.2 <span class="changelog-date">2025-10-14</span></p>
-          <ul>
-            <li>Added <code>LocalizeText</code> component with auto-update via <code>OnLanguageChanged</code></li>
-            <li>Added Editor menu items: <strong>Open Localization Window</strong> and <strong>Update Texts</strong></li>
-            <li>Added search text highlighting inside list items</li>
-            <li>Missing translations now display the key as fallback</li>
-          </ul>
-        </div>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.0.1 <span class="changelog-date">2025-08-21</span></p>
-          <ul>
-            <li>Introduced <code>LocalizationSystem</code> with public API: <code>SetLanguage()</code>, <code>GetLocalisedValue()</code>, <code>OnLanguageChanged</code>, <code>Language</code></li>
-            <li>Automatic CSV loading from Resources folder</li>
-            <li>Initial version of the Key Selector Window</li>
-          </ul>
-        </div>
-
-        <div class="changelog-entry">
-          <p class="changelog-version">v1.0.0 <span class="changelog-date">2025-06-01</span></p>
-          <ul>
-            <li>Initial release</li>
-            <li>CSV-based localization with TextMeshPro support</li>
-            <li>First prototype of the Editor Localization Window</li>
-          </ul>
-        </div>
-
-      </section>
+      <!-- Filled from js/data/assets.js -->
+      <section id="changelog"></section>
 
     </main>
   </div>
 
-  <script src="../js/layout.js"></script>
-  <script src="../js/utils.js"></script>
-  <script src="../js/assets.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="../js/docs.js"></script>
+  <site-footer></site-footer>
 </body>
 </html>

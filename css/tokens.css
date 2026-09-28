@@ -1,0 +1,61 @@
+/* ============================================================
+   Design tokens — the only place raw colours, radii and fonts live.
+   ============================================================ */
+:root {
+  /* Surfaces */
+  --bg:            #0d0d0d;
+  --bg-inset:      #111;
+  --bg-card:       #161616;
+  --bg-card-hover: #1c1c1c;
+  --bg-raised:     rgba(255, 255, 255, 0.025);
+  --bg-hover:      rgba(255, 255, 255, 0.06);
+  --bg-active:     rgba(255, 255, 255, 0.08);
+
+  /* Lines */
+  --border:        #252525;
+  --border-strong: #333;
+  --border-hover:  #444;
+
+  /* Text */
+  --text:          #e8e8e8;
+  --text-muted:    #888;
+  --text-subtle:   #555;
+  --text-faint:    #444;
+  --code-text:     #bcbec4;
+
+  /* Inverted (light pill on dark bg) */
+  --inverse-bg:    #e8e8e8;
+  --inverse-text:  #0d0d0d;
+
+  /* Tags */
+  --tag-bg:        #222;
+  --tag-text:      #999;
+
+  /* Status */
+  --success:       #4caf50;
+  --success-soft:  rgba(76, 175, 80, 0.12);
+  --danger:        #e57373;
+  --danger-soft:   rgba(229, 115, 115, 0.1);
+  --danger-strong: #c0392b;
+  --sale:          #7dcea0;
+  --warning:       #e8c468;
+
+  /* Shape */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius:    8px;
+  --radius-lg: 10px;
+
+  /* Type */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Layout */
+  --nav-height: 64px;
+  --gutter:     40px;
+  --shadow-pop: 0 32px 80px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 720px) {
+  :root { --gutter: 20px; }
+}

@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+._*
+__MACOSX/
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Editors / IDEs
+.idea/
+*.iml
+.vscode/
+*.swp
+*~
+
+# Local tooling (if you ever npm/serve locally)
+node_modules/
+*.log
+.env
+
+# Downloaded site archives
+*.zip
