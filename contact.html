@@ -28,40 +28,43 @@
 <body>
   <site-nav></site-nav>
 
-  <main class="page page--contact">
-    <div class="contact-wrap">
-      <div class="contact-intro">
-        <p class="section-label">Contact</p>
-        <h1 class="contact-heading">Get in touch</h1>
-        <p class="contact-text">
-          Have a question about one of my assets, found a bug, or want to suggest a feature?
-          I read every message and try to reply within a couple of days.
-        </p>
-      </div>
+  <div class="contact-sky">
+    <canvas class="contact-planes" id="contact-planes" aria-hidden="true"></canvas>
 
-      <form class="form contact-form" id="contact-form" action="https://formspree.io/f/mbdwrajl" method="POST">
-        <div class="form-group">
-          <label class="form-label form-label--caps" for="name">Name</label>
-          <input class="form-input" type="text" id="name" name="name" placeholder="Your name" autocomplete="name" required>
+    <main class="page page--contact">
+      <div class="contact-wrap">
+        <div class="contact-intro">
+          <h1 class="contact-heading">Get in touch</h1>
+          <p class="contact-text">
+            Have a question about one of my assets, found a bug, or want to suggest a feature?
+            I read every message and try to reply within a couple of days.
+          </p>
         </div>
-        <div class="form-group">
-          <label class="form-label form-label--caps" for="email">Email</label>
-          <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label form-label--caps" for="subject">Subject</label>
-          <input class="form-input" type="text" id="subject" name="subject" placeholder="Bug report, question, feedback…">
-        </div>
-        <div class="form-group">
-          <label class="form-label form-label--caps" for="message">Message</label>
-          <textarea class="form-input form-textarea" id="message" name="message" rows="5" placeholder="Write your message here…" required></textarea>
-        </div>
-        <button class="btn btn--primary btn--sm" type="submit">Send message</button>
-        <p class="form-flash form-flash--success" id="form-success" role="status" hidden>Message sent — I'll get back to you soon.</p>
-        <p class="form-flash form-flash--error" id="form-error" role="alert" hidden>Something went wrong. Please try again.</p>
-      </form>
-    </div>
-  </main>
+
+        <form class="form contact-form" id="contact-form" action="https://formspree.io/f/mbdwrajl" method="POST">
+          <div class="form-group">
+            <label class="form-label form-label--caps" for="name">Name</label>
+            <input class="form-input" type="text" id="name" name="name" placeholder="Your name" autocomplete="name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label form-label--caps" for="email">Email</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label form-label--caps" for="subject">Subject</label>
+            <input class="form-input" type="text" id="subject" name="subject" placeholder="Bug report, question, feedback…">
+          </div>
+          <div class="form-group">
+            <label class="form-label form-label--caps" for="message">Message</label>
+            <textarea class="form-input form-textarea" id="message" name="message" rows="5" placeholder="Write your message here…" required></textarea>
+          </div>
+          <button class="btn btn--primary btn--sm" type="submit">Send message</button>
+          <p class="form-flash form-flash--success" id="form-success" role="status" hidden>Message sent — I'll get back to you soon.</p>
+          <p class="form-flash form-flash--error" id="form-error" role="alert" hidden>Something went wrong. Please try again.</p>
+        </form>
+      </div>
+    </main>
+  </div>
 
   <site-footer></site-footer>
 </body>

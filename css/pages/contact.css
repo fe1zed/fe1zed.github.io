@@ -4,14 +4,34 @@
   --page-padding: 64px var(--gutter) 96px;
 }
 
+/* -- Paper airplanes: a full-width canvas behind the content -- */
+.contact-sky {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-planes {
+  --plane-color: var(--text);
+  --plane-fold: var(--bg);
+  --trail-color: var(--text);
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.contact-sky .page {
+  position: relative;
+  z-index: 1;
+}
+
 .contact-wrap {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: start;
   gap: 80px;
 }
-
-.contact-intro .section-label { margin-bottom: 32px; }
 
 .contact-heading {
   margin-bottom: 20px;

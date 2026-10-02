@@ -1,5 +1,6 @@
 import "../components/site-chrome.js";
 import { submitForm } from "../lib/forms.js";
+import { startPaperPlanes } from "../components/paper-planes.js";
 
 const form = document.getElementById("contact-form");
 const button = form.querySelector('[type="submit"]');
@@ -21,4 +22,9 @@ form.addEventListener("submit", async (e) => {
 
   button.disabled = false;
   button.textContent = label;
+});
+
+/* -- Paper airplanes drifting behind the page -- */
+startPaperPlanes(document.getElementById("contact-planes"), {
+  maxPlanes: window.matchMedia("(max-width: 720px)").matches ? 2 : 3,
 });
