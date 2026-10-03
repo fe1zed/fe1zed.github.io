@@ -255,7 +255,9 @@ site-footer { display: block; }
   gap: 4px;
 }
 
-.footer-logo {
+/* The brand name and the column headings share one style. */
+.footer-logo,
+.footer-col-label {
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -276,13 +278,7 @@ site-footer { display: block; }
   gap: 10px;
 }
 
-.footer-col-label {
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  margin-bottom: 4px;
-}
+.footer-col-label { margin-bottom: 4px; }
 
 .footer-col .link-underline {
   gap: 8px;
