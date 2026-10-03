@@ -26,11 +26,28 @@
   z-index: 1;
 }
 
+/* The plane launched by Send flies over the form, not behind it. */
+.contact-planes--front { z-index: 2; }
+
 .contact-wrap {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: start;
   gap: 80px;
+}
+
+/* Invisible backing that hugs a run of text: the page's own colour, rounded,
+   about 5px past the words on every side and on every wrapped line. Planes
+   pass behind it, so they vanish under the words and show around them. The
+   negative inline margin cancels the padding, so no text moves. */
+.contact-backing {
+  --backing-pad: 5px;
+  padding: var(--backing-pad);
+  margin-inline: calc(-1 * var(--backing-pad));
+  background: var(--bg);
+  border-radius: var(--radius-md);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 .contact-heading {
@@ -58,6 +75,102 @@
 }
 
 .contact-form .btn { align-self: flex-start; }
+
+/* -- Send button --
+   Its plane icon is the plane that takes off: on a successful send the icon
+   hides and a canvas plane starts in exactly its place (see contact.js).
+   A failed send turns it red with a passcode-style shake instead. */
+.send-btn {
+  --send-bg: var(--inverse-bg);
+  --send-ink: var(--inverse-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--send-bg);
+  color: var(--send-ink);
+  transition: opacity 0.15s, background-color 0.45s ease, color 0.45s ease;
+}
+
+/* Snap to red, shake, hold, then ease back to white (the base transition). */
+.send-btn[data-state="failed"] {
+  --send-bg: var(--danger-strong);
+  --send-ink: var(--text);
+  transition-duration: 0.15s;
+  animation: send-shake 0.6s ease-in-out;
+}
+
+/* Busy states use aria-disabled (focus stays put), so undo the hover dim and
+   keep full colour: the launched plane is drawn in the button's ink. */
+.contact-form .send-btn:not([data-state="idle"]) {
+  opacity: 1;
+  cursor: default;
+}
+
+/* Every label sits in one grid cell, so the button keeps the longest one's width. */
+.send-btn-labels {
+  display: grid;
+  justify-items: center;
+}
+
+.send-btn-labels > span {
+  grid-area: 1 / 1;
+  visibility: hidden;
+}
+
+.send-btn[data-state="idle"] [data-label="idle"],
+.send-btn[data-state="sending"] [data-label="sending"],
+.send-btn[data-state="sent"] [data-label="sent"],
+.send-btn[data-state="failed"] [data-label="failed"] { visibility: visible; }
+
+.send-btn-icon { display: flex; }
+.send-btn-icon:empty { display: none; }
+
+.send-btn-plane {
+  display: block;
+  width: 18px;
+  height: auto;
+  overflow: visible;
+  transition: opacity 0.3s ease, scale 0.3s ease;
+}
+
+.send-btn-plane-fold {
+  stroke: var(--send-bg);
+  transition: stroke 0.45s ease;
+}
+
+.send-btn[data-state="failed"] .send-btn-plane-fold { transition-duration: 0.15s; }
+
+/* Waiting for the server: the plane bobs, ready to go. */
+.send-btn[data-state="sending"] .send-btn-plane { animation: send-bob 0.9s ease-in-out infinite; }
+
+/* Gone instantly (the launched plane has taken its place); a fresh one folds back in on reset. */
+.send-btn[data-state="sent"] .send-btn-plane {
+  opacity: 0;
+  scale: 0.3;
+  transition: none;
+}
+
+@keyframes send-bob {
+  50% { translate: 1px -2px; }
+}
+
+/* Damped left-right swings, like a wrong iPhone passcode. */
+@keyframes send-shake {
+  0%, 100% { translate: 0; }
+  12% { translate: -10px 0; }
+  27% { translate: 9px 0; }
+  42% { translate: -7px 0; }
+  57% { translate: 5px 0; }
+  72% { translate: -3px 0; }
+  86% { translate: 1px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .send-btn-plane { transition: none; }
+
+  .send-btn[data-state="sending"] .send-btn-plane,
+  .send-btn[data-state="failed"] { animation: none; }
+}
 
 @media (max-width: 900px) {
   .page--contact { --page-padding: 40px var(--gutter) 64px; }

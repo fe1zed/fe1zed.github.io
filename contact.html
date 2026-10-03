@@ -30,37 +30,46 @@
 
   <div class="contact-sky">
     <canvas class="contact-planes" id="contact-planes" aria-hidden="true"></canvas>
+    <canvas class="contact-planes contact-planes--front" id="contact-launch" aria-hidden="true"></canvas>
 
     <main class="page page--contact">
       <div class="contact-wrap">
         <div class="contact-intro">
-          <h1 class="contact-heading">Get in touch</h1>
+          <h1 class="contact-heading"><span class="contact-backing">Get in touch</span></h1>
           <p class="contact-text">
-            Have a question about one of my assets, found a bug, or want to suggest a feature?
-            I read every message and try to reply within a couple of days.
+            <span class="contact-backing">Have a question about one of my assets, found a bug, or want to suggest a feature?
+            I read every message and try to reply within a couple of days.</span>
           </p>
         </div>
 
         <form class="form contact-form" id="contact-form" action="https://formspree.io/f/mbdwrajl" method="POST">
           <div class="form-group">
-            <label class="form-label form-label--caps" for="name">Name</label>
+            <label class="form-label form-label--caps" for="name"><span class="contact-backing">Name</span></label>
             <input class="form-input" type="text" id="name" name="name" placeholder="Your name" autocomplete="name" required>
           </div>
           <div class="form-group">
-            <label class="form-label form-label--caps" for="email">Email</label>
+            <label class="form-label form-label--caps" for="email"><span class="contact-backing">Email</span></label>
             <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email" required>
           </div>
           <div class="form-group">
-            <label class="form-label form-label--caps" for="subject">Subject</label>
+            <label class="form-label form-label--caps" for="subject"><span class="contact-backing">Subject</span></label>
             <input class="form-input" type="text" id="subject" name="subject" placeholder="Bug report, question, feedback…">
           </div>
           <div class="form-group">
-            <label class="form-label form-label--caps" for="message">Message</label>
+            <label class="form-label form-label--caps" for="message"><span class="contact-backing">Message</span></label>
             <textarea class="form-input form-textarea" id="message" name="message" rows="5" placeholder="Write your message here…" required></textarea>
           </div>
-          <button class="btn btn--primary btn--sm" type="submit">Send message</button>
-          <p class="form-flash form-flash--success" id="form-success" role="status" hidden>Message sent — I'll get back to you soon.</p>
-          <p class="form-flash form-flash--error" id="form-error" role="alert" hidden>Something went wrong. Please try again.</p>
+          <button class="btn btn--primary btn--sm send-btn" type="submit" data-state="idle">
+            <span class="send-btn-labels">
+              <span data-label="idle">Send message</span>
+              <span data-label="sending">Sending…</span>
+              <span data-label="sent">Sent</span>
+              <span data-label="failed">Failed</span>
+            </span>
+            <span class="send-btn-icon"></span>
+          </button>
+          <p class="visually-hidden" id="form-status" role="status"></p>
+          <p class="visually-hidden" id="form-error" role="alert"></p>
         </form>
       </div>
     </main>

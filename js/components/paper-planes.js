@@ -9,6 +9,11 @@
  * where loops and spirals come from. Speed, size, agility and timing are also
  * random per plane.
  *
+ * A plane can also be launched from a given point (the contact form's Send
+ * button): it starts slow, climbs away up and to the side, and accelerates.
+ * planeSvg() draws the same dart as an icon, so a button's icon can hand
+ * over to a launched plane without a visible jump.
+ *
  * The flown path is sampled once up front, so the dashed trail is simply the
  * last stretch of that polyline: rounded dashes pinned to path length, fading
  * toward the tail.
@@ -29,8 +34,12 @@ const MAX_STEPS = 6000;         // hard cap on the wandering part of a path
 const SPAWN_MS = [1800, 4200];  // gap between planes
 const SPEED = [140, 210];       // px/s
 
-/* Flat, top-down plane pointing along +x; symmetric, so it never needs flipping. */
+/* Flat, top-down plane pointing along +x; symmetric, so it never needs flipping.
+   Stroking the outline in the fill colour rounds its corners. */
 const PLANE = [[12, 0], [-10, -9], [-5, 0], [-10, 9]];
+const PLANE_OUTLINE = 3;
+const FOLD = [[9, 0], [-4, 0]];
+const FOLD_WIDTH = 1.4;
 const PLANE_TAIL = 8;           // trail starts this far behind the plane's centre
 
 const EDGES = ["top", "right", "bottom", "left"];
@@ -51,23 +60,48 @@ function edgePoint(edge, w, h, margin) {
   }
 }
 
-/** Sample one random flight across a w × h box. */
-function planFlight(w, h) {
-  const entry = pick(EDGES);
-  const start = edgePoint(entry, w, h, MARGIN);
-  const exit = edgePoint(pick(EDGES.filter((e) => e !== entry)), w, h, MARGIN * 2);
-  const waypoints = Array.from({ length: randInt(0, 2) }, () => ({ x: rand(w * 0.08, w * 0.92), y: rand(h * 0.1, h * 0.9) }));
-  waypoints.push(exit);
+/**
+ * Waypoints for a takeoff from (x, y): at most one, and everything stays above
+ * the launch point and ahead of it, so the plane climbs away instead of diving
+ * back across the form. It leaves through the top or the side it faces.
+ */
+function launchWaypoints({ x, y, heading }, w, h) {
+  const dir = Math.cos(heading) >= 0 ? 1 : -1;
+  const ahead = (from) => (dir > 0 ? rand(from, w) : rand(0, w - from));
+  const above = Math.max(0, y - 60);
+  const exit = Math.random() < 0.5
+    ? { x: ahead(Math.min(w, x)), y: -MARGIN * 2 }
+    : { x: dir > 0 ? w + MARGIN * 2 : -MARGIN * 2, y: rand(0, above) };
+  const via = randInt(0, 1) ? [{ x: clamp(x + dir * rand(80, 260), w * 0.05, w * 0.95), y: rand(above * 0.3, above) }] : [];
+  return [...via, exit];
+}
+
+/**
+ * Sample one random flight across a w × h box. With `launch` ({ x, y, heading })
+ * the flight takes off from that point instead of entering at an edge.
+ */
+function planFlight(w, h, launch = null) {
+  let start, waypoints;
+  if (launch) {
+    start = { x: launch.x, y: launch.y };
+    waypoints = launchWaypoints(launch, w, h);
+  } else {
+    const entry = pick(EDGES);
+    start = edgePoint(entry, w, h, MARGIN);
+    waypoints = Array.from({ length: randInt(0, 2) }, () => ({ x: rand(w * 0.08, w * 0.92), y: rand(h * 0.1, h * 0.9) }));
+    waypoints.push(edgePoint(pick(EDGES.filter((e) => e !== entry)), w, h, MARGIN * 2));
+  }
 
   // Per-plane temperament: how hard it steers, how jittery it is, how often it curls.
-  const maxTurn = rand(0.03, 0.06);
-  const gain = rand(0.03, 0.08);
-  const jitter = rand(0.002, 0.006);
-  const curlChance = rand(0.0015, 0.005);
+  // A takeoff is calm on purpose: one smooth arc away, no loops back over the form.
+  const maxTurn = launch ? rand(0.012, 0.02) : rand(0.03, 0.06);
+  const gain = launch ? rand(0.01, 0.02) : rand(0.03, 0.08);
+  const jitter = launch ? rand(0.0005, 0.0015) : rand(0.002, 0.006);
+  const curlChance = launch ? 0 : rand(0.0015, 0.005);
   const reach = Math.max(70, (STEP / maxTurn) * 1.3);  // close enough to a waypoint
 
   let { x, y } = start;
-  let heading = Math.atan2(waypoints[0].y - y, waypoints[0].x - x) + rand(-0.6, 0.6);
+  let heading = launch ? launch.heading : Math.atan2(waypoints[0].y - y, waypoints[0].x - x) + rand(-0.6, 0.6);
   let wobble = 0;     // smoothed random turn (mean-reverting random walk)
   let curl = null;    // { left: radians still to turn, rate }
   let target = 0;
@@ -117,12 +151,31 @@ function planFlight(w, h) {
   return points;
 }
 
+/**
+ * The same plane as an inline SVG string, centred on the plane's origin like
+ * the canvas planes (so the element's centre is the plane's centre). The dart
+ * is currentColor; style the fold with `.<className>-fold { stroke: … }`.
+ */
+export function planeSvg(className) {
+  const dart = PLANE.map(([x, y], i) => `${i ? "L" : "M"}${x} ${y}`).join("") + "Z";
+  const [[fx0, fy0], [fx1, fy1]] = FOLD;
+  return `<svg class="${className}" viewBox="-14 -11 28 22" aria-hidden="true" focusable="false">`
+    + `<path d="${dart}" fill="currentColor" stroke="currentColor" stroke-width="${PLANE_OUTLINE}" stroke-linejoin="round"/>`
+    + `<path class="${className}-fold" d="M${fx0} ${fy0}L${fx1} ${fy1}" stroke-width="${FOLD_WIDTH}" stroke-linecap="round"/>`
+    + `</svg>`;
+}
+
 export class PaperPlanes {
-  /** @param {HTMLCanvasElement} canvas */
-  constructor(canvas, { maxPlanes = 3 } = {}) {
+  /**
+   * @param {HTMLCanvasElement} canvas
+   * @param {{ maxPlanes?: number, ambient?: boolean }} options  ambient: false
+   *   spawns nothing by itself and only flies planes passed to launch().
+   */
+  constructor(canvas, { maxPlanes = 3, ambient = true } = {}) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.maxPlanes = maxPlanes;
+    this.ambient = ambient;
     this.planes = [];
     this.running = false;
     this.visible = true;
@@ -166,6 +219,33 @@ export class PaperPlanes {
     this.nextSpawn = now + rand(...SPAWN_MS);
   }
 
+  /**
+   * Take off from (x, y) in canvas coordinates. The plane grows from
+   * `fromScale` to full size over its first stretch, starts slow, climbs away
+   * along `heading` (radians, 0 = right; default a random climb to the right)
+   * and accelerates to cruising speed.
+   *
+   * `cover` ({ x, y, width, height, radius, ink, paper }) is a box the plane
+   * starts inside, such as the button it leaves from. Whatever part of the
+   * plane is still over that box is drawn in the box's `ink` with a `paper`
+   * fold and no trail, so it reads as the box's own icon until it crosses
+   * the edge.
+   */
+  launch(x, y, { heading = -rand(0.35, 0.8), fromScale = 0.4, cover = null } = {}) {
+    this.planes.push({
+      points: planFlight(this.w, this.h, { x, y, heading }),
+      dist: 0,
+      speed: 30,
+      maxSpeed: rand(240, 300),
+      accel: 360,
+      scale: 1.35,
+      fromScale,
+      grow: 64,          // px of flight to reach full size
+      cover,
+    });
+    this.start();
+  }
+
   frame(now) {
     if (!this.visible) { this.running = false; return; }
     // rAF's timestamp can predate performance.now() taken in start(); clamp both
@@ -173,11 +253,12 @@ export class PaperPlanes {
     const dt = Math.max(0, Math.min(0.05, (now - this.last) / 1000));
     this.last = now;
 
-    if (now >= this.nextSpawn && this.planes.length < this.maxPlanes && this.w > 0) this.spawn(now);
+    if (this.ambient && now >= this.nextSpawn && this.planes.length < this.maxPlanes && this.w > 0) this.spawn(now);
 
     const { ctx } = this;
     ctx.clearRect(0, 0, this.w, this.h);
     for (const plane of this.planes) {
+      if (plane.accel) plane.speed = Math.min(plane.maxSpeed, plane.speed + plane.accel * dt);
       plane.dist += plane.speed * dt;
       this.drawTrail(plane);
       this.drawPlane(plane);
@@ -185,15 +266,28 @@ export class PaperPlanes {
     // A plane is done once its trail has fully left the last point.
     this.planes = this.planes.filter((p) => p.dist - TRAIL < (p.points.length - 1) * STEP);
 
+    // A launch-only canvas goes idle once its last trail has faded.
+    if (!this.ambient && this.planes.length === 0) {
+      ctx.clearRect(0, 0, this.w, this.h);
+      this.running = false;
+      return;
+    }
     requestAnimationFrame(this.frame);
   }
 
-  /** Point at arc length `len` along the sampled path (linear between samples). */
+  /**
+   * Point and heading at arc length `len` along the sampled path, interpolated
+   * between samples. Planes move about 1 to 2 px per frame at 120 to 144 Hz,
+   * less than the 2 px sample spacing, so snapping to a sample would make them
+   * advance only every other frame.
+   */
   static pointAt(points, len) {
     const f = len / STEP;
     const i = Math.min(points.length - 2, Math.max(0, Math.floor(f)));
     const t = Math.min(1, Math.max(0, f - i));
-    return { x: points[i].x + (points[i + 1].x - points[i].x) * t, y: points[i].y + (points[i + 1].y - points[i].y) * t };
+    const a = points[i];
+    const b = points[i + 1];
+    return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, a: a.a + wrapAngle(b.a - a.a) * t };
   }
 
   /**
@@ -201,7 +295,7 @@ export class PaperPlanes {
    * lengths (k × period), so dashes stay put as the plane moves and fade
    * individually instead of in visible bands.
    */
-  drawTrail({ points, dist }) {
+  drawTrail({ points, dist, cover }) {
     const { ctx } = this;
     const end = (points.length - 1) * STEP;
     const head = Math.min(end, dist - PLANE_TAIL);
@@ -209,6 +303,7 @@ export class PaperPlanes {
     if (head - tail < 1) return;
 
     ctx.save();
+    if (cover) this.clipTo(cover, false);
     ctx.strokeStyle = this.trailColor;
     ctx.lineWidth = TRAIL_WIDTH;
     ctx.lineCap = "round";
@@ -234,48 +329,77 @@ export class PaperPlanes {
     ctx.restore();
   }
 
-  /** A flat white dart with rounded corners and a dark centre fold. */
-  drawPlane({ points, dist, scale }) {
-    const index = Math.floor(dist / STEP);
-    if (index < 0 || index >= points.length) return;
-    const p = points[index];
+  drawPlane({ points, dist, scale, fromScale, grow, cover }) {
+    if (dist < 0 || dist > (points.length - 1) * STEP) return;
+    const p = PaperPlanes.pointAt(points, dist);
+    const size = grow ? fromScale + (scale - fromScale) * Math.min(1, dist / grow) : scale;
+    if (!cover) {
+      this.paintPlane(p, size, this.planeColor, this.foldColor);
+      return;
+    }
+    // Two clipped passes: the part over the cover keeps its colours, the rest is a normal plane.
     const { ctx } = this;
+    ctx.save();
+    this.clipTo(cover, true);
+    this.paintPlane(p, size, cover.ink, cover.paper);
+    ctx.restore();
+    ctx.save();
+    this.clipTo(cover, false);
+    this.paintPlane(p, size, this.planeColor, this.foldColor);
+    ctx.restore();
+  }
 
+  /** A flat dart with rounded corners and a centre fold, at `p` along heading `p.a`. */
+  paintPlane(p, size, color, foldColor) {
+    const { ctx } = this;
     ctx.save();
     ctx.translate(p.x, p.y);
     ctx.rotate(p.a);
-    ctx.scale(scale, scale);
+    ctx.scale(size, size);
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
 
-    // Fill plus a same-colour round-joined stroke rounds every corner.
     ctx.beginPath();
     PLANE.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
     ctx.closePath();
-    ctx.fillStyle = this.planeColor;
-    ctx.strokeStyle = this.planeColor;
-    ctx.lineWidth = 3;
+    ctx.fillStyle = color;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = PLANE_OUTLINE;
     ctx.fill();
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(9, 0);
-    ctx.lineTo(-4, 0);
-    ctx.strokeStyle = this.foldColor;
-    ctx.lineWidth = 1.4;
+    ctx.moveTo(...FOLD[0]);
+    ctx.lineTo(...FOLD[1]);
+    ctx.strokeStyle = foldColor;
+    ctx.lineWidth = FOLD_WIDTH;
     ctx.stroke();
     ctx.restore();
   }
+
+  /** Clip to the inside of a rounded box, or (inside = false) to everything outside it. */
+  clipTo({ x, y, width, height, radius = 0 }, inside) {
+    const { ctx } = this;
+    ctx.beginPath();
+    if (!inside) ctx.rect(0, 0, this.w, this.h);
+    if (ctx.roundRect) ctx.roundRect(x, y, width, height, radius);
+    else ctx.rect(x, y, width, height);
+    ctx.clip("evenodd");
+  }
 }
 
-/** Start planes on `canvas` unless the visitor prefers reduced motion. */
-export function startPaperPlanes(canvas, options) {
+/**
+ * Start planes on `canvas` unless the visitor prefers reduced motion (then the
+ * canvas is hidden and this returns null). Ambient canvases start flying right
+ * away; launch-only ones ({ ambient: false }) wait for launch().
+ */
+export function startPaperPlanes(canvas, options = {}) {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-  if (reduce.matches || !canvas.getContext) {
-    canvas.hidden = true;
+  if (reduce.matches || !canvas?.getContext) {
+    if (canvas) canvas.hidden = true;
     return null;
   }
   const planes = new PaperPlanes(canvas, options);
-  planes.start();
+  if (options.ambient !== false) planes.start();
   return planes;
 }
