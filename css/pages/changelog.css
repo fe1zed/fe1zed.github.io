@@ -1,16 +1,10 @@
 /* -- Changelog page -- */
 .page--changelog {
   --page-width: 1600px;
-  --page-padding: 30px var(--gutter) 96px;
+  --page-padding: var(--asset-page-top) var(--gutter) 96px;
 }
 
 .cl-header { margin-bottom: 56px; }
-
-.cl-heading {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-}
 
 .cl-summary {
   margin-top: 6px;
@@ -84,7 +78,7 @@
 .cl-body .changelog-group-label:first-child { margin-top: 0; }
 
 @media (max-width: 640px) {
-  .page--changelog { --page-padding: 30px var(--gutter) 64px; }
+  .page--changelog { --page-padding: var(--asset-page-top) var(--gutter) 64px; }
 
   .cl-header { margin-bottom: 40px; }
 
