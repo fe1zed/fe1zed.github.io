@@ -53,6 +53,9 @@
   /* Layout */
   --nav-height: 64px;
   --gutter:     40px;
+  /* Top padding of the asset and changelog pages, so the back link and the
+     asset name sit at exactly the same spot on both. */
+  --asset-page-top: 30px;
   --shadow-pop: 0 32px 80px rgba(0, 0, 0, 0.6);
 }
 

@@ -11,8 +11,8 @@
  *
  * A plane can also be launched from a given point (the contact form's Send
  * button): it starts slow, climbs away up and to the side, and accelerates.
- * planeSvg() draws the same dart as an icon, so a button's icon can hand
- * over to a launched plane without a visible jump.
+ * The dart itself lives in plane-icon.js, shared with the inline SVG icon, so
+ * a button's icon can hand over to a launched plane without a visible jump.
  *
  * The flown path is sampled once up front, so the dashed trail is simply the
  * last stretch of that polyline: rounded dashes pinned to path length, fading
@@ -22,6 +22,8 @@
  * under prefers-reduced-motion, while the canvas is off screen, or while the
  * tab is hidden (requestAnimationFrame stops on its own).
  */
+
+import { PLANE, PLANE_OUTLINE, FOLD, FOLD_WIDTH } from "./plane-icon.js";
 
 const STEP = 2;                 // px between sampled path points
 const TRAIL = 640;              // px of dashed trail kept behind a plane
@@ -34,12 +36,6 @@ const MAX_STEPS = 6000;         // hard cap on the wandering part of a path
 const SPAWN_MS = [1800, 4200];  // gap between planes
 const SPEED = [140, 210];       // px/s
 
-/* Flat, top-down plane pointing along +x; symmetric, so it never needs flipping.
-   Stroking the outline in the fill colour rounds its corners. */
-const PLANE = [[12, 0], [-10, -9], [-5, 0], [-10, 9]];
-const PLANE_OUTLINE = 3;
-const FOLD = [[9, 0], [-4, 0]];
-const FOLD_WIDTH = 1.4;
 const PLANE_TAIL = 8;           // trail starts this far behind the plane's centre
 
 const EDGES = ["top", "right", "bottom", "left"];
@@ -149,20 +145,6 @@ function planFlight(w, h, launch = null) {
   // Out of steps while still on screen: glide straight off so nothing vanishes mid-air.
   for (let i = 0; i < 4000 && !outside(); i++) step(0);
   return points;
-}
-
-/**
- * The same plane as an inline SVG string, centred on the plane's origin like
- * the canvas planes (so the element's centre is the plane's centre). The dart
- * is currentColor; style the fold with `.<className>-fold { stroke: … }`.
- */
-export function planeSvg(className) {
-  const dart = PLANE.map(([x, y], i) => `${i ? "L" : "M"}${x} ${y}`).join("") + "Z";
-  const [[fx0, fy0], [fx1, fy1]] = FOLD;
-  return `<svg class="${className}" viewBox="-14 -11 28 22" aria-hidden="true" focusable="false">`
-    + `<path d="${dart}" fill="currentColor" stroke="currentColor" stroke-width="${PLANE_OUTLINE}" stroke-linejoin="round"/>`
-    + `<path class="${className}-fold" d="M${fx0} ${fy0}L${fx1} ${fy1}" stroke-width="${FOLD_WIDTH}" stroke-linecap="round"/>`
-    + `</svg>`;
 }
 
 export class PaperPlanes {
