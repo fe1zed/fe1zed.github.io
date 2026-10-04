@@ -1,32 +1,23 @@
 /* -- Asset landing page -- */
 .page--asset {
   --page-width: 1600px;
-  --page-padding: var(--asset-page-top) var(--gutter) 10px;
+  --page-padding: 25px var(--gutter) 10px;
 }
 
-/* -- Hero --
-   The name is its own grid item, always first, so it lands exactly where the
-   changelog's title does at every width. The image centres beside name + body. */
+/* -- Hero -- */
 .asset-hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto 1fr;
-  grid-template-areas:
-    "name image"
-    "body image";
   align-items: center;
-  column-gap: 64px;
+  gap: 64px;
   margin-bottom: 80px;
 }
 
 .asset-hero-name {
-  grid-area: name;
   margin-bottom: 8px;
-}
-
-.asset-hero-content {
-  grid-area: body;
-  align-self: start;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 .asset-hero .tag-list { margin-bottom: 16px; }
@@ -67,7 +58,6 @@
 }
 
 .asset-hero-image {
-  grid-area: image;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: var(--bg-inset);
@@ -379,28 +369,21 @@
   }
 }
 
-/* Stacks a little before the other sections, while a half-width column would
-   still make the asset name wrap where the changelog's fits on one line. */
-@media (max-width: 1000px) {
+@media (max-width: 900px) {
   .asset-hero {
     grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    grid-template-areas: "name" "image" "body";
+    gap: 32px;
     margin-bottom: 56px;
   }
 
-  .asset-hero-name { margin-bottom: 16px; }
+  .asset-hero-image { order: -1; }
 
-  .asset-hero-image { margin-bottom: 32px; }
-}
-
-@media (max-width: 900px) {
   .related-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 720px) {
 
-  .asset-hero-image { margin-bottom: 24px; }
+  .asset-hero { gap: 24px; }
 
   .asset-hero-desc { font-size: 0.9rem; }
 

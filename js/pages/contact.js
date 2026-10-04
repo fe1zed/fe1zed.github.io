@@ -1,7 +1,6 @@
 import "../components/site-chrome.js";
 import { submitForm } from "../lib/forms.js";
-import { startPaperPlanes } from "../components/paper-planes.js";
-import { planeSvg } from "../components/plane-icon.js";
+import { startPaperPlanes, planeSvg } from "../components/paper-planes.js";
 
 const SENT_MS = 2600;        // how long the button says "Sent" before it's ready again
 const FAILED_MS = 1100;      // red + shake, then it fades back to white

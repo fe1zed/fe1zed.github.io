@@ -45,7 +45,7 @@ if (id && !releases.length) {
         label: asset.name,
         trail: [{ label: "Home", href: "index.html" }, { label: asset.name, href: `asset.html?id=${asset.id}` }, { label: "Changelog" }],
       })}
-      <h1 class="asset-title">${asset.name} <span class="page-type-badge">Changelog</span></h1>
+      <h1 class="cl-heading">${asset.name} <span class="page-type-badge">Changelog</span></h1>
       <p class="cl-summary">${releaseSummary(releases)}</p>
       ${jumpBar()}
     </header>

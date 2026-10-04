@@ -229,17 +229,6 @@
 }
 
 
-/* Asset name as the page title; shared so the asset page and changelog match. */
-.asset-title {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  /* Tight lines so a name that wraps still reads as one title; the padding gives a
-     single line the same 1.6 box as body text, so spacing around it is unchanged. */
-  line-height: 1.2;
-  padding-block: 0.2em;
-}
-
 /* Heading suffix, e.g. "Dev Console Pro [Changelog]" */
 .page-type-badge {
   display: inline-block;

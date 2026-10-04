@@ -37,11 +37,7 @@
   padding-bottom: 80px;
 }
 
-/* -- Asset card --
-   Image; then a category line (the tags), name, blurb and release line; then
-   a footer row (price, "View asset" + plane) pinned to the bottom, so cards
-   in a row line up whatever their text length. */
-
+/* -- Asset card body -- */
 .asset-card-body {
   display: flex;
   flex: 1;
@@ -49,102 +45,30 @@
   padding: 20px;
 }
 
-.asset-card-info {
+.asset-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.asset-card-heading {
   flex: 1;
-  padding-bottom: 20px;
+  min-width: 0;
 }
 
-/* Tags as a quiet "TOOLS · DEBUG" line rather than pills. */
-.asset-card-info .tag-list {
-  gap: 0;
-  margin-bottom: 8px;
-}
-
-.asset-card-info .tag {
-  padding: 0;
-  background: none;
-  color: var(--text-muted);
-}
-
-.asset-card-info .tag + .tag::before {
-  content: "·";
-  margin: 0 8px;
-  color: var(--text-subtle);
-}
+.asset-card-heading .tag-list { margin-bottom: 12px; }
 
 .asset-card-name {
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .asset-card-desc {
-  display: -webkit-box;
-  margin-top: 6px;
-  overflow: hidden;
+  flex: 1;
+  margin-top: 12px;
   font-size: 0.875rem;
   color: var(--text-muted);
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
-
-.asset-card-meta {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 14px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-muted);
-}
-
-.asset-card-meta span + span::before {
-  content: "·";
-  margin: 0 8px;
-  color: var(--text-subtle);
-}
-
-.asset-card-foot {
-  --price-size: 1.05rem;
-  --price-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
-}
-
-.asset-card-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  transition: color 0.2s;
-}
-
-.asset-card-plane {
-  display: block;
-  width: 15px;
-  height: auto;
-  overflow: visible;
-  rotate: -0.45rad;
-  transition: translate 0.25s ease;
-}
-
-.asset-card-plane-fold {
-  stroke: var(--bg-card);
-  transition: stroke 0.2s;
-}
-
-.asset-card:is(:hover, :focus-visible) .asset-card-cta { color: var(--text); }
-.asset-card:is(:hover, :focus-visible) .asset-card-plane { translate: 3px -2px; }
-.asset-card:is(:hover, :focus-visible) .asset-card-plane-fold { stroke: var(--bg-card-hover); }
-
-@media (prefers-reduced-motion: reduce) {
-  .asset-card-plane { transition: none; }
-  .asset-card:is(:hover, :focus-visible) .asset-card-plane { translate: none; }
 }
 
 /* -- Responsive -- */

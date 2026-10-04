@@ -22,8 +22,8 @@ const section = (title, body, className = "") => html`
 
 const hero = (asset) => html`
   <div class="asset-hero">
-    <h1 class="asset-title asset-hero-name">${asset.name}</h1>
     <div class="asset-hero-content">
+      <h1 class="asset-hero-name">${asset.name}</h1>
       ${tagList(asset.tags)}
       <p class="asset-hero-desc">${asset.longDescription || asset.description}</p>
       <div class="asset-hero-meta">
