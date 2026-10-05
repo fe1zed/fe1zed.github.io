@@ -13,7 +13,7 @@
  *   quote?        string            short testimonial, ≤160 chars
  */
 export const SHOWCASE = [
-  /* {
+   /* {
     name: "Dota 2",
     developer: "Valve",
     description: "A complex team-based action RPG featuring over a hundred heroes. Two teams of five battle across a vast map to destroy the enemy Ancient.",

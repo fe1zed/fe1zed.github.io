@@ -30,15 +30,174 @@
 
   <main class="page page--showcase">
     <section class="showcase-intro">
+      <!-- Controllers, keyboards, mice, Switches and phones drifting behind the
+           intro. Each drawing is defined once here and repeated with <use>.
+           The tile is the empty state's first screen, hand-placed separately
+           for landscape and portrait screens with no two of a device side by
+           side; with projects listed, js/components/device-scatter.js lays
+           outlines out around the cards by the same rule. -->
+      <div class="showcase-bg" aria-hidden="true">
+        <svg class="showcase-bg-defs" width="0" height="0">
+          <defs>
+            <g id="bg-pad" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M340 9.5 C303.6 9.5 267.2 10.3 231 13.6 C215.7 15 200.6 18.8 185.4 20.8 C181 21.4 176.7 19.5 172.2 19.8 C161 20.5 149.5 23 138.4 24.8 C127.2 26.6 79.8 33.8 73.4 40.1 C64.7 48.8 47.1 97.2 41.8 111.1 C14.3 183.4 -0.5 266.7 3 343.8 C4.4 374.7 8 410 30.8 432.8 C35.3 437.3 40.2 442 46.3 444.3 C49.9 445.7 94.2 452 95.9 451.2 C105.5 446.7 114.1 420.9 118.2 411.2 C128.2 388 142.3 340.8 153.9 322.3 C158.2 315.2 164.4 308.6 171.1 303.7 C192.9 287.4 203.9 295.8 226.8 296.5 C264.5 297.6 302.3 296.5 340 296.5 C377.7 296.5 415.5 297.6 453.2 296.5 C476.1 295.8 487.1 287.4 508.9 303.7 C515.6 308.6 521.8 315.2 526.1 322.3 C537.7 340.8 551.8 388 561.8 411.2 C565.9 420.9 574.5 446.7 584.1 451.2 C585.8 452 630.1 445.7 633.7 444.3 C639.8 442 644.7 437.3 649.2 432.8 C672 410 675.6 374.7 677 343.8 C680.5 266.7 665.7 183.4 638.2 111.1 C632.9 97.2 615.3 48.8 606.6 40.1 C600.2 33.8 552.8 26.6 541.6 24.8 C530.5 23 519 20.5 507.8 19.8 C503.3 19.5 499 21.4 494.6 20.8 C479.4 18.8 464.3 15 449 13.6 C412.8 10.3 376.4 9.5 340 9.5 Z"/>
+              <path d="M85 32 C85.4 29.2 85.1 25.9 87 23.5 C97.4 10.2 134.1 4.5 150 4.5 C154.7 4.5 170.2 4.1 173.2 7.8 C174.4 9.3 174.5 12.9 174.9 14.8 L175.2 19.6"/>
+              <path d="M504.8 19.6 L505.1 14.8 C505.5 12.9 505.6 9.3 506.8 7.8 C509.8 4.1 525.3 4.5 530 4.5 C545.9 4.5 582.6 10.2 593 23.5 C594.9 25.9 594.6 29.2 595 32"/>
+              <path d="M61.1 443 C74.4 427.5 87.7 375.2 96.1 352.9 C118.1 294 145.2 233.5 185.8 184.9 C193.7 175.5 202.6 166.3 208.8 155.6 C211.2 151.4 214.2 140.3 216.2 137.9 C217.8 136 221.3 138.1 223.6 137.2"/>
+              <path d="M456.4 137.2 C458.7 138.1 462.2 136 463.8 137.9 C465.8 140.3 468.8 151.4 471.2 155.6 C477.4 166.3 486.3 175.5 494.2 184.9 C534.8 233.5 561.9 294 583.9 352.9 C592.3 375.2 605.6 427.5 618.9 443"/>
+              <path d="M227.5 145 C232 151 240 155.5 252 155.7 C256 156 262 156 268 156 H412 C418 156 424 156 428 155.7 C440 155.5 448 151 452.5 145"/>
+              <path d="M144.8 335 C124.2 370.2 112.1 410.1 96.9 447.7"/>
+              <path d="M583.1 447.7 C567.9 410.1 555.8 370.2 535.2 335"/>
+              <path d="M205 30 C200.7 41.4 205.5 53.5 207.9 65 C212.1 84.2 218.5 131.3 227.5 145"/>
+              <path d="M452.5 145 C461.5 131.3 467.9 84.2 472.1 65 C474.5 53.5 479.3 41.4 475 30"/>
+              <rect x="174.4" y="44.3" width="16" height="30" rx="8" transform="rotate(-12 182.4 59.3)"/>
+              <rect x="489.6" y="44.3" width="16" height="30" rx="8" transform="rotate(12 497.6 59.3)"/>
+              <path d="M129.6 75.5 C114.1 76 108.8 79 109.9 95.1 C110.8 109.2 115.6 120 129.6 125.4 C143.6 120 148.4 109.2 149.4 95.1 C150.4 79 145.1 76 129.6 75.5 Z"/>
+              <path d="M129.6 75.5 C114.1 76 108.8 79 109.9 95.1 C110.8 109.2 115.6 120 129.6 125.4 C143.6 120 148.4 109.2 149.4 95.1 C150.4 79 145.1 76 129.6 75.5 Z" transform="rotate(90 129.6 133)"/>
+              <path d="M129.6 75.5 C114.1 76 108.8 79 109.9 95.1 C110.8 109.2 115.6 120 129.6 125.4 C143.6 120 148.4 109.2 149.4 95.1 C150.4 79 145.1 76 129.6 75.5 Z" transform="rotate(180 129.6 133)"/>
+              <path d="M129.6 75.5 C114.1 76 108.8 79 109.9 95.1 C110.8 109.2 115.6 120 129.6 125.4 C143.6 120 148.4 109.2 149.4 95.1 C150.4 79 145.1 76 129.6 75.5 Z" transform="rotate(270 129.6 133)"/>
+              <circle cx="550.4" cy="83" r="21"/>
+              <circle cx="600.4" cy="133" r="21"/>
+              <circle cx="550.4" cy="183" r="21"/>
+              <circle cx="500.4" cy="133" r="21"/>
+              <g fill="currentColor" stroke="none">
+              <circle cx="315.4" cy="176" r="3.4"/><circle cx="327.7" cy="176" r="3.4"/><circle cx="340" cy="176" r="3.4"/><circle cx="352.3" cy="176" r="3.4"/><circle cx="364.6" cy="176" r="3.4"/>
+              <circle cx="321.6" cy="187" r="3.4"/><circle cx="333.9" cy="187" r="3.4"/><circle cx="346.1" cy="187" r="3.4"/><circle cx="358.4" cy="187" r="3.4"/>
+              </g>
+              <circle cx="233.5" cy="225.5" r="40"/>
+              <circle cx="233.5" cy="225.5" r="27"/>
+              <circle cx="446.5" cy="225.5" r="40"/>
+              <circle cx="446.5" cy="225.5" r="27"/>
+              <rect x="323" y="258" width="34" height="8" rx="4"/>
+            </g>
+            <g id="bg-kb" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="0" y="0" width="288" height="108" rx="9"/>
+              <path d="M12.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM30.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM48.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM66.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM84.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM102.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM120.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM138.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM156.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM174.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM192.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM210.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM228.3 9.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM246.3 9.8h29.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-29.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5z"/>
+              <path d="M12.3 27.8h20.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-20.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM39.3 27.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM75.3 27.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM93.3 27.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM111.3 27.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM129.3 27.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM147.3 27.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM165.3 27.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM183.3 27.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM201.3 27.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM219.3 27.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM237.3 27.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM255.3 27.8h20.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-20.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5z"/>
+              <path d="M12.3 45.8h24.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-24.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM97.8 45.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM115.8 45.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM133.8 45.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM151.8 45.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM169.8 45.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM187.8 45.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM205.8 45.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM223.8 45.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM241.8 45.8h33.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-33.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5z"/>
+              <path d="M12.3 63.8h33.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-33.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM52.8 63.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM70.8 63.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM88.8 63.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM106.8 63.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM124.8 63.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM142.8 63.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM160.8 63.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM178.8 63.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM196.8 63.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM214.8 63.8h11.4a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-11.4a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM232.8 63.8h42.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-42.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5z"/>
+              <path d="M12.3 81.8h15.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-15.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM34.8 81.8h15.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-15.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM57.3 81.8h15.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-15.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM79.8 81.8h105.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-105.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM192.3 81.8h15.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-15.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM214.8 81.8h15.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-15.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM237.3 81.8h15.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-15.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5zM259.8 81.8h15.9a2.5 2.5 0 0 1 2.5 2.5v11.4a2.5 2.5 0 0 1 -2.5 2.5h-15.9a2.5 2.5 0 0 1 -2.5 -2.5v-11.4a2.5 2.5 0 0 1 2.5 -2.5z"/>
+              <g>
+              <rect x="54.8" y="27.8" width="16.4" height="16.4" rx="2.5"/>
+              <rect x="77.3" y="45.8" width="16.4" height="16.4" rx="2.5"/>
+              <rect x="59.3" y="45.8" width="16.4" height="16.4" rx="2.5"/>
+              <rect x="41.3" y="45.8" width="16.4" height="16.4" rx="2.5"/>
+              </g>
+            </g>
+            <g id="bg-mouse" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M34 1 C52 1 63 10 65 28 C66.5 42 67 56 66 72 C65 96 52 111 34 111 C16 111 3 96 2 72 C1 56 1.5 42 3 28 C5 10 16 1 34 1 Z"/>
+              <path d="M3.4 45 C14 49.5 24 51 34 51 C44 51 54 49.5 64.6 45"/>
+              <path d="M34 1 V13 M34 37 V51"/>
+              <rect x="29.5" y="13" width="9" height="24" rx="4.5"/>
+            </g>
+            <g id="bg-switch" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M36 1 H20 C9 1 1 9 1 20 V82 C1 93 9 101 20 101 H36 Z"/>
+              <path d="M204 1 H220 C231 1 239 9 239 20 V82 C239 93 231 101 220 101 H204 Z"/>
+              <path d="M36 1 H204 M36 101 H204"/>
+              <rect x="50" y="11.5" width="140" height="79" rx="2.5"/>
+              <circle cx="18" cy="30" r="8.5"/>
+              <circle cx="18" cy="30" r="5"/>
+              <circle cx="18" cy="55" r="3.5"/>
+              <circle cx="18" cy="71" r="3.5"/>
+              <circle cx="10" cy="63" r="3.5"/>
+              <circle cx="26" cy="63" r="3.5"/>
+              <path d="M25 10 H31"/>
+              <rect x="21" y="81" width="6" height="6" rx="1.2"/>
+              <circle cx="222" cy="22" r="3.5"/>
+              <circle cx="222" cy="38" r="3.5"/>
+              <circle cx="214" cy="30" r="3.5"/>
+              <circle cx="230" cy="30" r="3.5"/>
+              <circle cx="222" cy="63" r="8.5"/>
+              <circle cx="222" cy="63" r="5"/>
+              <path d="M209 10 H215 M212 7 V13"/>
+              <circle cx="216" cy="84" r="3.2"/>
+            </g>
+            <g id="bg-phone" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="1" width="198" height="94" rx="17"/>
+              <path d="M54 -1.5 H76 M84 -1.5 H98 M136 97.5 H160"/>
+              <rect x="9" y="7" width="182" height="82" rx="11"/>
+              <circle cx="18" cy="48" r="2.6"/>
+              <circle cx="48" cy="60" r="15"/>
+              <circle cx="48" cy="60" r="6"/>
+              <circle cx="152" cy="64" r="8"/>
+              <circle cx="170" cy="46" r="8"/>
+            </g>
+          </defs>
+        </svg>
+        <div class="showcase-bg-tile">
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 244 106" style="--x: 43.5%; --y: 4%; --w: 155; --r: -2deg; --o: 0.65; --t: -4.5s"><use href="#bg-switch"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 292 112" style="--x: 56.5%; --y: 3.5%; --w: 140; --r: -3deg; --o: 0.87; --t: -3.7s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 0 684 456" style="--x: 69.5%; --y: 5.5%; --w: 115; --r: -16deg; --o: 0.68; --t: -4.7s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 244 106" style="--x: 83%; --y: 6%; --w: 155; --r: 5deg; --o: 0.53; --t: -4.1s"><use href="#bg-switch"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 0 684 456" style="--x: 96.5%; --y: 11%; --w: 150; --r: 4deg; --o: 0.73; --t: -6.3s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -4 204 104" style="--x: 56%; --y: 16.5%; --w: 110; --r: -5deg; --o: 0.49; --t: -2.5s"><use href="#bg-phone"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 72 116" style="--x: 63.5%; --y: 20%; --w: 45; --r: 2deg; --o: 0.49; --t: -6.4s"><use href="#bg-mouse"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -4 204 104" style="--x: 77%; --y: 25%; --w: 150; --r: 7deg; --o: 0.76; --t: -0.4s"><use href="#bg-phone"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 244 106" style="--x: 3%; --y: 34%; --w: 140; --r: -2deg; --o: 0.89; --t: -7.6s"><use href="#bg-switch"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 292 112" style="--x: 15.5%; --y: 33%; --w: 130; --r: -2deg; --o: 0.74; --t: -4.9s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 0 684 456" style="--x: 45.5%; --y: 27%; --w: 110; --r: 0deg; --o: 0.52; --t: -0.2s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 292 112" style="--x: 56%; --y: 29.5%; --w: 115; --r: -3deg; --o: 0.69; --t: -0.6s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 72 116" style="--x: 87%; --y: 25.5%; --w: 60; --r: 5deg; --o: 0.54; --t: -2.0s"><use href="#bg-mouse"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 292 112" style="--x: 96.5%; --y: 32.5%; --w: 150; --r: 10deg; --o: 0.46; --t: -3.7s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 0 684 456" style="--x: 3%; --y: 50.5%; --w: 130; --r: -1deg; --o: 0.65; --t: -6.7s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 0 684 456" style="--x: 97%; --y: 54%; --w: 130; --r: -3deg; --o: 0.68; --t: -5.1s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -4 204 104" style="--x: 4.5%; --y: 70%; --w: 150; --r: 2deg; --o: 0.67; --t: -5.3s"><use href="#bg-phone"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 72 116" style="--x: 14.5%; --y: 74.5%; --w: 68; --r: 13deg; --o: 0.66; --t: -2.3s"><use href="#bg-mouse"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 244 106" style="--x: 45%; --y: 74%; --w: 185; --r: -7deg; --o: 0.9; --t: -7.9s"><use href="#bg-switch"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 72 116" style="--x: 59%; --y: 73.5%; --w: 50; --r: -5deg; --o: 0.83; --t: -5.6s"><use href="#bg-mouse"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 244 106" style="--x: 74.5%; --y: 72.5%; --w: 185; --r: -3deg; --o: 0.59; --t: -1.9s"><use href="#bg-switch"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -4 204 104" style="--x: 96.5%; --y: 74.5%; --w: 150; --r: -5deg; --o: 0.58; --t: -0.6s"><use href="#bg-phone"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 0 684 456" style="--x: 27.5%; --y: 77.5%; --w: 170; --r: 8deg; --o: 0.79; --t: -3.2s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 72 116" style="--x: 86.5%; --y: 78.5%; --w: 68; --r: -4deg; --o: 0.83; --t: -3.1s"><use href="#bg-mouse"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 0 684 456" style="--x: 4%; --y: 93.5%; --w: 180; --r: -2deg; --o: 0.88; --t: -6.7s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 72 116" style="--x: 36%; --y: 94%; --w: 65; --r: 13deg; --o: 0.45; --t: -1.7s"><use href="#bg-mouse"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 0 684 456" style="--x: 59%; --y: 93.5%; --w: 175; --r: -3deg; --o: 0.86; --t: -3.8s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 0 684 456" style="--x: 96.5%; --y: 94.5%; --w: 150; --r: -3deg; --o: 0.89; --t: -3.2s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 292 112" style="--x: 20.5%; --y: 95%; --w: 165; --r: 2deg; --o: 0.48; --t: -5.0s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 292 112" style="--x: 45.5%; --y: 96%; --w: 125; --r: 0deg; --o: 0.8; --t: -2.2s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -4 204 104" style="--x: 73%; --y: 96%; --w: 135; --r: -5deg; --o: 0.49; --t: -2.7s"><use href="#bg-phone"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--landscape" viewBox="-2 -2 292 112" style="--x: 84.5%; --y: 95%; --w: 120; --r: -4deg; --o: 0.88; --t: -6.0s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 72 116" style="--x: 2.5%; --y: 33%; --w: 60; --r: 0deg; --o: 0.5; --t: -2.0s"><use href="#bg-mouse"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -4 204 104" style="--x: 28.5%; --y: 33%; --w: 150; --r: 7deg; --o: 0.5; --t: -0.6s"><use href="#bg-phone"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 72 116" style="--x: 49%; --y: 33.5%; --w: 68; --r: 2deg; --o: 0.81; --t: -1.5s"><use href="#bg-mouse"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 0 684 456" style="--x: 67%; --y: 33.5%; --w: 140; --r: 4deg; --o: 0.7; --t: -3.6s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 292 112" style="--x: 92.5%; --y: 32.5%; --w: 165; --r: 5deg; --o: 0.54; --t: -5.8s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 244 106" style="--x: 30%; --y: 63.5%; --w: 140; --r: -4deg; --o: 0.51; --t: -5.1s"><use href="#bg-switch"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 292 112" style="--x: 58.5%; --y: 63%; --w: 135; --r: -3deg; --o: 0.5; --t: -3.4s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 244 106" style="--x: 92.5%; --y: 64%; --w: 170; --r: -4deg; --o: 0.55; --t: -2.2s"><use href="#bg-switch"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 0 684 456" style="--x: 6.5%; --y: 65%; --w: 145; --r: -4deg; --o: 0.89; --t: -6.4s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -4 204 104" style="--x: 40%; --y: 72.5%; --w: 135; --r: -9deg; --o: 0.59; --t: -7.0s"><use href="#bg-phone"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 0 684 456" style="--x: 68%; --y: 73.5%; --w: 150; --r: -17deg; --o: 0.54; --t: -3.2s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 292 112" style="--x: 6%; --y: 75%; --w: 135; --r: -3deg; --o: 0.83; --t: -5.1s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 72 116" style="--x: 25%; --y: 77.5%; --w: 50; --r: -17deg; --o: 0.5; --t: -7.8s"><use href="#bg-mouse"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 72 116" style="--x: 51.5%; --y: 82%; --w: 40; --r: 22deg; --o: 0.55; --t: -2.1s"><use href="#bg-mouse"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -4 204 104" style="--x: 94.5%; --y: 77%; --w: 135; --r: -1deg; --o: 0.8; --t: -2.7s"><use href="#bg-phone"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 0 684 456" style="--x: 7%; --y: 86%; --w: 170; --r: -2deg; --o: 0.58; --t: -0.7s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 244 106" style="--x: 36%; --y: 89%; --w: 160; --r: 15deg; --o: 0.49; --t: -4.6s"><use href="#bg-switch"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 292 112" style="--x: 68.5%; --y: 87%; --w: 160; --r: -7deg; --o: 0.56; --t: -4.8s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 244 106" style="--x: 93.5%; --y: 87%; --w: 145; --r: -6deg; --o: 0.62; --t: -3.6s"><use href="#bg-switch"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -4 204 104" style="--x: 5.5%; --y: 97.5%; --w: 135; --r: -1deg; --o: 0.88; --t: -3.9s"><use href="#bg-phone"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 292 112" style="--x: 28%; --y: 97.5%; --w: 115; --r: 14deg; --o: 0.71; --t: -6.9s"><use href="#bg-kb"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 0 684 456" style="--x: 58%; --y: 97.5%; --w: 120; --r: -2deg; --o: 0.53; --t: -1.3s"><use href="#bg-pad"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 -2 72 116" style="--x: 76.5%; --y: 97%; --w: 60; --r: -3deg; --o: 0.86; --t: -6.5s"><use href="#bg-mouse"/></svg>
+          <svg class="showcase-bg-item showcase-bg-item--portrait" viewBox="-2 0 684 456" style="--x: 94.5%; --y: 97%; --w: 130; --r: -4deg; --o: 0.56; --t: -1.6s"><use href="#bg-pad"/></svg>
+        </div>
+      </div>
+
       <div class="showcase-hero">
         <h1 class="showcase-hero-title">Showcase <span class="showcase-count" id="showcase-count"></span></h1>
         <p class="showcase-hero-sub">
-          Games and projects built with fe1zed tools.<br>
-          Using our assets? <a class="link-underline link-underline--strong" href="#submit">Submit</a>
+          Games and projects built with fe1zed tools.
         </p>
       </div>
 
       <div class="showcase-grid" id="showcase-grid"></div>
+
+      <!-- Shown until the first project is added (js/pages/showcase.js hides it then). -->
+      <div class="showcase-empty" id="showcase-empty">
+        <h2 class="showcase-empty-title">No games to preview</h2>
+        <p class="showcase-empty-text">Be the first to <a class="link-underline link-underline--strong" href="#submit">submit yours</a>.</p>
+      </div>
     </section>
 
     <section class="showcase-submit" id="submit">

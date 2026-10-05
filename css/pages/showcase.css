@@ -1,17 +1,50 @@
-/* -- Showcase page -- */
+/* -- Showcase page --
+   The intro runs edge to edge so the empty state's background can fill the
+   whole first screen; the hero, cards and submit form keep the usual column,
+   with at least --side on either side of it. */
 .page--showcase {
   --page-top: 64px;
-  --page-width: 1300px;
-  --page-padding: var(--page-top) var(--gutter) 96px;
+  --page-width: none;
+  --page-padding: 0 0 96px;
+  --content-width: 1300px;
+  --side: var(--gutter);
 }
 
-/* Hero + cards fill the first screen; the submit form starts below the fold. */
+/* With projects listed, laptop screens narrow the column a little (never
+   below 1000px) so the background has room for outlines beside the cards. */
+.page--showcase:has(.showcase-empty[hidden]) {
+  --side: clamp(var(--gutter), (100% - 1000px) / 2, 120px);
+}
+
+.showcase-hero,
+.showcase-grid,
+.showcase-submit {
+  width: min(100% - 2 * var(--side), var(--content-width) - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+/* Hero + cards fill the first screen; the submit form starts below the fold.
+   The empty state spans both rows, so its text sits in the middle of the
+   screen rather than of the space under the hero. svh keeps the height
+   steady while a phone's browser bars slide in and out. Isolated so the
+   background field can sit under everything in it. */
 .showcase-intro {
-  min-height: calc(100vh - var(--nav-height) - var(--page-top));
-  min-height: calc(100dvh - var(--nav-height) - var(--page-top));
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: max(100vh - var(--nav-height), 560px);
+  min-height: max(100svh - var(--nav-height), 560px);
 }
 
-.showcase-hero { margin-bottom: 56px; }
+/* Above the empty state, which spans this row too. */
+.showcase-hero {
+  position: relative;
+  z-index: 1;
+  grid-area: 1 / 1;
+  margin-top: var(--page-top);
+  margin-bottom: 56px;
+}
 
 .showcase-hero-title {
   margin-bottom: 10px;
@@ -35,6 +68,8 @@
 }
 
 .showcase-grid {
+  grid-area: 2 / 1;
+  align-self: start;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
@@ -42,66 +77,135 @@
 }
 
 
-/* -- Ghost cards ("Your game here") --
-   Same card skeleton as a real entry, drawn as an outline so it reads as a slot. */
-.showcase-ghost {
-  background: transparent;
-  transition: border-color 0.2s, background 0.2s, transform 0.2s, opacity 0.2s;
-  border-style: dashed;
-  border-color: var(--border-strong);
+/* -- Background field --
+   Faint controllers, keyboards, mice, Switches and phones behind the whole
+   intro, edge to edge, from the nav down to the submit form. Each one drifts
+   up and down and turns a few degrees, starting at its own point (--t), so
+   the field never moves in step. With no projects, a hand-placed tile fills
+   the first screen around "No games to preview". With projects, the tile
+   steps aside and js/components/device-scatter.js lays outlines out around
+   the cards. The field clears around the hero and the empty-state text, and
+   fades out just above the submit form. */
+.showcase-bg {
+  /* Where the hero text starts, matching the column above. */
+  --hero-x: max(var(--side), 50% - var(--content-width) / 2 + var(--gutter));
+  --hero-clear: radial-gradient(ellipse 300px 100px at calc(var(--hero-x) + 153px) calc(var(--page-top) + 47px), transparent 52%, #000 100%);
+  --text-clear: radial-gradient(ellipse 500px 170px at 50% 50%, transparent 45%, #000 100%);
+  --bottom-fade: linear-gradient(#000 calc(100% - 64px), transparent);
+  /* Outline size per --w: 1px on a 1440px screen, up to 1.45px on a 2560px
+     one. Below 1024px it shrinks with the width, so a landscape phone isn't
+     crowded (portrait screens below). */
+  --bg-unit: clamp(0.45px, min(0.42px + 0.04vw, 0.081vw), 1.5px);
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+  -webkit-mask-image: var(--bottom-fade), var(--text-clear), var(--hero-clear);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--bottom-fade), var(--text-clear), var(--hero-clear);
+  mask-composite: intersect;
 }
 
-.showcase-ghost:hover {
-  background: var(--bg-card);
-  border-color: var(--border-hover);
+/* With projects listed there's no text in the middle to keep clear, and
+   the outlines come from the scatter instead of the tile. */
+.showcase-intro:has(> .showcase-empty[hidden]) > .showcase-bg {
+  --text-clear: linear-gradient(#000 0 0);
 }
 
-.showcase-ghost-thumb {
+.showcase-intro:has(> .showcase-empty[hidden]) .showcase-bg-tile { display: none; }
+
+.showcase-bg-defs { position: absolute; }
+
+.showcase-bg * { vector-effect: non-scaling-stroke; }
+
+.showcase-bg-tile {
+  position: relative;
+  height: max(100vh - var(--nav-height), 560px);
+  height: max(100svh - var(--nav-height), 560px);
+}
+
+.showcase-bg-scatter {
+  position: absolute;
+  inset: 0;
+}
+
+/* Page colour behind each card and over the outlines, so they fade out as
+   they near it: opaque just past the card's edge, gone 30px out. */
+.showcase-bg-shield {
+  position: absolute;
+  border-radius: var(--radius);
+  background: var(--bg);
+  box-shadow: 0 0 28px 16px var(--bg);
+}
+
+/* Centred on (--x, --y); turning about the origin keeps it centred. */
+.showcase-bg-item {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: calc(var(--w) * var(--bg-unit));
+  height: auto;
+  overflow: visible;
+  color: var(--text-faint);
+  opacity: var(--o);
+  transform: translate(-50%, -50%);
+  transform-origin: 0 0;
+  rotate: var(--r);
+  animation: bg-drift 4s ease-in-out var(--t) infinite alternate;
+}
+
+@keyframes bg-drift {
+  from { translate: 0 6px; rotate: var(--r); }
+  to   { translate: 0 -8px; rotate: calc(var(--r) + 4deg); }
+}
+
+/* The tile has two hand-placed layouts: one for landscape screens, one for portrait. */
+@media (orientation: landscape) {
+  .showcase-bg-item--portrait { display: none; }
+}
+
+@media (orientation: portrait) {
+  .showcase-bg-item--landscape { display: none; }
+  /* Short phones get smaller outlines too, as their field is shorter. */
+  .showcase-bg { --bg-unit: clamp(0.45px, min(0.42px + 0.04vw, 0.12px + 0.06vh), 1.5px); }
+}
+
+@supports (height: 1svh) {
+  @media (orientation: portrait) {
+    .showcase-bg { --bg-unit: clamp(0.45px, min(0.42px + 0.04vw, 0.12px + 0.06svh), 1.5px); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-bg-item { animation: none; }
+}
+
+/* -- Empty state (no projects yet) --
+   "No games to preview" in the middle of the first screen. */
+.showcase-empty {
   display: flex;
+  grid-row: 1 / -1;
+  grid-column: 1;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background:
-    repeating-linear-gradient(-45deg, transparent 0 10px, rgba(255, 255, 255, 0.018) 10px 20px),
-    var(--bg-inset);
-  border-bottom: 1px dashed var(--border-strong);
+  padding: 0 var(--gutter);
+  text-align: center;
 }
 
-.showcase-ghost-plus {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  border: 1px dashed var(--border-hover);
-  border-radius: 50%;
+.showcase-empty-title {
+  font-size: min(4rem, 8vw);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.showcase-empty-text {
+  margin-top: 14px;
+  font-size: clamp(1.0625rem, 0.95rem + 0.5vw, 1.375rem);
   color: var(--text-muted);
-  transition: color 0.2s, border-color 0.2s, transform 0.2s;
 }
-
-.showcase-ghost:hover .showcase-ghost-plus {
-  color: var(--text);
-  border-color: var(--text-muted);
-  transform: scale(1.06);
-}
-
-/* Fade the row out left to right so the slots read as "more to come". */
-.showcase-ghost { opacity: calc(1 - var(--ghost-index, 0) * 0.28); }
-.showcase-ghost:hover { opacity: 1; }
-
-.showcase-ghost .showcase-card-name { color: var(--text-muted); }
-
-.showcase-ghost-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 10px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.showcase-ghost-cta svg { transition: transform 0.2s; }
-.showcase-ghost:hover .showcase-ghost-cta svg { transform: translateX(3px); }
 
 /* -- Showcase card -- */
 .showcase-card {
@@ -345,7 +449,7 @@
 @media (max-width: 900px) {
   .page--showcase {
     --page-top: 40px;
-    --page-padding: var(--page-top) var(--gutter) 64px;
+    --page-padding: 0 0 64px;
   }
 
   .showcase-submit-layout {
@@ -366,4 +470,9 @@
 
 @media (max-width: 720px) {
   .showcase-grid { grid-template-columns: minmax(0, 1fr); }
+
+  /* The text spans most of a phone's width, so its clear zone does too. */
+  .showcase-bg {
+    --text-clear: radial-gradient(ellipse 62% 110px at 50% 50%, transparent 50%, #000 100%);
+  }
 }

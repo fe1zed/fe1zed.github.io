@@ -7,6 +7,7 @@ import { pluralize } from "../lib/format.js";
 import { installImageFallbacks } from "../lib/image-fallback.js";
 import { initCharCounters, setGroupError, shake, submitForm } from "../lib/forms.js";
 import { assetHref, thumb } from "../components/asset-ui.js";
+import { scatterDevices } from "../components/device-scatter.js";
 
 /* ============================================================
    Card rendering — shared by the grid and the live form preview
@@ -36,32 +37,17 @@ const showcaseCard = (entry) => html`
     </div>
   </article>`;
 
-/** The grid is padded with "Your game here" cards until it holds a full row. */
-const GRID_MIN_CARDS = 3;
-
-const ghostCard = (index) => html`
-  <a class="card showcase-card showcase-ghost" href="#submit" style="--ghost-index: ${index}">
-    <div class="card-thumb showcase-ghost-thumb">
-      <span class="showcase-ghost-plus">${icons.plus()}</span>
-    </div>
-    <div class="showcase-card-body">
-      <p class="showcase-card-dev">Your studio</p>
-      <h2 class="showcase-card-name">Your game here</h2>
-      <p class="showcase-card-desc">Built something with my tools? Submit it and it gets featured on this page.</p>
-      <span class="showcase-ghost-cta">Submit your project ${icons.chevronRight()}</span>
-    </div>
-  </a>`;
-
 function renderShowcase() {
   const grid = document.getElementById("showcase-grid");
   const count = document.getElementById("showcase-count");
-  const ghosts = Math.max(0, GRID_MIN_CARDS - SHOWCASE.length);
 
-  count.textContent = SHOWCASE.length ? pluralize(SHOWCASE.length, "project") : "";
-  render(grid, [
-    ...SHOWCASE.map(showcaseCard),
-    ...Array.from({ length: ghosts }, (_, i) => ghostCard(i)),
-  ]);
+  // "No games to preview" stays until the first project is added.
+  document.getElementById("showcase-empty").hidden = SHOWCASE.length > 0;
+  grid.hidden = SHOWCASE.length === 0;
+  if (!SHOWCASE.length) return;
+
+  count.textContent = pluralize(SHOWCASE.length, "project");
+  render(grid, SHOWCASE.map(showcaseCard));
 
   // Whole card opens the project; inner links keep their own targets.
   const openCard = (e) => {
@@ -74,6 +60,48 @@ function renderShowcase() {
     e.preventDefault();
     openCard(e);
   });
+}
+
+/* ============================================================
+   Background field — with no projects, the hand-placed tile in the
+   markup fills the first screen. With projects, outlines are laid
+   out around the real cards instead, and again whenever the layout
+   changes size.
+   ============================================================ */
+
+function layoutBackground() {
+  const grid = document.getElementById("showcase-grid");
+  if (grid.hidden) return;
+  const field = document.querySelector(".showcase-bg");
+  const layer = document.createElement("div");
+  layer.className = "showcase-bg-scatter";
+  field.append(layer);
+
+  const textBox = (el) => {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    return range.getBoundingClientRect();
+  };
+  let laidOut = "";
+  const relayout = () => {
+    const origin = layer.getBoundingClientRect();
+    const local = (r) => ({ x: r.left - origin.left, y: r.top - origin.top, width: r.width, height: r.height });
+    const cards = [...grid.children].map((card) => local(card.getBoundingClientRect()));
+    const key = JSON.stringify([origin.width, origin.height, cards]);
+    if (key === laidOut) return;
+    laidOut = key;
+    scatterDevices(layer, {
+      cards,
+      keepClear: [".showcase-hero-title", ".showcase-hero-sub"].map((s) => local(textBox(document.querySelector(s)))),
+    });
+  };
+
+  relayout();
+  // Resizing fires a burst of callbacks; lay out again once it settles.
+  let timer;
+  const observer = new ResizeObserver(() => { clearTimeout(timer); timer = setTimeout(relayout, 120); });
+  observer.observe(field);
+  observer.observe(grid);
 }
 
 /* ============================================================
@@ -240,4 +268,5 @@ function initSubmitForm() {
 
 installImageFallbacks();
 renderShowcase();
+layoutBackground();
 initSubmitForm();
